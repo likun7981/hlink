@@ -1,6 +1,6 @@
 {
   "name": "hlink",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "hlink",
   "license": "MIT",
   "repository": "likun7981/hlink",
@@ -31,8 +31,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "fs-extra": "^9.0.1",
-    "meow": "^5.0.0",
-    "unicorn-fun": "^0.0.0"
+    "meow": "^5.0.0"
   },
   "devDependencies": {
     "ava": "^2.1.0",
