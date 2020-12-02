@@ -1,3 +1,3 @@
 # hlink
 
-[img](./img.png);
+![img](./img.png);
