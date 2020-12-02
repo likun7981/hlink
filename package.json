@@ -1,6 +1,6 @@
 {
   "name": "hlink",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "hlink",
   "license": "MIT",
   "repository": "likun7981/hlink",
@@ -19,7 +19,8 @@
     "start": "./cli.js ./sourceDir ./destDir"
   },
   "files": [
-    "cli.js"
+    "cli.js",
+    "lib"
   ],
   "keywords": [
     "cli",
