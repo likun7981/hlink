@@ -1,13 +1,12 @@
 {
-  "name": "unicorn-fun-cli",
-  "version": "0.0.0",
-  "description": "My awesome command-line tool",
+  "name": "hlink",
+  "version": "0.0.1",
+  "description": "hlink",
   "license": "MIT",
-  "repository": "YOUR-GITHUB-USERNAME/unicorn-fun-cli",
+  "repository": "likun7981/hlink",
   "author": {
-    "name": "YOUR NAME",
-    "email": "YOUR EMAIL",
-    "url": "YOUR WEBSITE"
+    "name": "likun7981",
+    "email": "likun7981@gmail.com"
   },
   "bin": {
     "hlink": "cli.js"
