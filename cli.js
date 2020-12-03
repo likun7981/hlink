@@ -29,7 +29,7 @@ const cli = meow(
 
   说明:
     1. 创建硬链时，会自动检测硬链接是否存在，硬链改名同样能检测到
-    2. sourceDir 不填，则表示 sourceDir 为当前 允许目录
+    2. sourceDir 不填，则表示 sourceDir 为当前 运行目录
 `,
   {
     flags: {
