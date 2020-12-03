@@ -1,27 +1,30 @@
 #!/usr/bin/env node
 "use strict";
 const meow = require("meow");
-      const hardLink = require("./lib/index");
+const hardLink = require("./lib/index");
 
 const cli = meow(
   `
 	Usage
-	  $ hlink [source] [dist]
+    $ hlink [source] [dist]
 
-	Options
-	  --saveLevel,-l [Default: 1]
-	    说明：如果源视频文件目录结构是 /share/download/movie/a.mkv，硬链接目的地目录是/share/media
-	    saveLevel=2 时 结果就是 "/share/media/download/movie/a.mkv"
-		  saveLevel=1 时 结果就是 "/share/media/movie/a.mkv"
+  Options
+    --saveLevel,-l [Default: 0]
+        saveLevel=2 只保存文件
+        saveLevel=1 保存一级目录
+        saveLevel=0 保存原有的相对源地址的路径
 
     --ext,-e [Default: mkv,mp4,rmvb]
-    --maxFindLevel [Default: 4]
+    --maxFindLevel,-m [Default: 4] 删除硬链
+    --delete,-d 删除目标地址所有硬链
+        delete=1 表示删除目录
+        delete=0 表示只删除文件
 `,
   {
     flags: {
       saveLevel: {
         type: "string",
-        default: "1",
+        default: "0",
         alias: "s"
       },
       ext: {
@@ -33,6 +36,10 @@ const cli = meow(
         type: "string",
         default: "4",
         alias: "m"
+      },
+      delete: {
+        type: 'string',
+        alias: 'd'
       }
     }
   }
