@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 const meow = require("meow");
-const hardLink = require("./lib/index");
+      const hardLink = require("./lib/index");
 
 const cli = meow(
   `
@@ -12,10 +12,10 @@ const cli = meow(
 	  --saveLevel,-l [Default: 1]
 	    说明：如果源视频文件目录结构是 /share/download/movie/a.mkv，硬链接目的地目录是/share/media
 	    saveLevel=2 时 结果就是 "/share/media/download/movie/a.mkv"
-		saveLevel=1 时 结果就是 "/share/media/movie/a.mkv"
+		  saveLevel=1 时 结果就是 "/share/media/movie/a.mkv"
 
-      --ext,-e [Default: mkv,mp4,rmvb]
-      --maxFindLevel [Default: 4]
+    --ext,-e [Default: mkv,mp4,rmvb]
+    --maxFindLevel [Default: 4]
 `,
   {
     flags: {
