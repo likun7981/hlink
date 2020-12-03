@@ -6,6 +6,10 @@ nodejs 10 以上；node环境安装请自行百度哈
 ## 安装
 ```bash
 $ npm install -g hlink
+
+# 查看帮助
+
+$ hlink --help
 ```
 ## 功能：
 1. 批量创建源地址下面所有视频文件 硬链 到目标地址
