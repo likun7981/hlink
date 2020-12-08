@@ -3,6 +3,10 @@
 const chalk = require("chalk");
 const meow = require("meow");
 const hardLink = require("./lib/index");
+const exts = require('./lib/exts')([]);
+const inquirer = require('inquirer');
+const path = require('path')
+const fs = require('fs-extra')
 
 const cli = meow(
   `
@@ -10,22 +14,23 @@ const cli = meow(
     $ hlink [--Options] [sourceDir] distDir
 
   可配置选项:
-    --saveLevel,-l [Default: 0]
-        ${chalk.gray(`saveLevel=2 只保存文件
-        saveLevel=1 保存一级目录
-        saveLevel=0 保存原有的相对源地址的路径`)}
-    --ext,-e [Default: mkv,mp4,rmvb]
-    --maxFindLevel,-m [Default: 4] 删除硬链
-    --delete,-d 删除目标地址所有硬链
-        ${chalk.gray(`delete=1 表示删除目录
-        delete=0 表示只删除文件`)}
+    --saveMode,-s      保存模式,默认为模式0
+      ${chalk.gray(`saveMode=2 只保存文件
+      saveMode=1 保存一级目录
+      saveMode=0 保存原有的相对源地址的路径`)}
+
+    --ext,-e           额外需要做外链扩展名
+      ${chalk.gray(`默认包含了常用了的视频扩展名: ${exts.join(',')}`)}
+
+    --maxFindLevel,-m  查找文件的最大层级, 默认4层
+    --delete,-d        删除目标地址所有硬链，默认为false
+
   例子:
     ${chalk.grey(`# 创建 /share/download 下面文件到目标地址 /share/movie`)}
     $ hlink /share/download /share/movie
 
     ${chalk.grey(`# 删除 /share/download 下面文件在 /share/movie 下面的对应硬链的文件夹`)}
-    $ hlink -d=1 /share/download /share/movie
-
+    $ hlink -d /share/download /share/movie
 
   说明:
     1. 创建硬链时，会自动检测硬链接是否存在，硬链改名同样能检测到
@@ -40,7 +45,7 @@ const cli = meow(
       },
       ext: {
         type: "string",
-        default: "mkv,mp4,rmvb",
+        default: "",
         alias: "e"
       },
       maxFindLevel: {
@@ -49,7 +54,7 @@ const cli = meow(
         alias: "m"
       },
       delete: {
-        type: 'string',
+        type: 'boolean',
         alias: 'd'
       }
     }
