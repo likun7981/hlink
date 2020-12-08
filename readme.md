@@ -18,13 +18,13 @@ $ hlink --help
 
 ## 使用
 
-![使用](./ghelp.png)
+![使用](./media/ghelp.png)
 
 ## 效果截图
-![创建](./gcreate.png)
+![创建](./media/gcreate.png)
 
-![重复创建](./gexist.png)
+![重复创建](./media/gexist.png)
 
-![删除目录](./gdeletedir.png)
+![删除目录](./media/gdeletedir.png)
 
-![删除文件](./gdeletefile.png)
+![删除文件](./media/gdeletefile.png)

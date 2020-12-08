@@ -15,8 +15,7 @@ const cli = meow(
 
   可配置选项:
     --saveMode,-s      保存模式,默认为模式0
-      ${chalk.gray(`saveMode=2 只保存文件
-      saveMode=1 保存一级目录
+      ${chalk.gray(`saveMode=1 保存一级目录
       saveMode=0 保存原有的相对源地址的路径`)}
 
     --ext,-e           额外需要做外链扩展名
