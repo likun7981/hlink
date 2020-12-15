@@ -1,12 +1,9 @@
 #!/usr/bin/env node
-"use strict";
-const chalk = require("chalk");
-const meow = require("meow");
-const hardLink = require("./lib/index");
-const exts = require('./lib/exts')([]);
-const inquirer = require('inquirer');
-const path = require('path')
-const fs = require('fs-extra')
+'use strict'
+const chalk = require('chalk')
+const meow = require('meow')
+const hardLink = require('./lib/index')
+const exts = require('./lib/exts')([])
 
 const cli = meow(
   `
@@ -25,10 +22,10 @@ const cli = meow(
     --delete,-d        删除目标地址所有硬链，默认为false
 
   例子:
-    ${chalk.grey(`# 创建 /share/download 下面文件到目标地址 /share/movie`)}
+    ${chalk.grey('# 创建 /share/download 下面文件到目标地址 /share/movie')}
     $ hlink /share/download /share/movie
 
-    ${chalk.grey(`# 删除 /share/download 下面文件在 /share/movie 下面的对应硬链的文件夹`)}
+    ${chalk.grey('# 删除 /share/download 下面文件在 /share/movie 下面的对应硬链的文件夹')}
     $ hlink -d /share/download /share/movie
 
   说明:
@@ -37,20 +34,20 @@ const cli = meow(
 `,
   {
     flags: {
-      saveLevel: {
-        type: "string",
-        default: "0",
-        alias: "s"
+      saveMode: {
+        type: 'string',
+        default: '0',
+        alias: 's'
       },
       ext: {
-        type: "string",
-        default: "",
-        alias: "e"
+        type: 'string',
+        default: '',
+        alias: 'e'
       },
       maxFindLevel: {
-        type: "string",
-        default: "4",
-        alias: "m"
+        type: 'string',
+        default: '4',
+        alias: 'm'
       },
       delete: {
         type: 'boolean',
@@ -58,6 +55,6 @@ const cli = meow(
       }
     }
   }
-);
+)
 
-hardLink(cli.input, cli.flags);
+hardLink(cli.input, cli.flags)
