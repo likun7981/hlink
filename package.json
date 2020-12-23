@@ -12,7 +12,7 @@
     "hlink": "cli.js"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "scripts": {
     "test": "xo && ava",
