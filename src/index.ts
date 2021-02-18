@@ -5,9 +5,9 @@ import {
   checkLinkExist,
   getLinkPath,
   getDirBasePath,
-  getExts,
+  getRealDestPath,
   startLog,
-  getRealDestPath
+  endLog
 } from './utils'
 import execa from 'execa'
 import chalk from 'chalk'
@@ -20,27 +20,52 @@ const resolvePath = path.resolve
 async function hardLink(input: Array<string>, options: any) {
   let deleteDir = false
   let isSecondDir = false
-  let { source, saveMode, dest, isDelete, maxFindLevels, exts } = await parse(
-    input,
-    options
+  let {
+    source,
+    saveMode,
+    dest,
+    isDelete,
+    maxFindLevel,
+    exts,
+    excludeExts,
+    sourceDir
+  } = await parse(input, options)
+  const isWhiteList = !!exts.length
+  startLog(
+    {
+      extname: isWhiteList ? exts : excludeExts,
+      maxLevel: maxFindLevel,
+      saveMode
+    },
+    isWhiteList,
+    isDelete
   )
-
-  let sourceDir = source
-  startLog(options, isDelete)
+  let successCount = 0
+  let jumpCount = 0
+  let failCount = 0
+  let totalCount = 0
   function start(currentDir: string, currentLevel = 1) {
-    if (currentLevel > maxFindLevels) {
+    if (currentLevel > maxFindLevel) {
       return
     }
     const currentDirContents = fs.readdirSync(currentDir)
     currentDirContents.forEach(async name => {
-      const extname = path.extname(name).replace('.', '')
+      const extname = path
+        .extname(name)
+        .replace('.', '')
+        .toLowerCase()
       const fileFullPath = resolvePath(currentDir, name)
       if (fs.lstatSync(fileFullPath).isDirectory()) {
         if (!name.startsWith('.')) {
           await start(fileFullPath, currentLevel + 1)
         }
         // 地址继续循环
-      } else if (getExts(exts).indexOf(extname.toLowerCase()) > -1) {
+      } else if (
+        isWhiteList
+          ? exts.indexOf(extname) > -1
+          : excludeExts.indexOf(extname) === -1
+      ) {
+        totalCount += 1
         const realDestPath = getRealDestPath(
           fileFullPath,
           source,
@@ -77,29 +102,38 @@ async function hardLink(input: Array<string>, options: any) {
           )
           try {
             if (checkLinkExist(fileFullPath, dest)) {
-              const err = new HlinkError('File exists')
-              err.stderr = 'File exists'
-              throw err
+              throw new HlinkError('File exists')
             } else {
               fs.ensureDirSync(realDestPath)
             }
             execa.sync('ln', [fileFullPath, realDestPath])
             log.success(
-              `源地址 ${sourceNameForMessage} 硬链成功, 硬链地址为 ${destNameForMessage}`
+              '源地址',
+              sourceNameForMessage,
+              '硬链成功, 硬链地址为',
+              destNameForMessage
             )
+            successCount += 1
           } catch (e) {
             if (!e.stderr || e.stderr.indexOf('File exists') === -1) {
-              console.log(e)
-              process.exit(0)
+              log.error(e)
+              failCount += 1
+            } else {
+              log.warn('源地址', sourceNameForMessage, '硬链已存在, 跳过创建')
+              jumpCount += 1
             }
-            log.warn(`源地址"${sourceNameForMessage}"硬链已存在, 跳过创建`)
           }
         }
+      } else {
+        totalCount += 1
+        log.warn('当前文件', chalk.yellow(name), '不满足配置条件, 跳过创建')
+        jumpCount += 1
       }
     })
   }
   start(source)
+  endLog(successCount, failCount, jumpCount, totalCount)
   saveRecord(sourceDir, dest, isDelete && !isSecondDir)
 }
 
-module.exports = hardLink
+export default hardLink

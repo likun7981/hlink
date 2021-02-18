@@ -3,9 +3,7 @@
   "exclude": ["test", "example"],
   "compilerOptions": {
     "target": "ES5",
-    "module": "ES2015",
-    "declaration": true,
-    "declarationMap": true,
+    "module": "commonjs",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -14,6 +12,6 @@
     "esModuleInterop": true,
     "lib": ["esnext", "DOM"],
     "moduleResolution": "node",
-    "outDir": "./lib"
+    "outDir": "lib"
   }
 }

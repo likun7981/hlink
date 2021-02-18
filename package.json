@@ -9,18 +9,20 @@
     "email": "likun7981@gmail.com"
   },
   "bin": {
-    "hlink": "cli.js"
+    "hlink": "./lib/cli.js"
   },
   "engines": {
     "node": ">=8"
   },
   "scripts": {
     "test": "xo && ava",
-    "start": "./cli.js ./sourceDir ./destDir",
-    "dev": "tsc -w src/index.ts"
+    "start": "hlink ./sourceDir ./destDir",
+    "dev": "tsc -w",
+    "clean": "rm -rf lib",
+    "cp": "cp src/config/hlink.config.tpl lib/config/hlink.config.tpl",
+    "build": "npm run clean && tsc && npm run cp"
   },
   "files": [
-    "cli.js",
     "lib"
   ],
   "keywords": [
@@ -40,6 +42,7 @@
     "meow": "^5.0.0"
   },
   "devDependencies": {
+    "@types/meow": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "ava": "^2.1.0",
     "eslint": "^7.15.0",

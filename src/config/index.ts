@@ -8,13 +8,11 @@ function createConfig() {
   if (fs.existsSync(paths.configPath)) {
     warning(
       fs.existsSync(paths.configPath),
-      `配置文件已存在${chalk.cyan(paths.configPath)}，请勿重复创建`
+      `配置文件已存在 ${chalk.cyan(paths.configPath)} 请勿重复创建`
     )
   }
   try {
-    const content = fs.readFileSync(
-      path.join(__dirname, './hlink.config.tpl.js')
-    )
+    const content = fs.readFileSync(path.join(__dirname, './hlink.config.tpl'))
     fs.writeFileSync(paths.configPath, content)
     log.success('配置文件创建成功, 路径为', chalk.cyan(paths.configPath))
     log.success(
@@ -24,8 +22,7 @@ function createConfig() {
     )
     console.log()
   } catch (e) {
-    log.error('配置文件创建失败')
-    console.log()
+    log.error('配置文件创建失败', e)
   }
 }
 

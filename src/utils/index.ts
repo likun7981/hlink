@@ -1,7 +1,6 @@
 import chalk from 'chalk'
 import execa from 'execa'
 import path from 'path'
-import { SaveMode } from '../types'
 
 const logHead = 'HLINK'
 export const log = {
@@ -19,43 +18,13 @@ export const log = {
   }
 }
 
-export const warning = (warning: boolean, message: string) => {
+export const warning = (warning: boolean, ...message: Array<any>) => {
   if (warning) {
-    log.warn(message)
+    log.warn(...message)
     console.log()
     process.exit(0)
   }
 }
-
-export const getExts = (extraExts: Array<string>) =>
-  [
-    'mp4',
-    'flv',
-    'f4v',
-    'webm',
-    'm4v',
-    'mov',
-    'cpk',
-    'dirac',
-    '3gp',
-    '3g2',
-    'rm',
-    'rmvb',
-    'wmv',
-    'avi',
-    'asf',
-    'mpg',
-    'mpeg',
-    'mpe',
-    'vob',
-    'mkv',
-    'ram',
-    'qt',
-    'fli',
-    'flc',
-    'mod',
-    'iso'
-  ].concat(extraExts)
 
 /**
  * dir /a/b
@@ -86,25 +55,61 @@ export function checkLinkExist(file: string, destPath: string) {
   return paths.length >= 1
 }
 
+type LogOptions = {
+  extname: string
+  maxLevel: number
+  saveMode: number
+}
+
+const saveModeMessage = ['保持原有目录结构', '只保存一级目录结构']
+
 export const startLog = (
-  options: Record<string, string>,
+  options: LogOptions,
+  isWhiteList: boolean,
   isDelete: boolean
 ) => {
-  const messageMap: Record<string, string> = {
-    e: '  包含的额外后缀有：',
-    m: '  源地址最大查找层级为：',
-    s: '  硬链保存模式：'
-  }
   if (!isDelete) {
-    log.info('开始创建硬链...')
+    const messageMap: Record<keyof LogOptions, string> = {
+      extname: isWhiteList ? '  包含的后缀有:' : '  排除的后缀有:',
+      maxLevel: '  源地址最大查找层级为:',
+      saveMode: '  硬链保存模式:'
+    }
+    log.info('配置检查完毕...')
+    log.info(
+      '当前为',
+      chalk.magenta(`${isWhiteList ? '白' : '黑'}名单`),
+      '模式'
+    )
     log.info('当前配置为:')
     Object.keys(messageMap).forEach(k => {
-      if (options[k]) {
-        log.info(`${messageMap[k]}${chalk.cyanBright(options[k])}`)
+      const keyName = k as keyof LogOptions
+      let message = options[keyName]
+      if (keyName === 'saveMode') {
+        message = saveModeMessage[message as number]
+      }
+      if (message) {
+        log.info(messageMap[keyName], chalk.magenta(message))
       }
     })
+    log.info('开始创建硬链...')
   } else {
     log.info('开始删除硬链...')
+  }
+}
+
+export const endLog = (
+  successCount: number,
+  failCount: number,
+  jumpCount: number,
+  totalCount: number
+) => {
+  log.info('硬链创建完毕...', '总数', chalk.magenta(totalCount), '条')
+  if (!totalCount) {
+    log.warn('当前目录没有满足配置条件的文件')
+  } else {
+    log.info('  成功', chalk.green(successCount), '条')
+    log.info('  失败', chalk.red(failCount), '条')
+    log.info('  跳过', chalk.yellow(jumpCount), '条')
   }
 }
 
@@ -112,7 +117,7 @@ export function getRealDestPath(
   fileFullPath: string,
   source: string,
   dest: string,
-  saveMode: SaveMode
+  saveMode: number
 ) {
   const currentDir = path.dirname(fileFullPath)
   const currentName = path.basename(fileFullPath)

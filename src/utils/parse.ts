@@ -1,18 +1,33 @@
 import path from 'path'
 import * as paths from '../config/paths'
-import { warning } from './index'
+import parseConfig from '../config/parseConfig'
+import { log, warning } from './index'
 import fs from 'fs-extra'
-import { SaveMode } from '../types'
 import { deleteModeQuestion, deleteQuestion, getSource } from './questions'
 
 const resolvePath = path.resolve
 
-function checkSaveMode(saveMode: SaveMode) {
-  warning([0, 1].indexOf(saveMode) === -1, '保存模式只能设置为0/1')
+function checkSaveMode(saveMode: number) {
+  warning(
+    [0, 1].indexOf(saveMode) === -1,
+    '保存模式只能设置为0/1',
+    '当前配置为',
+    saveMode
+  )
 }
-function checkFindLevels(levels: number) {
-  warning(Number.isNaN(levels), '查找的最大层级maxFindLevel必须设置为数字')
-  warning(levels > 6 || levels < 1, '保存的最大层级maxFindLevel不能小于1大于6')
+function checkFindLevel(level: number) {
+  warning(
+    Number.isNaN(level),
+    '查找的最大层级maxFindLevel必须设置为数字',
+    '当前配置为',
+    level
+  )
+  warning(
+    level > 6 || level < 1,
+    '保存的最大层级maxFindLevel不能小于1大于6',
+    '当前配置为',
+    level
+  )
 }
 
 function checkDirectory(source: string, dest: string) {
@@ -70,41 +85,34 @@ async function parseInput(input: Array<string>, isDelete: boolean) {
 async function parse(input: Array<string>, options: any) {
   const isDelete = !!options.d
 
-  let useConfig = false
-  let configPath = paths.configPath
-  if ('useConfig' in options) {
-    useConfig = true
-  }
-  if (options.useConfig) {
-    configPath = options.useConfig
-  }
+  let configPath = options.configPath || paths.configPath
 
   let { source, sourceDir, isDeleteDir, isSecondDir, dest } = await parseInput(
     input,
     isDelete
   )
-  const { s, e, m, c } = options
-  const exts = e.split(',').filter(Boolean)
-  let excludeExts = c.split(',').filter(Boolean)
-  if (exts.length) {
-    excludeExts = false
-  }
-
-  const saveMode: SaveMode = +s as SaveMode
-  const maxFindLevels = +m
+  const {
+    maxFindLevel: mfl,
+    saveMode: sm,
+    includeExtname: ie,
+    excludeExtname: ee
+  } = parseConfig(configPath)
+  const { s, i, m, e } = options
+  const exts = (i || ie || '').split(',').filter(Boolean)
+  const excludeExts = (e || ee || '').split(',').filter(Boolean)
+  const saveMode = +(s || String(sm) || 0)
+  const maxFindLevel = +(m || mfl || 4)
   checkDirectory(source, dest)
-  checkFindLevels(maxFindLevels)
-  checkSaveMode(saveMode as SaveMode)
+  checkFindLevel(maxFindLevel)
+  checkSaveMode(saveMode)
   return {
     saveMode,
-    maxFindLevels,
+    maxFindLevel,
     excludeExts,
     exts,
     source,
     dest,
     isDelete,
-    useConfig,
-    configPath,
     sourceDir,
     isDeleteDir,
     isSecondDir
