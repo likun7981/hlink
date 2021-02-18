@@ -22,7 +22,7 @@
     "cp": "cp src/config/hlink.config.tpl lib/config/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
     "prepublishOnly": "npm run build",
-    "np": "np"
+    "np": "np --any-branch"
   },
   "files": [
     "lib"
