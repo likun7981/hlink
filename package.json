@@ -20,7 +20,9 @@
     "dev": "tsc -w",
     "clean": "rm -rf lib",
     "cp": "cp src/config/hlink.config.tpl lib/config/hlink.config.tpl",
-    "build": "npm run clean && tsc && npm run cp"
+    "build": "npm run clean && tsc && npm run cp",
+    "prepublishOnly": "npm run build",
+    "np": "np"
   },
   "files": [
     "lib"
@@ -50,7 +52,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "np": "^7.0.0",
+    "np": "^7.4.0",
     "typescript": "^4.1.5",
     "xo": "^0.24.0"
   }
