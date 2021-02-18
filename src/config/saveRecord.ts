@@ -1,18 +1,19 @@
-const fs = require('fs-extra')
-const { mapJson, configSaveDir } = require('./configPaths')
+import fs from 'fs-extra'
+import { log } from '../utils'
+import { mapJson, configSaveDir } from './paths'
 
-function saveSourceAndDest (source, dest, isDelete) {
+function saveRecord(source: string, dest: string, isDelete: boolean) {
   try {
     fs.ensureDirSync(configSaveDir)
-    let savedPath = {}
+    let savedPath: Record<string, any> = {}
     if (fs.existsSync(mapJson)) {
       savedPath = fs.readJSONSync(mapJson)
     }
-    const savedDestPath = savedPath[source]
+    const savedDestPath: Array<string> = savedPath[source]
     if (savedDestPath) {
       if (savedDestPath.indexOf(dest) !== -1) {
         if (isDelete) {
-          savedPath[source] = savedDestPath.filter((s) => s !== dest)
+          savedPath[source] = savedDestPath.filter(s => s !== dest)
         }
         if (!savedPath[source].length) {
           delete savedPath[source]
@@ -25,8 +26,8 @@ function saveSourceAndDest (source, dest, isDelete) {
     }
     fs.writeJSONSync(mapJson, savedPath)
   } catch (e) {
-    console.log(e)
+    log.error(e.message)
   }
 }
 
-module.exports = saveSourceAndDest
+export default saveRecord

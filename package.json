@@ -16,7 +16,8 @@
   },
   "scripts": {
     "test": "xo && ava",
-    "start": "./cli.js ./sourceDir ./destDir"
+    "start": "./cli.js ./sourceDir ./destDir",
+    "dev": "tsc -w src/index.ts"
   },
   "files": [
     "cli.js",
@@ -29,6 +30,9 @@
     "fun"
   ],
   "dependencies": {
+    "@types/fs-extra": "^9.0.6",
+    "@types/inquirer": "^7.3.1",
+    "@types/node": "^14.14.25",
     "chalk": "^4.1.0",
     "execa": "^2.1.0",
     "fs-extra": "^9.0.1",
@@ -36,13 +40,15 @@
     "meow": "^5.0.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
     "ava": "^2.1.0",
     "eslint": "^7.15.0",
-    "eslint-config-standard": "^16.0.2",
+    "eslint-config-standard-with-typescript": "^20.0.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "np": "^7.0.0",
+    "typescript": "^4.1.5",
     "xo": "^0.24.0"
   }
 }
