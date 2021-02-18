@@ -1,7 +1,11 @@
 # hlink
 
+[![npm package][npm]][npm-url]
+[![node version][node]][node-url]
+[![npm download][npm-download]][npm-download-url]
+
 ## 所需环境：
-nodejs 10 以上；node环境安装请自行百度哈
+nodejs 10 以上；
 
 ## 安装
 ```bash
@@ -28,3 +32,19 @@ $ hlink --help
 ![删除目录](./media/gdeletedir.png)
 
 ![删除文件](./media/gdeletefile.png)
+
+# License
+
+[MIT][license-url]
+
+[npm]: https://img.shields.io/npm/v/hlink.svg
+[npm-url]: https://www.npmjs.com/package/hlink
+
+[node]: https://img.shields.io/node/v/hlink.svg
+[node-url]: https://nodejs.org
+
+[npm-download-url]: https://npmjs.com/package/hlink
+[npm-download]: https://img.shields.io/npm/dm/hlink.svg
+
+[license-url]: https://github.com/likun7981/hlink/blob/master/LICENSE
+[license]: http://img.shields.io/npm/l/hlink.svg?style=flat

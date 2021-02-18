@@ -1,6 +1,6 @@
 {
   "name": "hlink",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "description": "hlink",
   "license": "MIT",
   "repository": "likun7981/hlink",
@@ -12,7 +12,7 @@
     "hlink": "./lib/cli.js"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "scripts": {
     "test": "xo && ava",
