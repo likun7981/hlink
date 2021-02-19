@@ -1,4 +1,4 @@
-import fs from 'fs-extra'
+import fs, { link } from 'fs-extra'
 import path from 'path'
 import {
   log,
@@ -7,7 +7,8 @@ import {
   getDirBasePath,
   getRealDestPath,
   startLog,
-  endLog
+  endLog,
+  warning
 } from './utils'
 import execa from 'execa'
 import chalk from 'chalk'
@@ -18,7 +19,6 @@ import HlinkError from './utils/HlinkError'
 const resolvePath = path.resolve
 
 async function hardLink(input: Array<string>, options: any) {
-  let deleteDir = false
   let isSecondDir = false
   let {
     source,
@@ -28,14 +28,17 @@ async function hardLink(input: Array<string>, options: any) {
     maxFindLevel,
     exts,
     excludeExts,
-    sourceDir
+    sourceDir,
+    isDeleteDir
   } = await parse(input, options)
   const isWhiteList = !!exts.length
   startLog(
     {
       extname: isWhiteList ? exts : excludeExts,
       maxLevel: maxFindLevel,
-      saveMode
+      saveMode,
+      source,
+      dest
     },
     isWhiteList,
     isDelete
@@ -75,21 +78,39 @@ async function hardLink(input: Array<string>, options: any) {
         if (isDelete) {
           // 删除硬链接
           try {
-            const linkPaths = getLinkPath(fileFullPath, dest, deleteDir)
-            linkPaths.forEach(removePath => {
-              execa.sync('rm', ['-r', removePath])
-              const deletePathMessage = chalk.cyan(
-                getDirBasePath(dest, removePath)
+            const linkPaths = getLinkPath(fileFullPath, dest, isDeleteDir)
+            if (linkPaths.length) {
+              linkPaths.forEach(removePath => {
+                execa.sync('rm', ['-r', removePath])
+                const deletePathMessage = chalk.cyan(
+                  getDirBasePath(dest, removePath)
+                )
+                log.info(
+                  isDeleteDir ? '目录' : '硬链',
+                  deletePathMessage,
+                  '删除成功'
+                )
+                successCount += 1
+              })
+            } else {
+              jumpCount += 1
+              log.warn(
+                '没找到',
+                chalk.yellow(getDirBasePath(dest, fileFullPath)),
+                '相关硬链, 跳过'
               )
-              log.info(
-                `${deleteDir ? '目录' : '硬链'} ${deletePathMessage} 已删除`
-              )
-            })
+            }
           } catch (e) {
             if (e.message === 'ALREADY_DELETE') {
               log.warn(
-                `目录 ${chalk.cyan(getDirBasePath(dest, realDestPath))} 已删除`
+                '目录',
+                chalk.yellow(getDirBasePath(dest, realDestPath)),
+                '已删除, 跳过'
               )
+              jumpCount += 1
+            } else {
+              log.error(e)
+              failCount += 1
             }
           }
         } else {
@@ -132,8 +153,8 @@ async function hardLink(input: Array<string>, options: any) {
     })
   }
   start(source)
-  endLog(successCount, failCount, jumpCount, totalCount)
   saveRecord(sourceDir, dest, isDelete && !isSecondDir)
+  endLog(successCount, failCount, jumpCount, totalCount, isDelete)
 }
 
 export default hardLink

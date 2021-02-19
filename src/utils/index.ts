@@ -59,6 +59,8 @@ type LogOptions = {
   extname: string
   maxLevel: number
   saveMode: number
+  source: string
+  dest: string
 }
 
 const saveModeMessage = ['保持原有目录结构', '只保存一级目录结构']
@@ -70,8 +72,10 @@ export const startLog = (
 ) => {
   if (!isDelete) {
     const messageMap: Record<keyof LogOptions, string> = {
+      source: '  源地址:',
+      dest: '  目标地址:',
       extname: isWhiteList ? '  包含的后缀有:' : '  排除的后缀有:',
-      maxLevel: '  源地址最大查找层级为:',
+      maxLevel: '  最大查找层级为:',
       saveMode: '  硬链保存模式:'
     }
     log.info('配置检查完毕...')
@@ -91,6 +95,7 @@ export const startLog = (
         log.info(messageMap[keyName], chalk.magenta(message))
       }
     })
+    console.log()
     log.info('开始创建硬链...')
   } else {
     log.info('开始删除硬链...')
@@ -101,9 +106,15 @@ export const endLog = (
   successCount: number,
   failCount: number,
   jumpCount: number,
-  totalCount: number
+  totalCount: number,
+  isDelete: boolean
 ) => {
-  log.info('硬链创建完毕...', '总数', chalk.magenta(totalCount), '条')
+  log.info(
+    isDelete ? '硬链删除完毕' : '硬链创建完毕...',
+    '总数',
+    chalk.magenta(totalCount),
+    '条'
+  )
   if (!totalCount) {
     log.warn('当前目录没有满足配置条件的文件')
   } else {

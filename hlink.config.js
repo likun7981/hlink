@@ -3,22 +3,44 @@ module.exports = {
   /**
    * 源地址
    */
-  source: '',
+  source: '/Users/likun/Project/github/hlink/sourceDir',
   /**
    * 目标地址
    */
-  dest: '',
+  dest: '/Users/likun/Project/github/hlink/destDir',
   /**
    * 需要包含的后缀名,如果不配置该项，会采用以下策略
    *  1. 配置了excludeExtname，则链接文件为排除后的其他文件
    *  2. 未配置excludeExtname，则链接文件为目录下的所有文件
    */
-  includeExtname: ['mp4', 'flv', 'f4v', 'webm',
-    'm4v', 'mov', 'cpk', 'dirac',
-    '3gp', '3g2', 'rm', 'rmvb',
-    'wmv', 'avi', 'asf', 'mpg',
-    'mpeg', 'mpe', 'vob', 'mkv',
-    'ram', 'qt', 'fli', 'flc', 'mod', 'iso'],
+  includeExtname: [
+    'mp4',
+    'flv',
+    'f4v',
+    'webm',
+    'm4v',
+    'mov',
+    'cpk',
+    'dirac',
+    '3gp',
+    '3g2',
+    'rm',
+    'rmvb',
+    'wmv',
+    'avi',
+    'asf',
+    'mpg',
+    'mpeg',
+    'mpe',
+    'vob',
+    'mkv',
+    'ram',
+    'qt',
+    'fli',
+    'flc',
+    'mod',
+    'iso'
+  ],
   /**
    * 需要排除的后缀名, 如果配置了includeExtname则该配置无效
    */

@@ -3,6 +3,7 @@
 
 import meow from 'meow'
 import chalk from 'chalk'
+import path from 'path'
 import fs from 'fs-extra'
 import hardLink from './index'
 import createConfig from './config'
@@ -22,19 +23,19 @@ const cli = meow(
       saveMode=0 保存原有的相对源地址的路径`)}
 
     --includeExtname,-i   包含的扩展名,多个用','隔开
-      ${chalk.gray(`如果不配置该项，会采用以下策略
-      *  1. 配置了excludeExtname，则链接文件为排除后的其他文件
-      *  2. 未配置excludeExtname，则链接文件为目录下的所有文件`)}
+      ${chalk.gray(`如果不配置该项,会采用以下策略
+      *  1. 配置了excludeExtnam,则链接文件为排除后的其他文件
+      *  2. 未配置excludeExtname,则链接文件为目录下的所有文件`)}
 
     --excludeExtname,-e   排除的扩展名,多个用','隔开如果配置了${chalk.cyan(
       'includeExtname'
     )}则该配置无效
 
-    --maxFindLevel,-m     查找文件的最大层级, 默认4层
-    --delete,-d           删除目标地址所有硬链，默认为false
-    --generateConfig,-g   生成config文件，可以使用 hlink --c 查看具体路径
+    --maxFindLevel,-m     查找文件的最大层级,默认4层
+    --delete,-d           删除目标地址所有硬链,默认为false
+    --generateConfig,-g   生成config文件,可以使用 hlink -g 查看路径
     --removeConfig,-r     删除配置文件
-    --useConfig,-u        使用config文件配置，会忽略命令行带入的配置项
+    --configPath,-c       指定配置文件路径,请使用绝对路径
 
   例子:
     ${chalk.grey('# 创建 /share/download 下面文件到目标地址 /share/movie')}
@@ -76,7 +77,7 @@ const cli = meow(
         alias: 'd'
       },
       generateConfig: {
-        type: 'boolean',
+        type: 'string',
         alias: 'g'
       },
       removeConfig: {
@@ -92,17 +93,23 @@ const cli = meow(
 )
 const flags = cli.flags
 
-if (flags.r || flags.removeConfig) {
-  if (fs.existsSync(paths.configPath)) {
-    fs.unlinkSync(paths.configPath)
+if (flags.r) {
+  if (fs.existsSync(flags.c || paths.configPath)) {
+    fs.unlinkSync(flags.c || paths.configPath)
     log.success('移除配置文件成功')
     console.log()
   } else {
     log.warn('您并没有创建配置文件')
     console.log()
   }
-} else if (flags.g || flags.generateConfig) {
-  createConfig()
+} else if ('g' in flags) {
+  createConfig(
+    !!flags.g
+      ? path.isAbsolute(flags.g)
+        ? path.join(flags.g, paths.configName)
+        : path.join(process.cwd(), flags.g, paths.configName)
+      : undefined
+  )
 } else {
   hardLink(cli.input, flags)
 }
