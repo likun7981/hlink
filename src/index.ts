@@ -1,4 +1,4 @@
-import fs, { link } from 'fs-extra'
+import fs from 'fs-extra'
 import path from 'path'
 import {
   log,
@@ -7,8 +7,7 @@ import {
   getDirBasePath,
   getRealDestPath,
   startLog,
-  endLog,
-  warning
+  endLog
 } from './utils'
 import execa from 'execa'
 import chalk from 'chalk'
