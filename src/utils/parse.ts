@@ -58,10 +58,11 @@ async function parseInput(input: Array<string>, isDelete: boolean) {
     dest = input[1]
   } else if (isDelete) {
     const answers = await deleteQuestion()
+    const saveRecords = paths.readSaveRecord();
     const [finalSource, finalSourceDir] = getSource(answers)
     source = finalSource
     sourceDir = finalSourceDir
-    dest = answers.destDir
+    dest = answers.destDir || saveRecords[finalSourceDir][0]
     isSecondDir = answers.sourcePath === '二级目录'
   }
 
@@ -83,7 +84,6 @@ async function parse(input: Array<string>, options: any) {
     input,
     isDelete
   )
-  console.log(configPath)
   const {
     maxFindLevel: mfl,
     saveMode: sm,
