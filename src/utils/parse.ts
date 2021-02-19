@@ -57,12 +57,11 @@ async function parseInput(input: Array<string>, isDelete: boolean) {
     sourceDir = input[0]
     dest = input[1]
   } else if (isDelete) {
-    const pathsMap = fs.readJSONSync(paths.mapJson)
     const answers = await deleteQuestion()
     const [finalSource, finalSourceDir] = getSource(answers)
     source = finalSource
     sourceDir = finalSourceDir
-    dest = answers.destDir || pathsMap[finalSourceDir][0]
+    dest = answers.destDir
     isSecondDir = answers.sourcePath === '二级目录'
   }
 
@@ -84,6 +83,7 @@ async function parse(input: Array<string>, options: any) {
     input,
     isDelete
   )
+  console.log(configPath)
   const {
     maxFindLevel: mfl,
     saveMode: sm,
@@ -101,7 +101,7 @@ async function parse(input: Array<string>, options: any) {
   const { s, i, m, e } = options
   const exts = (i || ie || '').split(',').filter(Boolean)
   const excludeExts = (e || ee || '').split(',').filter(Boolean)
-  const saveMode = +(s || String(sm) || 0)
+  const saveMode = +(s || sm || 0)
   const maxFindLevel = +(m || mfl || 4)
   checkDirectory(source, dest)
   checkFindLevel(maxFindLevel)

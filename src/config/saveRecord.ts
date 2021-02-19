@@ -1,14 +1,11 @@
 import fs from 'fs-extra'
 import { log } from '../utils'
-import { mapJson, configSaveDir } from './paths'
+import { configSaveDir, readSaveRecord, writeSaveRecord } from './paths'
 
 function saveRecord(source: string, dest: string, isDelete: boolean) {
   try {
     fs.ensureDirSync(configSaveDir)
-    let savedPath: Record<string, any> = {}
-    if (fs.existsSync(mapJson)) {
-      savedPath = fs.readJSONSync(mapJson)
-    }
+    const savedPath: Record<string, any> = readSaveRecord();
     const savedDestPath: Array<string> = savedPath[source]
     if (savedDestPath) {
       if (savedDestPath.indexOf(dest) !== -1) {
@@ -24,7 +21,7 @@ function saveRecord(source: string, dest: string, isDelete: boolean) {
     } else {
       savedPath[source] = [dest]
     }
-    fs.writeJSONSync(mapJson, savedPath)
+    writeSaveRecord(savedPath)
   } catch (e) {
     log.error(e.message)
   }

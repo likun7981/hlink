@@ -3,8 +3,6 @@ import path from 'path'
 import inquirer from 'inquirer'
 import * as paths from '../config/paths'
 
-const pathsMap: Record<string, any> = fs.readJSONSync(paths.mapJson)
-
 type Answers = {
   sourcePath: '二级目录' | string
   secondDir: string
@@ -23,6 +21,7 @@ export function getSource(answers: Answers) {
 }
 
 export const deleteQuestion = async () => {
+  const pathsMap: Record<string, any> = paths.readSaveRecord();
   return inquirer.prompt<Answers>([
     {
       type: 'rawlist',
