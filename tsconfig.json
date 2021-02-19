@@ -1,0 +1,17 @@
+{
+  "include": ["src"],
+  "exclude": ["test", "example"],
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "DOM"],
+    "moduleResolution": "node",
+    "outDir": "lib"
+  }
+}
