@@ -61,7 +61,7 @@ ln -s  /share/CACHEDEV1_DATA/.qpkg/NodeJS/bin/hlink /usr/local/bin/hlink
 
 `控制台` > `硬盘` > `启动时运行用户定义的进程` 打上勾，最后别忘记应用即可
 
-![删除文件](./media/gdeletefile.png)
+![删除文件](./media/autorun.png)
 
 4. 卸载`/tmp/config`
 
