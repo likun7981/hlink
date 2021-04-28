@@ -59,7 +59,7 @@ ln -s  /share/CACHEDEV1_DATA/.qpkg/NodeJS/bin/hlink /usr/local/bin/hlink
 
 3. 开启用户自定义脚本
 
-`控制台` > `硬盘` > `启动时运行用户定义的进程` 打上勾，最后别忘记应用即可
+`控制台` > `硬盘` > `启动时运行用户定义的进程` 打上勾，最后别忘记点击`应用`
 
 ![删除文件](./media/autorun.png)
 
