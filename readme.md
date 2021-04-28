@@ -57,13 +57,18 @@ ln -s  /share/CACHEDEV1_DATA/.qpkg/NodeJS/bin/hlink /usr/local/bin/hlink
 
 其中`/share/CACHEDEV1_DATA/.qpkg/NodeJS/bin/hlink` 为你npm安装后的hlink 路径，根据各自的路径进行更换
 
-3. 开启用户自定义脚本
+3. 给autorun.sh添加执行权限
+```
+$ chmod +x /tmp/config/autorun.sh
+```
+
+4. 开启用户自定义脚本
 
 `控制台` > `硬盘` > `启动时运行用户定义的进程` 打上勾，最后别忘记点击`应用`
 
 ![删除文件](./media/autorun.png)
 
-4. 卸载`/tmp/config`
+5. 卸载`/tmp/config`
 
 ```bash
 $ umount /tmp/config
