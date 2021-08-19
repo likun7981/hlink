@@ -12,6 +12,7 @@
     "esModuleInterop": true,
     "lib": ["esnext", "DOM"],
     "moduleResolution": "node",
-    "outDir": "lib"
+    "outDir": "lib",
+    "skipLibCheck": true
   }
 }
