@@ -1,7 +1,7 @@
 import path from 'path'
 import * as paths from '../config/paths'
 import parseConfig from '../config/parseConfig'
-import { warning } from './index'
+import { log, warning } from './index'
 import fs from 'fs-extra'
 import { deleteModeQuestion, deleteQuestion, getSource } from './questions'
 
@@ -22,12 +22,10 @@ function checkFindLevel(level: number) {
     '当前配置为',
     level
   )
-  warning(
-    level > 6 || level < 1,
-    '保存的最大层级maxFindLevel不能小于1大于6',
-    '当前配置为',
-    level
-  )
+  if (level > 6) {
+    log.warn('最大层级maxFindLevel大于6 可能会有性能问题! 请根据情况自行处理')
+  }
+  warning(level < 1, '保存的最大层级maxFindLevel不能小于1', '当前配置为', level)
 }
 
 function checkDirectory(source: string, dest: string) {
@@ -58,7 +56,7 @@ async function parseInput(input: Array<string>, isDelete: boolean) {
     dest = input[1]
   } else if (isDelete) {
     const answers = await deleteQuestion()
-    const saveRecords = paths.readSaveRecord();
+    const saveRecords = paths.readSaveRecord()
     const [finalSource, finalSourceDir] = getSource(answers)
     source = finalSource
     sourceDir = finalSourceDir

@@ -17,7 +17,7 @@ import HlinkError from './utils/HlinkError'
 
 const resolvePath = path.resolve
 
-async function hardLink(input: Array<string>, options: any) {
+async function hardLink(input: Array<string>, options: any): Promise<void> {
   let isSecondDir = false
   let {
     source,
