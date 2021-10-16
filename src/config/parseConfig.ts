@@ -4,6 +4,9 @@ import path from 'path'
 import chalk from 'chalk'
 
 function parseConfig(configPath: string) {
+  configPath = path.isAbsolute(configPath)
+    ? configPath
+    : path.join(process.cwd(), configPath)
   if (!fs.existsSync(configPath)) {
     return {}
   }
@@ -13,7 +16,9 @@ function parseConfig(configPath: string) {
     dest,
     includeExtname,
     excludeExtname,
-    maxFindLevel
+    maxFindLevel,
+    openCache,
+    mkdirIfSingle,
   } = require(configPath)
   if (source) {
     warning(
@@ -37,7 +42,9 @@ function parseConfig(configPath: string) {
     source,
     dest,
     includeExtname: includeExtname?.join(','),
-    excludeExtname: excludeExtname?.join(',')
+    excludeExtname: excludeExtname?.join(','),
+    openCache,
+    mkdirIfSingle,
   }
 }
 

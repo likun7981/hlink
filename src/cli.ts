@@ -9,6 +9,8 @@ import hardLink from './index'
 import createConfig from './config'
 import * as paths from './config/paths'
 import { log } from './utils'
+import execa from 'execa'
+import os from 'os'
 
 const cli = meow(
   `
@@ -36,6 +38,12 @@ const cli = meow(
     --generateConfig,-g   生成config文件,可以使用 hlink -g 查看路径
     --removeConfig,-r     删除配置文件
     --configPath,-c       指定配置文件路径,请使用绝对路径
+    --openCache,-o        是否打开缓存,默认为true, 会打开
+      打开后,每次硬链后会把对应文件存入缓存,就算下次删除硬链，也不会进行硬链
+
+    --mkdirIfSingle       是否为独立文件创建同名文件夹,默认为true,会创建
+    --backup              备份hlink目录缓存等 备份路径
+    --restore             还原hlink目录缓存等 还原路径
 
   例子:
     ${chalk.grey('# 创建 /share/download 下面文件到目标地址 /share/movie')}
@@ -71,7 +79,6 @@ const cli = meow(
         type: 'string',
         alias: 'm'
       },
-
       delete: {
         type: 'boolean',
         alias: 'd'
@@ -87,29 +94,58 @@ const cli = meow(
       configPath: {
         type: 'string',
         alias: 'c'
+      },
+      openCache: {
+        type: 'boolean',
+        alias: 'o',
+        default: undefined
+      },
+      mkdirIfSingle: {
+        type: 'boolean',
+        default: undefined
+      },
+      backup: {
+        type: 'string',
+        default: undefined
+      },
+      restore: {
+        type: 'string',
+        default: undefined
       }
     }
   }
 )
 const flags = cli.flags
 
-if (flags.r) {
-  if (fs.existsSync(flags.c || paths.configPath)) {
-    fs.unlinkSync(flags.c || paths.configPath)
-    log.success('移除配置文件成功')
-    console.log()
-  } else {
-    log.warn('您并没有创建配置文件')
-    console.log()
-  }
-} else if ('g' in flags) {
-  createConfig(
-    !!flags.g
-      ? path.isAbsolute(flags.g)
-        ? path.join(flags.g, paths.configName)
-        : path.join(process.cwd(), flags.g, paths.configName)
-      : undefined
-  )
+if (flags.backup) {
+  execa.sync('cp', ['-r', paths.hlinkHomeDir, flags.backup])
+} else if (flags.restore) {
+  execa.sync('cp', [
+    '-r',
+    flags.restore.indexOf('.hlink')
+      ? flags.restore
+      : path.join(flags.restore, '.hlink'),
+    os.homedir()
+  ])
 } else {
-  hardLink(cli.input, flags)
+  if (flags.r) {
+    if (fs.existsSync(flags.c || paths.configPath)) {
+      fs.unlinkSync(flags.c || paths.configPath)
+      log.success('移除配置文件成功')
+      console.log()
+    } else {
+      log.warn('您并没有创建配置文件')
+      console.log()
+    }
+  } else if ('g' in flags) {
+    createConfig(
+      !!flags.g
+        ? path.isAbsolute(flags.g)
+          ? path.join(flags.g, paths.configName)
+          : path.join(process.cwd(), flags.g, paths.configName)
+        : undefined
+    )
+  } else {
+    hardLink(cli.input, flags)
+  }
 }

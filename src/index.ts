@@ -29,7 +29,9 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
     exts,
     excludeExts,
     sourceDir,
-    isDeleteDir
+    isDeleteDir,
+    openCache,
+    mkdirIfSingle
   } = await parse(input, options)
   const isWhiteList = !!exts.length
   startLog(
@@ -74,7 +76,8 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
           fileFullPath,
           source,
           dest,
-          saveMode
+          saveMode,
+          mkdirIfSingle,
         )
         if (isDelete) {
           // 删除硬链接
@@ -126,7 +129,8 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
             if (checkLinkExist(fileFullPath, dest)) {
               throw new HlinkError('File exists')
             }
-            if (!checkCache(fileFullPath, realDestPath)) {
+            const destFullPath= path.join(realDestPath, path.basename(fileFullPath))
+            if (!checkCache(fileFullPath, destFullPath) || !openCache) {
               fs.ensureDirSync(realDestPath)
               execa.sync('ln', [fileFullPath, realDestPath])
               log.success(
@@ -135,7 +139,7 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
                 '硬链成功, 硬链地址为',
                 destNameForMessage
               )
-              saveCache(fileFullPath, realDestPath)
+              saveCache(fileFullPath, destFullPath)
               successCount += 1
             } else {
               log.warn('当前文件', chalk.yellow(name), '之前已创建过, 跳过创建')

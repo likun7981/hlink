@@ -35,5 +35,8 @@ module.exports = {
    *  如果保存模式为0 生成的硬链地址为: /d/b/c/z/y/mv.mkv
    *  如果保存模式为1 生成的硬链地址为：/d/y/mv.mkv
    */
-  saveMode: 0
+  saveMode: 0,
+  openCache: false,
+  mkdirIfSingle: true,
+  delete: true,
 }

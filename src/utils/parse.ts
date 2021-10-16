@@ -73,6 +73,16 @@ async function parseInput(input: Array<string>, isDelete: boolean) {
   }
 }
 
+function getConfig(ci: any, config: any, defaultValue: any) {
+  if (typeof ci === 'undefined') {
+    if (typeof config === 'undefined') {
+      return defaultValue
+    }
+    return config
+  }
+  return ci
+}
+
 async function parse(input: Array<string>, options: any) {
   const isDelete = !!options.d
 
@@ -88,19 +98,27 @@ async function parse(input: Array<string>, options: any) {
     includeExtname: ie,
     excludeExtname: ee,
     source: configSource,
-    dest: configDest
-  } = parseConfig(
-    path.isAbsolute(configPath)
-      ? configPath
-      : path.join(process.cwd(), configPath)
-  )
+    dest: configDest,
+    openCache: configOpenCache,
+    mkdirIfSingle: configMkdirIfSingle
+  } = parseConfig(configPath)
   source = source || configSource
+  sourceDir = sourceDir || source
   dest = dest || configDest
-  const { s, i, m, e } = options
-  const exts = (i || ie || '').split(',').filter(Boolean).map((s: string) => s.toLowerCase())
-  const excludeExts = (e || ee || '').split(',').filter(Boolean).map((s: string) => s.toLowerCase())
+  dest = dest || configDest
+  const { s, i, m, e, openCache, mkdirIfSingle } = options
+  const exts = (i || ie || '')
+    .split(',')
+    .filter(Boolean)
+    .map((s: string) => s.toLowerCase())
+  const excludeExts = (e || ee || '')
+    .split(',')
+    .filter(Boolean)
+    .map((s: string) => s.toLowerCase())
   const saveMode = +(s || sm || 0)
   const maxFindLevel = +(m || mfl || 4)
+  const finalOpenCache = getConfig(openCache, configOpenCache, true)
+  const finalMkdirIfSingle = getConfig(mkdirIfSingle, configMkdirIfSingle, true)
   checkDirectory(source, dest)
   checkFindLevel(maxFindLevel)
   checkSaveMode(saveMode)
@@ -114,7 +132,9 @@ async function parse(input: Array<string>, options: any) {
     isDelete,
     sourceDir,
     isDeleteDir,
-    isSecondDir
+    isSecondDir,
+    openCache: finalOpenCache,
+    mkdirIfSingle: finalMkdirIfSingle,
   }
 }
 

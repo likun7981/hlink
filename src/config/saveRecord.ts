@@ -1,11 +1,9 @@
-import fs from 'fs-extra'
 import { log } from '../utils'
-import { configSaveDir, deleteConfig } from './paths'
+import { deleteConfig } from './paths'
 
 
 function saveRecord(source: string, dest: string, isDelete: boolean) {
   try {
-    fs.ensureDirSync(configSaveDir)
     const savedPath: Record<string, any> = deleteConfig.read();
     const savedDestPath: Array<string> = savedPath[source]
     if (savedDestPath) {

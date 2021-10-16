@@ -131,13 +131,16 @@ export function getRealDestPath(
   fileFullPath: string,
   source: string,
   dest: string,
-  saveMode: number
+  saveMode: number,
+  mkdirIfSingle: boolean
 ) {
   const currentDir = path.dirname(fileFullPath)
   const currentName = path.basename(fileFullPath)
-  const relativePath =
-    path.relative(source, path.resolve(currentDir)) ||
-    currentName.replace(path.extname(currentName), '')
+  let relativePath =
+    path.relative(source, path.resolve(currentDir))
+  if(mkdirIfSingle && !relativePath) {
+    relativePath = currentName.replace(path.extname(currentName), '')
+  }
   return path.resolve(
     dest,
     relativePath

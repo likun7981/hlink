@@ -16,7 +16,10 @@
   },
   "scripts": {
     "test": "xo && ava",
-    "start": "chmod +x ./lib/cli.js && ./lib/cli.js ./sourceDir ./destDir",
+    "start": "chmod +x ./lib/cli.js && ./lib/cli.js -c hlink.config.js",
+    "new": "rm -rf ./destDir && npm run start",
+    "delete": "chmod +x ./lib/cli.js && ./lib/cli.js -d",
+    "help": "chmod +x ./lib/cli.js && ./lib/cli.js --help",
     "dev": "tsc -w",
     "clean": "rm -rf lib",
     "cp": "cp src/config/hlink.config.tpl lib/config/hlink.config.tpl",
