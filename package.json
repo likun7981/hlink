@@ -25,8 +25,8 @@
     "cp": "cp src/config/hlink.config.tpl lib/config/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
     "prepublishOnly": "npm run build",
-    "np": "np --no-cleanup --no-tests",
-    "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests"
+    "np": "np --no-cleanup --no-tests --no-yarn",
+    "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn"
   },
   "files": [
     "lib"
