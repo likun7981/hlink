@@ -56,7 +56,7 @@ async function parseInput(input: Array<string>, isDelete: boolean) {
     dest = input[1]
   } else if (isDelete) {
     const answers = await deleteQuestion()
-    const saveRecords = paths.readSaveRecord()
+    const saveRecords = paths.deleteConfig.read()
     const [finalSource, finalSourceDir] = getSource(answers)
     source = finalSource
     sourceDir = finalSourceDir
@@ -97,8 +97,8 @@ async function parse(input: Array<string>, options: any) {
   source = source || configSource
   dest = dest || configDest
   const { s, i, m, e } = options
-  const exts = (i || ie || '').split(',').filter(Boolean)
-  const excludeExts = (e || ee || '').split(',').filter(Boolean)
+  const exts = (i || ie || '').split(',').filter(Boolean).map((s: string) => s.toLowerCase())
+  const excludeExts = (e || ee || '').split(',').filter(Boolean).map((s: string) => s.toLowerCase())
   const saveMode = +(s || sm || 0)
   const maxFindLevel = +(m || mfl || 4)
   checkDirectory(source, dest)

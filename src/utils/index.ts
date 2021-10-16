@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import execa from 'execa'
 import path from 'path'
+import { cachePath } from '../config/paths'
 
 const logHead = 'HLINK'
 export const log = {
@@ -87,7 +88,7 @@ export const startLog = (
     log.info('当前配置为:')
     Object.keys(messageMap).forEach(k => {
       const keyName = k as keyof LogOptions
-      let message = options[keyName]
+      let message = options[keyName] || '无'
       if (keyName === 'saveMode') {
         message = saveModeMessage[message as number]
       }
@@ -107,6 +108,7 @@ export const endLog = (
   failCount: number,
   jumpCount: number,
   totalCount: number,
+  jumpCountForCache: number,
   isDelete: boolean
 ) => {
   log.info(
@@ -121,6 +123,7 @@ export const endLog = (
     log.info('  成功', chalk.green(successCount), '条')
     log.info('  失败', chalk.red(failCount), '条')
     log.info('  跳过', chalk.yellow(jumpCount), '条')
+    log.info('  跳过之前的创建记录', chalk.yellow(jumpCountForCache), '条, 如果需要重新创建，请在删除或编辑文件', chalk.cyan(cachePath))
   }
 }
 

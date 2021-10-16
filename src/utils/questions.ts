@@ -21,7 +21,7 @@ export function getSource(answers: Answers) {
 }
 
 export const deleteQuestion = async () => {
-  const pathsMap: Record<string, any> = paths.readSaveRecord();
+  const pathsMap: Record<string, any> = paths.deleteConfig.read();
   return inquirer.prompt<Answers>([
     {
       type: 'rawlist',

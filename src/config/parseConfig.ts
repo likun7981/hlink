@@ -36,8 +36,8 @@ function parseConfig(configPath: string) {
     maxFindLevel,
     source,
     dest,
-    includeExtname: includeExtname.join(','),
-    excludeExtname: excludeExtname.join(',')
+    includeExtname: includeExtname?.join(','),
+    excludeExtname: excludeExtname?.join(',')
   }
 }
 

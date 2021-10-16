@@ -1,15 +1,14 @@
-import fs from 'fs-extra'
 import { log } from '../utils'
-import { configSaveDir, deleteConfig } from './paths'
+import { cacheConfig } from './paths'
 
 
-function saveRecord(source: string, dest: string, isDelete: boolean) {
+function saveCache(source: string, dest: string, isDelete: boolean = false) {
   try {
-    fs.ensureDirSync(configSaveDir)
-    const savedPath: Record<string, any> = deleteConfig.read();
+    const savedPath: Record<string, any> = cacheConfig.read();
     const savedDestPath: Array<string> = savedPath[source]
     if (savedDestPath) {
       if (savedDestPath.indexOf(dest) !== -1) {
+        // 删除
         if (isDelete) {
           savedPath[source] = savedDestPath.filter(s => s !== dest)
         }
@@ -25,10 +24,21 @@ function saveRecord(source: string, dest: string, isDelete: boolean) {
       // 新创建
       savedPath[source] = [dest]
     }
-    deleteConfig.write(savedPath)
+    cacheConfig.write(savedPath)
   } catch (e: any) {
     log.error(e.message)
   }
 }
 
-export default saveRecord
+export const checkCache = (source: string, dest: string): boolean => {
+  try {
+    const savedPath: Record<string, any> = cacheConfig.read();
+    const savedDestPath: Array<string> = savedPath[source]
+    return !!(savedDestPath?.indexOf(dest) > -1)
+  } catch(e: any) {
+    log.error(e.message)
+    return false;
+  }
+}
+
+export default saveCache
