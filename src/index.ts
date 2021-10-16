@@ -14,6 +14,7 @@ import chalk from 'chalk'
 import saveRecord from './config/saveRecord'
 import parse from './utils/parse'
 import HlinkError from './utils/HlinkError'
+import saveCache, { checkCache } from './config/saveCache'
 
 const resolvePath = path.resolve
 
@@ -28,12 +29,14 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
     exts,
     excludeExts,
     sourceDir,
-    isDeleteDir
+    isDeleteDir,
+    openCache,
+    mkdirIfSingle
   } = await parse(input, options)
   const isWhiteList = !!exts.length
   startLog(
     {
-      extname: isWhiteList ? exts : excludeExts,
+      extname: (isWhiteList ? exts : excludeExts).join(','),
       maxLevel: maxFindLevel,
       saveMode,
       source,
@@ -44,6 +47,7 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
   )
   let successCount = 0
   let jumpCount = 0
+  let jumpCountForCache = 0
   let failCount = 0
   let totalCount = 0
   function start(currentDir: string, currentLevel = 1) {
@@ -72,7 +76,8 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
           fileFullPath,
           source,
           dest,
-          saveMode
+          saveMode,
+          mkdirIfSingle,
         )
         if (isDelete) {
           // 删除硬链接
@@ -99,7 +104,7 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
                 '相关硬链, 跳过'
               )
             }
-          } catch (e) {
+          } catch (e: any) {
             if (e.message === 'ALREADY_DELETE') {
               log.warn(
                 '目录',
@@ -123,18 +128,24 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
           try {
             if (checkLinkExist(fileFullPath, dest)) {
               throw new HlinkError('File exists')
-            } else {
-              fs.ensureDirSync(realDestPath)
             }
-            execa.sync('ln', [fileFullPath, realDestPath])
-            log.success(
-              '源地址',
-              sourceNameForMessage,
-              '硬链成功, 硬链地址为',
-              destNameForMessage
-            )
-            successCount += 1
-          } catch (e) {
+            const destFullPath= path.join(realDestPath, path.basename(fileFullPath))
+            if (!checkCache(fileFullPath, destFullPath) || !openCache) {
+              fs.ensureDirSync(realDestPath)
+              execa.sync('ln', [fileFullPath, realDestPath])
+              log.success(
+                '源地址',
+                sourceNameForMessage,
+                '硬链成功, 硬链地址为',
+                destNameForMessage
+              )
+              saveCache(fileFullPath, destFullPath)
+              successCount += 1
+            } else {
+              log.warn('当前文件', chalk.yellow(name), '之前已创建过, 跳过创建')
+              jumpCountForCache += 1
+            }
+          } catch (e: any) {
             if (!e.stderr || e.stderr.indexOf('File exists') === -1) {
               log.error(e)
               failCount += 1
@@ -153,7 +164,7 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
   }
   start(source)
   saveRecord(sourceDir, dest, isDelete && !isSecondDir)
-  endLog(successCount, failCount, jumpCount, totalCount, isDelete)
+  endLog(successCount, failCount, jumpCount, totalCount, jumpCountForCache, isDelete)
 }
 
 export default hardLink

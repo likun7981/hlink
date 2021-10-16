@@ -1,6 +1,6 @@
 {
   "name": "hlink",
-  "version": "0.3.1",
+  "version": "0.3.2-0",
   "description": "hlink",
   "license": "MIT",
   "repository": "likun7981/hlink",
@@ -16,14 +16,17 @@
   },
   "scripts": {
     "test": "xo && ava",
-    "start": "hlink ./sourceDir ./destDir",
+    "start": "chmod +x ./lib/cli.js && ./lib/cli.js -c hlink.config.js",
+    "new": "rm -rf ./destDir && npm run start",
+    "delete": "chmod +x ./lib/cli.js && ./lib/cli.js -d",
+    "help": "chmod +x ./lib/cli.js && ./lib/cli.js --help",
     "dev": "tsc -w",
     "clean": "rm -rf lib",
     "cp": "cp src/config/hlink.config.tpl lib/config/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
     "prepublishOnly": "npm run build",
-    "np": "np --no-cleanup --no-tests",
-    "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests"
+    "np": "np --no-cleanup --no-tests --no-yarn",
+    "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn"
   },
   "files": [
     "lib"

@@ -74,6 +74,16 @@ $ chmod +x /tmp/config/autorun.sh
 $ umount /tmp/config
 ```
 
+# 打赏作者
+
+维护不易，如果愿意，可以请我喝一杯咖啡😄
+
+<img width="300" src="https://gw.alipayobjects.com/mdn/rms_b6fef5/afts/img/A*YAgoQobVpFkAAAAAAAAAAAAAARQnAQ" /><img width="300" src="https://gw.alipayobjects.com/mdn/rms_b6fef5/afts/img/A*8F0WTo48mFkAAAAAAAAAAAAAARQnAQ" />
+
+打赏列表:
+
+- 脱光游侠/诈尸求邀没结果 `16.60 RMB`
+- 月与徘徊 `10.00 RMB`
 
 
 # License
