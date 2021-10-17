@@ -76,7 +76,7 @@ $ umount /tmp/config
 
 # 打赏作者
 
-维护不易，如果愿意，可以请我喝一杯咖啡😄
+请作者喝一杯咖啡😄
 
 <img width="300" src="https://gw.alipayobjects.com/mdn/rms_b6fef5/afts/img/A*YAgoQobVpFkAAAAAAAAAAAAAARQnAQ" /><img width="300" src="https://gw.alipayobjects.com/mdn/rms_b6fef5/afts/img/A*8F0WTo48mFkAAAAAAAAAAAAAARQnAQ" />
 
