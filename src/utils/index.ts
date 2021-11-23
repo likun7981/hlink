@@ -45,6 +45,7 @@ export function getLinkPath(
   const out = execa.sync('ls', ['-i', file]).stdout
   const fileNumber = out.split(' ')[0]
   let findOut: boolean | string = false
+  destPath = path.join(destPath, '/');
   findOut = execa.sync('find', [destPath, '-inum', fileNumber]).stdout
   return findOut
     ? findOut.split('\n').map(p => (deleteDir ? path.dirname(p) : p))
