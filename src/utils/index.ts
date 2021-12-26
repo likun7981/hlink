@@ -45,16 +45,11 @@ export function getLinkPath(
   const out = execa.sync('ls', ['-i', file]).stdout
   const fileNumber = out.split(' ')[0]
   let findOut: boolean | string = false
-  destPath = path.join(destPath, '/');
+  destPath = path.join(destPath, '/')
   findOut = execa.sync('find', [destPath, '-inum', fileNumber]).stdout
   return findOut
     ? findOut.split('\n').map(p => (deleteDir ? path.dirname(p) : p))
     : []
-}
-
-export function checkLinkExist(file: string, destPath: string) {
-  const paths = getLinkPath(file, destPath)
-  return paths.length >= 1
 }
 
 type LogOptions = {
@@ -108,10 +103,12 @@ export const endLog = (
   successCount: number,
   failCount: number,
   jumpCount: number,
-  totalCount: number,
-  jumpCountForCache: number,
+  cacheCount: number,
+  excludeCount: number,
   isDelete: boolean
 ) => {
+  const totalCount =
+    successCount + failCount + jumpCount + cacheCount + excludeCount
   log.info(
     isDelete ? '硬链删除完毕' : '硬链创建完毕...',
     '总数',
@@ -124,22 +121,36 @@ export const endLog = (
     log.info('  成功', chalk.green(successCount), '条')
     log.info('  失败', chalk.red(failCount), '条')
     log.info('  跳过', chalk.yellow(jumpCount), '条')
-    log.info('  跳过之前的创建记录', chalk.yellow(jumpCountForCache), '条, 如果需要重新创建，请在删除或编辑文件', chalk.cyan(cachePath))
+    log.info('  跳过不满足配置的文件', chalk.yellow(excludeCount), '条')
+    log.info(
+      '  跳过之前的创建记录',
+      chalk.yellow(cacheCount),
+      '条, 如果需要重新创建，请在删除或编辑文件',
+      chalk.cyan(cachePath)
+    )
   }
 }
 
-export function getRealDestPath(
-  fileFullPath: string,
+/**
+ *
+ * @param sourceFile 源文件的完整地址
+ * @param source 源文件夹绝对路径
+ * @param dest 目标文件夹绝对路径
+ * @param saveMode 保存模式0  为保存源目录结构，1保存一级目录结构
+ * @param mkdirIfSingle 是否为独立文件创建同名文件夹
+ * @returns 处理后的真正保存硬链的目录地址
+ */
+export function getOriginalDestPath(
+  sourceFile: string,
   source: string,
   dest: string,
   saveMode: number,
   mkdirIfSingle: boolean
 ) {
-  const currentDir = path.dirname(fileFullPath)
-  const currentName = path.basename(fileFullPath)
-  let relativePath =
-    path.relative(source, path.resolve(currentDir))
-  if(mkdirIfSingle && !relativePath) {
+  const currentDir = path.dirname(sourceFile)
+  const currentName = path.basename(sourceFile)
+  let relativePath = path.relative(source, path.resolve(currentDir))
+  if (mkdirIfSingle && !relativePath) {
     relativePath = currentName.replace(path.extname(currentName), '')
   }
   return path.resolve(

@@ -1,26 +1,16 @@
-import fs from 'fs-extra'
-import path from 'path'
-import {
-  log,
-  checkLinkExist,
-  getLinkPath,
-  getDirBasePath,
-  getRealDestPath,
-  startLog,
-  endLog
-} from './utils'
-import execa from 'execa'
-import chalk from 'chalk'
+import { getOriginalDestPath, startLog, endLog } from './utils'
 import saveRecord from './config/saveRecord'
 import parse from './utils/parse'
-import HlinkError from './utils/HlinkError'
-import saveCache, { checkCache } from './config/saveCache'
+import getSourceList from './utils/getSourceList'
+import getDestNumbers from './utils/getDestNumbers'
+import judge from './utils/judge'
+import deleteLinks from './delete'
+import link from './link'
 
-const resolvePath = path.resolve
-
-async function hardLink(input: Array<string>, options: any): Promise<void> {
+async function hardLink(input: string[], options: any): Promise<void> {
   let isSecondDir = false
-  let {
+  const config = await parse(input, options)
+  const {
     source,
     saveMode,
     dest,
@@ -32,7 +22,7 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
     isDeleteDir,
     openCache,
     mkdirIfSingle
-  } = await parse(input, options)
+  } = config
   const isWhiteList = !!exts.length
   startLog(
     {
@@ -45,126 +35,62 @@ async function hardLink(input: Array<string>, options: any): Promise<void> {
     isWhiteList,
     isDelete
   )
-  let successCount = 0
-  let jumpCount = 0
-  let jumpCountForCache = 0
-  let failCount = 0
-  let totalCount = 0
-  function start(currentDir: string, currentLevel = 1) {
-    if (currentLevel > maxFindLevel) {
-      return
+  const {
+    numbersKey: sourceListUseNumberKey,
+    sourceFiles: allSourceFiles
+  } = getSourceList(source)
+  const { result: destNumbers } = getDestNumbers(dest)
+  const { existFiles, waitLinkFiles, excludeFiles } = judge(
+    destNumbers,
+    sourceListUseNumberKey,
+    {
+      exts,
+      excludeExts,
+      isDelete
     }
-    const currentDirContents = fs.readdirSync(currentDir)
-    currentDirContents.forEach(async name => {
-      const extname = path
-        .extname(name)
-        .replace('.', '')
-        .toLowerCase()
-      const fileFullPath = resolvePath(currentDir, name)
-      if (fs.lstatSync(fileFullPath).isDirectory()) {
-        if (!name.startsWith('.')) {
-          await start(fileFullPath, currentLevel + 1)
-        }
-        // 地址继续循环
-      } else if (
-        isWhiteList
-          ? exts.indexOf(extname) > -1
-          : excludeExts.indexOf(extname) === -1
-      ) {
-        totalCount += 1
-        const realDestPath = getRealDestPath(
-          fileFullPath,
-          source,
-          dest,
-          saveMode,
-          mkdirIfSingle,
-        )
-        if (isDelete) {
-          // 删除硬链接
-          try {
-            const linkPaths = getLinkPath(fileFullPath, dest, isDeleteDir)
-            if (linkPaths.length) {
-              linkPaths.forEach(removePath => {
-                execa.sync('rm', ['-r', removePath])
-                const deletePathMessage = chalk.cyan(
-                  getDirBasePath(dest, removePath)
-                )
-                log.info(
-                  isDeleteDir ? '目录' : '硬链',
-                  deletePathMessage,
-                  '删除成功'
-                )
-                successCount += 1
-              })
-            } else {
-              jumpCount += 1
-              log.warn(
-                '没找到',
-                chalk.yellow(getDirBasePath(dest, fileFullPath)),
-                '相关硬链, 跳过'
-              )
-            }
-          } catch (e: any) {
-            if (e.message === 'ALREADY_DELETE') {
-              log.warn(
-                '目录',
-                chalk.yellow(getDirBasePath(dest, realDestPath)),
-                '已删除, 跳过'
-              )
-              jumpCount += 1
-            } else {
-              log.error(e)
-              failCount += 1
-            }
-          }
-        } else {
-          // 做硬链接
-          const sourceNameForMessage = chalk.yellow(
-            getDirBasePath(source, fileFullPath)
-          )
-          const destNameForMessage = chalk.cyan(
-            getDirBasePath(dest, path.join(realDestPath, name))
-          )
-          try {
-            if (checkLinkExist(fileFullPath, dest)) {
-              throw new HlinkError('File exists')
-            }
-            const destFullPath= path.join(realDestPath, path.basename(fileFullPath))
-            if (!checkCache(fileFullPath, destFullPath) || !openCache) {
-              fs.ensureDirSync(realDestPath)
-              execa.sync('ln', [fileFullPath, realDestPath])
-              log.success(
-                '源地址',
-                sourceNameForMessage,
-                '硬链成功, 硬链地址为',
-                destNameForMessage
-              )
-              saveCache(fileFullPath, destFullPath)
-              successCount += 1
-            } else {
-              log.warn('当前文件', chalk.yellow(name), '之前已创建过, 跳过创建')
-              jumpCountForCache += 1
-            }
-          } catch (e: any) {
-            if (!e.stderr || e.stderr.indexOf('File exists') === -1) {
-              log.error(e)
-              failCount += 1
-            } else {
-              log.warn('源地址', sourceNameForMessage, '硬链已存在, 跳过创建')
-              jumpCount += 1
-            }
-          }
-        }
-      } else {
-        totalCount += 1
-        log.warn('当前文件', chalk.yellow(name), '不满足配置条件, 跳过创建')
-        jumpCount += 1
-      }
-    })
-  }
-  start(source)
+  )
+  let successCount = 0
+  let jumpCount = existFiles.length
+  let excludeCount = excludeFiles.length
+  let cacheCount = 0
+  let failCount = 0
+
+  const files = isDelete ? allSourceFiles : waitLinkFiles
+  files.forEach(async sourceFilePath => {
+    const originalDestPath = getOriginalDestPath(
+      sourceFilePath,
+      source,
+      dest,
+      saveMode,
+      mkdirIfSingle
+    )
+    if (isDelete) {
+      // 删除硬链接
+      const counts = deleteLinks(
+        sourceFilePath,
+        originalDestPath,
+        dest,
+        isDeleteDir
+      )
+      jumpCount += counts.jumpCount
+      failCount += counts.failCount
+      successCount += counts.successCount
+    } else {
+      excludeCount = excludeFiles.length
+      const counts = link(
+        sourceFilePath,
+        originalDestPath,
+        source,
+        dest,
+        openCache
+      )
+      cacheCount += counts.jumpCountForCache
+      failCount += counts.failCount
+      successCount += counts.successCount
+    }
+  })
   saveRecord(sourceDir, dest, isDelete && !isSecondDir)
-  endLog(successCount, failCount, jumpCount, totalCount, jumpCountForCache, isDelete)
+  endLog(successCount, failCount, jumpCount, cacheCount, excludeCount, isDelete)
 }
 
 export default hardLink
