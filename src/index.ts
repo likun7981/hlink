@@ -5,7 +5,6 @@ import {
   log,
   getDirBasePath
 } from './utils'
-import fs from 'fs-extra'
 import saveRecord from './config/saveRecord'
 import parse from './utils/parse'
 import analyse from './utils/analyse'
