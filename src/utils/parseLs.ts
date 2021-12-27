@@ -7,14 +7,15 @@ function parseLs(
   callback: (num: string, fullPath: string) => void
 ) {
   var str = execa.sync('ls', ['-iRF', dir]).stdout
-  const files = str.split('\n').filter(a => !a?.endsWith('/'))
+  const files = str.split('\n').filter(a => !a?.endsWith(path.sep))
   let currentDir = ''
   let prevIsBlank = true // 记录上一行是否是空行
   files.forEach((file: string) => {
     // 上一行是空行，并且是:结尾，表示是目录
     if (file.endsWith(':') && file.indexOf(dir) === 0 && prevIsBlank) {
       prevIsBlank = false
-      currentDir = file.replace(':', '')
+      // 这里不能用replace，必须用lastIndexOf, 不然windows无法使用
+      currentDir = file.slice(0, file.lastIndexOf(':'))
       // 空行
     } else if (!file) {
       prevIsBlank = true
