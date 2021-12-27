@@ -149,3 +149,9 @@ if (flags.backup) {
     hardLink(cli.input, flags)
   }
 }
+
+process.on('SIGINT', function() {
+  log.info('手动中断')
+
+  process.exit()
+})

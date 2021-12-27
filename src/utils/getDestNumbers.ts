@@ -1,4 +1,5 @@
 import execa from 'execa'
+import getFileAndNumber from './getFileAndNumber'
 
 function getDestNumbers(dest: string) {
   let result: string[] = []
@@ -7,8 +8,7 @@ function getDestNumbers(dest: string) {
     .stdout.split('\n')
     .forEach(file => {
       if (Boolean(file) && !file.endsWith('/') && !file.endsWith(':')) {
-        const index = file.indexOf(' ')
-        const number = file.slice(0, index)
+        const [number] = getFileAndNumber(file)
         result.push(number)
       }
     })
@@ -17,4 +17,4 @@ function getDestNumbers(dest: string) {
   }
 }
 
-export default getDestNumbers;
+export default getDestNumbers

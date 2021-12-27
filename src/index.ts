@@ -1,96 +1,95 @@
-import { getOriginalDestPath, startLog, endLog } from './utils'
+import {
+  getOriginalDestPath,
+  startLog,
+  endLog,
+  log,
+  getDirBasePath
+} from './utils'
+import fs from 'fs-extra'
 import saveRecord from './config/saveRecord'
 import parse from './utils/parse'
-import getSourceList from './utils/getSourceList'
-import getDestNumbers from './utils/getDestNumbers'
-import judge from './utils/judge'
+import analyse from './utils/analyse'
 import deleteLinks from './delete'
 import link from './link'
+import saveCache from './config/saveCache'
+import chalk from 'chalk'
 
 async function hardLink(input: string[], options: any): Promise<void> {
-  let isSecondDir = false
   const config = await parse(input, options)
   const {
     source,
     saveMode,
     dest,
     isDelete,
-    maxFindLevel,
+    // maxFindLevel,
     exts,
     excludeExts,
     sourceDir,
-    isDeleteDir,
     openCache,
     mkdirIfSingle
   } = config
-  const isWhiteList = !!exts.length
-  startLog(
-    {
-      extname: (isWhiteList ? exts : excludeExts).join(','),
-      maxLevel: maxFindLevel,
-      saveMode,
-      source,
-      dest
-    },
-    isWhiteList,
-    isDelete
-  )
-  const {
-    numbersKey: sourceListUseNumberKey,
-    sourceFiles: allSourceFiles
-  } = getSourceList(source)
-  const { result: destNumbers } = getDestNumbers(dest)
-  const { existFiles, waitLinkFiles, excludeFiles } = judge(
-    destNumbers,
-    sourceListUseNumberKey,
-    {
-      exts,
-      excludeExts,
-      isDelete
-    }
-  )
-  let successCount = 0
-  let jumpCount = existFiles.length
-  let excludeCount = excludeFiles.length
-  let cacheCount = 0
-  let failCount = 0
-
-  const files = isDelete ? allSourceFiles : waitLinkFiles
-  files.forEach(async sourceFilePath => {
-    const originalDestPath = getOriginalDestPath(
-      sourceFilePath,
-      source,
-      dest,
-      saveMode,
-      mkdirIfSingle
-    )
-    if (isDelete) {
-      // 删除硬链接
-      const counts = deleteLinks(
-        sourceFilePath,
-        originalDestPath,
-        dest,
-        isDeleteDir
-      )
-      jumpCount += counts.jumpCount
-      failCount += counts.failCount
-      successCount += counts.successCount
-    } else {
-      excludeCount = excludeFiles.length
-      const counts = link(
-        sourceFilePath,
-        originalDestPath,
+  if (!isDelete) {
+    const isWhiteList = !!exts.length
+    const startTime = startLog(
+      {
+        extname: (isWhiteList ? exts : excludeExts).join(','),
+        // maxLevel: maxFindLevel,
+        saveMode,
         source,
         dest,
         openCache
+      },
+      isWhiteList
+    )
+    const { waitLinkFiles } = analyse({
+      source,
+      dest,
+      exts,
+      excludeExts,
+      isDelete,
+      openCache
+    })
+    let successCount = 0
+    let jumpCount = 0
+    let failCount = 0
+    if (waitLinkFiles.length) {
+      const count = 21
+      let c = 0
+      for (let i = 0, len = waitLinkFiles.length / count; i < len; i++) {
+        const start = c * count
+        const end = (c + 1) * count
+        await Promise.all(
+          waitLinkFiles.slice(start, end).map(async sourceFilePath => {
+            const originalDestPath = getOriginalDestPath(
+              sourceFilePath,
+              source,
+              dest,
+              saveMode,
+              mkdirIfSingle
+            )
+            const counts = await link(sourceFilePath, originalDestPath)
+            failCount += counts.failCount
+            successCount += counts.successCount
+            log.infoSingle(
+              `${successCount} / ${waitLinkFiles.length}`,
+              '\n',
+              chalk.gray(getDirBasePath(source, sourceFilePath))
+            )
+          })
+        )
+        c += 1
+      }
+      log.successSingle(
+        `${successCount} / ${waitLinkFiles.length}`,
+        chalk.green('执行完毕')
       )
-      cacheCount += counts.jumpCountForCache
-      failCount += counts.failCount
-      successCount += counts.successCount
+      saveCache(waitLinkFiles)
     }
-  })
-  saveRecord(sourceDir, dest, isDelete && !isSecondDir)
-  endLog(successCount, failCount, jumpCount, cacheCount, excludeCount, isDelete)
+    endLog(successCount, failCount, jumpCount, startTime)
+  } else {
+    deleteLinks(source, dest)
+  }
+  saveRecord(sourceDir, dest, isDelete)
 }
 
 export default hardLink

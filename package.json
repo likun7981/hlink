@@ -45,10 +45,12 @@
     "execa": "^2.1.0",
     "fs-extra": "^9.0.1",
     "inquirer": "^7.3.3",
-    "meow": "^5.0.0"
+    "meow": "^5.0.0",
+    "single-line-log": "^1.1.2"
   },
   "devDependencies": {
     "@types/meow": "^5.0.0",
+    "@types/single-line-log": "^1.1.0",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "ava": "^2.1.0",
     "eslint": "^7.15.0",

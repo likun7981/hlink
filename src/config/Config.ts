@@ -1,16 +1,23 @@
 import fs from 'fs-extra'
 import path from 'path'
-import os from 'os';
+import os from 'os'
 
 class Config {
-  saveDir: string;
-  jsonPath: string;
-  constructor(jsonFilename: string, saveDir: string = path.join(os.homedir(), '.hlink')) {
-    this.saveDir = saveDir;
-    this.jsonPath = path.join(saveDir, jsonFilename);
+  saveDir: string
+  jsonPath: string
+  readCache: any
+  isArray: boolean
+  constructor(
+    jsonFilename: string,
+    isArray = false,
+    saveDir: string = path.join(os.homedir(), '.hlink')
+  ) {
+    this.saveDir = saveDir
+    this.isArray = isArray
+    this.jsonPath = path.join(saveDir, jsonFilename)
   }
   write(content: Record<string, any>) {
-    const saveDir = this.saveDir;
+    const saveDir = this.saveDir
     if (!fs.existsSync(saveDir)) {
       fs.ensureDirSync(saveDir)
     }
@@ -20,13 +27,13 @@ class Config {
   }
 
   read() {
-    const mapJson = this.jsonPath;
+    const mapJson = this.jsonPath
     if (!fs.existsSync(mapJson)) {
-      this.write({})
-      return {}
+      this.write(this.isArray ? [] : {})
+      return this.isArray ? [] : {}
     }
     return fs.readJSONSync(mapJson)
   }
 }
 
-export default Config;
+export default Config

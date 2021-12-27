@@ -1,7 +1,7 @@
-import fs from 'fs-extra'
 import path from 'path'
 import inquirer from 'inquirer'
 import * as paths from '../config/paths'
+import { log } from './index'
 
 type Answers = {
   sourcePath: '二级目录' | string
@@ -22,33 +22,16 @@ export function getSource(answers: Answers) {
 
 export const deleteQuestion = async () => {
   const pathsMap: Record<string, any> = paths.deleteConfig.read();
+  if(Object.keys(pathsMap).length === 0) {
+    log.info('没有找到可以删除的记录，请手动给出源地址和目标地址');
+    process.exit(0)
+  }
   return inquirer.prompt<Answers>([
     {
       type: 'rawlist',
       name: 'sourcePath',
       message: '请选择需要删除硬链的源地址',
-      choices: Object.keys(pathsMap).concat('二级目录')
-    },
-    {
-      type: 'rawlist',
-      name: 'secondDir',
-      message: '请选择一个二级目录作为源地址',
-      when: answer => {
-        return answer.sourcePath === '二级目录'
-      },
-      choices: () => {
-        const file = Object.keys(pathsMap)
-          .map(k =>
-            fs
-              .readdirSync(k)
-              .map(s => path.join(k, s))
-              .filter(s => fs.statSync(s).isDirectory())
-          )
-          .reduce((p, result) => {
-            return result.concat(p)
-          }, [])
-        return file
-      }
+      choices: Object.keys(pathsMap)
     },
     {
       type: 'rawlist',

@@ -1,9 +1,18 @@
+
+/**
+ *
+ * !!!重要提醒：这是开发时使用的调试配置文件，不要直接使用，
+ *
+ * 请使用 hlink -g 生成使用
+ *
+ */
 // 重要说明路径地址都请填写 绝对路径！！！！
+
 module.exports = {
   /**
    * 源地址
    */
-  source: '/Users/likun/Projects/github/hlink/sourceDir',
+  source: '/Users/likun/Projects/github/hlink/node_modules/@babel',
   /**
    * 目标地址
    */
@@ -14,12 +23,12 @@ module.exports = {
    *  2. 未配置excludeExtname，则链接文件为目录下的所有文件
    */
   includeExtname: [
-
+    'js'
   ],
   /**
    * 需要排除的后缀名, 如果配置了includeExtname则该配置无效
    */
-  excludeExtname: ['db@SynoEAStream'],
+  excludeExtname: [],
   /**
    * 最大的查找目录级别, 最大为6，太大的话可能会卡死
    */

@@ -1,7 +1,6 @@
 import chalk from 'chalk'
-import execa from 'execa'
 import path from 'path'
-import { cachePath } from '../config/paths'
+import singleLog from 'single-line-log'
 
 const logHead = 'HLINK'
 export const log = {
@@ -16,6 +15,16 @@ export const log = {
   },
   success: function(...args: any[]) {
     console.log(chalk.green(`[${logHead} SUCCESS]:`), ...args)
+  },
+  infoSingle: function(...args: any[]) {
+    singleLog.stdout(
+      [chalk.cyan(`[${logHead} INFO]:`), ...args, '\n'].join(' ')
+    )
+  },
+  successSingle: function(...args: any[]) {
+    singleLog.stdout(
+      [chalk.green(`[${logHead} SUCCESS]:`), ...args, '\n'].join(' ')
+    )
   }
 }
 
@@ -37,98 +46,65 @@ export function getDirBasePath(baseDir: string, filepath: string) {
   return path.join(path.basename(baseDir), path.relative(baseDir, filepath))
 }
 
-export function getLinkPath(
-  file: string,
-  destPath: string,
-  deleteDir?: boolean
-) {
-  const out = execa.sync('ls', ['-i', file]).stdout
-  const fileNumber = out.split(' ')[0]
-  let findOut: boolean | string = false
-  destPath = path.join(destPath, '/')
-  findOut = execa.sync('find', [destPath, '-inum', fileNumber]).stdout
-  return findOut
-    ? findOut.split('\n').map(p => (deleteDir ? path.dirname(p) : p))
-    : []
-}
-
 type LogOptions = {
   extname: string
-  maxLevel: number
+  // maxLevel: number
   saveMode: number
   source: string
   dest: string
+  openCache: boolean
 }
 
 const saveModeMessage = ['保持原有目录结构', '只保存一级目录结构']
 
-export const startLog = (
-  options: LogOptions,
-  isWhiteList: boolean,
-  isDelete: boolean
-) => {
-  if (!isDelete) {
-    const messageMap: Record<keyof LogOptions, string> = {
-      source: '  源地址:',
-      dest: '  目标地址:',
-      extname: isWhiteList ? '  包含的后缀有:' : '  排除的后缀有:',
-      maxLevel: '  最大查找层级为:',
-      saveMode: '  硬链保存模式:'
-    }
-    log.info('配置检查完毕...')
-    log.info(
-      '当前为',
-      chalk.magenta(`${isWhiteList ? '白' : '黑'}名单`),
-      '模式'
-    )
-    log.info('当前配置为:')
-    Object.keys(messageMap).forEach(k => {
-      const keyName = k as keyof LogOptions
-      let message = options[keyName] || '无'
-      if (keyName === 'saveMode') {
-        message = saveModeMessage[message as number]
-      }
-      if (message) {
-        log.info(messageMap[keyName], chalk.magenta(message))
-      }
-    })
-    console.log()
-    log.info('开始创建硬链...')
-  } else {
-    log.info('开始删除硬链...')
+export const startLog = (options: LogOptions, isWhiteList: boolean) => {
+  const messageMap: Record<keyof LogOptions, string> = {
+    source: '  源地址:',
+    dest: '  目标地址:',
+    extname: isWhiteList ? '  包含的后缀有:' : '  排除的后缀有:',
+    // maxLevel: '  最大查找层级为:',
+    saveMode: '  硬链保存模式:',
+    openCache: '  是否开启缓存:'
   }
+  log.info('配置检查完毕...')
+  log.info('当前为', chalk.magenta(`${isWhiteList ? '白' : '黑'}名单`), '模式')
+  log.info('当前配置为:')
+  Object.keys(messageMap).forEach(k => {
+    const keyName = k as keyof LogOptions
+    let message = options[keyName] || '无'
+    if (keyName === 'saveMode') {
+      message = saveModeMessage[message as number]
+    }
+    if (keyName === 'openCache') {
+      message = message ? '是' : '否'
+    }
+    if (message) {
+      log.info(messageMap[keyName], chalk.magenta(message))
+    }
+  })
+  console.log()
+  log.info('开始执行创建任务...')
+  return Date.now()
 }
 
 export const endLog = (
   successCount: number,
   failCount: number,
   jumpCount: number,
-  cacheCount: number,
-  excludeCount: number,
-  isDelete: boolean
+  startTime: number
 ) => {
-  const totalCount =
-    successCount + failCount + jumpCount + cacheCount + excludeCount
-  log.info(
-    isDelete ? '硬链删除完毕' : '硬链创建完毕...',
-    '总数',
-    chalk.magenta(totalCount),
-    '条'
-  )
-  if (!totalCount) {
-    log.warn('当前目录没有满足配置条件的文件')
-  } else {
+  const totalCount = successCount + failCount + jumpCount
+  if (totalCount) {
+    log.info('硬链创建完毕...', '执行总数', chalk.magenta(totalCount), '条')
     log.info('  成功', chalk.green(successCount), '条')
     log.info('  失败', chalk.red(failCount), '条')
     log.info('  跳过', chalk.yellow(jumpCount), '条')
-    log.info('  跳过不满足配置的文件', chalk.yellow(excludeCount), '条')
-    log.info(
-      '  跳过之前的创建记录',
-      chalk.yellow(cacheCount),
-      '条, 如果需要重新创建，请在删除或编辑文件',
-      chalk.cyan(cachePath)
-    )
   }
+  log.info(
+    '共计耗时',
+    chalk.cyan(Math.ceil((Date.now() - startTime) / 1000)),
+    '秒'
+  )
 }
 
 /**
