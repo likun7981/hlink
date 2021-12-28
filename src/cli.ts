@@ -23,7 +23,7 @@ const cli = meow(
     $ hlink backup /path/to/back
     ${chalk.gray('还原hlink目录缓存等 还原路径')}
     $ hlink restore /path/to/restore
-    ${chalk.gray('还原hlink目录缓存等 还原路径')}
+    ${chalk.gray('移除源文件及通过hlink创建的相关硬链')}
     $ hlink rm /path/to/rm
 
   可配置选项:

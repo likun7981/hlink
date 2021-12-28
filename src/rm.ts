@@ -33,8 +33,7 @@ async function rm(rmFileOrDir: string) {
         }
       })
     })
-    // const task = [execa('rm', ['-r', fileOrDir]]
-    const task = []
+    const task: any[] = [execa('rm', ['-r', fileOrDir])];
     if (rmFiles.length) {
       task.push(execa('rm', ['-r'].concat(rmFiles)));
       task.push(...dest.map(deleteEmptyDir))

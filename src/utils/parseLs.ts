@@ -22,6 +22,9 @@ function parseLs(
     } else {
       prevIsBlank = false
       file = file.trim() // 清除收尾空格
+      if(file.endsWith('*')) {
+        file = file.slice(0, file.lastIndexOf('*'))
+      }
       const [number, filepath] = getFileAndNumber(file)
       const fullPath = path.join(
         currentDir
