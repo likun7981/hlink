@@ -9,11 +9,11 @@ class Config<T extends Array<string> | Record<string, any>> {
     defaultValue: T,
     saveDir: string = path.join(os.homedir(), '.hlink')
   ) {
-    this.jsonPath = path.join(saveDir, jsonFilename)
     if (!fs.existsSync(saveDir)) {
       fs.ensureDirSync(saveDir)
       this.write(defaultValue)
     }
+    this.jsonPath = path.join(saveDir, jsonFilename)
   }
   write(content: T) {
     fs.writeJSONSync(this.jsonPath, content, {
