@@ -7,7 +7,7 @@ function parseLs(
   callback: (num: string, fullPath: string) => void
 ) {
   var str = execa.sync('ls', ['-iRF', dir]).stdout
-  const files = str.split('\n').filter(a => !a?.endsWith(path.sep))
+  const files = str.split('\n').filter(a => !a?.endsWith('/'))
   let currentDir = ''
   let prevIsBlank = true // 记录上一行是否是空行
   files.forEach((file: string) => {

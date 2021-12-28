@@ -39,8 +39,8 @@ function parseConfig(configPath: string) {
   return {
     saveMode,
     maxFindLevel,
-    source,
-    dest,
+    source: path.resolve(source),
+    dest: path.resolve(source),
     includeExtname: includeExtname?.join(','),
     excludeExtname: excludeExtname?.join(','),
     openCache,
