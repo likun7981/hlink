@@ -14,7 +14,7 @@ function saveRecord(source: string, dest: string, isDelete: boolean) {
       }
     } else {
       // 增加
-      savedPath[source] = savedDestPath.concat(dest)
+      savedPath[source] = Array.from(new Set([...savedDestPath, dest]))
     }
   } else {
     // 新创建

@@ -84,14 +84,12 @@ export const startLog = (options: LogOptions, isWhiteList: boolean) => {
   })
   console.log()
   log.info('开始执行创建任务...')
-  return Date.now()
 }
 
 export const endLog = (
   successCount: number,
   failCount: number,
-  jumpCount: number,
-  startTime: number
+  jumpCount: number
 ) => {
   const totalCount = successCount + failCount + jumpCount
   if (totalCount) {
@@ -100,11 +98,6 @@ export const endLog = (
     log.info('  失败', chalk.red(failCount), '条')
     log.info('  跳过', chalk.yellow(jumpCount), '条')
   }
-  log.info(
-    '共计耗时',
-    chalk.cyan(Math.ceil((Date.now() - startTime) / 1000)),
-    '秒'
-  )
 }
 
 /**

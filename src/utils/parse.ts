@@ -92,10 +92,9 @@ async function parse(input: Array<string>, options: any) {
     openCache: configOpenCache,
     mkdirIfSingle: configMkdirIfSingle
   } = parseConfig(configPath)
-  source = source || configSource
+  source = source || configSource || ''
   sourceDir = sourceDir || source
-  dest = dest || configDest
-  dest = dest || configDest
+  dest = dest || configDest || ''
   const { s, i, m, e, openCache, mkdirIfSingle } = options
   const exts = (i || ie || '')
     .split(',')

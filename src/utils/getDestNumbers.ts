@@ -1,21 +1,15 @@
-import execa from 'execa'
 import getFileAndNumber from './getFileAndNumber'
-import fs from 'fs-extra'
+import lsirf from './lsirf';
 
 function getDestNumbers(dest: string) {
   let result: string[] = []
-
-  if (fs.existsSync(dest)) {
-    execa
-      .sync('ls', ['-iRF', dest])
-      .stdout.split('\n')
-      .forEach(file => {
-        if (Boolean(file) && !file.endsWith('/') && !file.endsWith(':')) {
-          const [number] = getFileAndNumber(file)
-          result.push(number)
-        }
-      })
-  }
+  lsirf(dest, true).split('\n')
+    .forEach(file => {
+      if (Boolean(file) && !file.endsWith('/') && !file.endsWith(':')) {
+        const [number] = getFileAndNumber(file)
+        result.push(number)
+      }
+    })
   return {
     result
   }

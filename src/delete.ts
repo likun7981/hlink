@@ -1,16 +1,18 @@
 import chalk from 'chalk'
 import execa from 'execa'
 import { log } from './utils'
+import createTimeLog  from './utils/timeLog'
 import deleteEmptyDir from './utils/deleteEmptyDir'
 import getDeleteList from './utils/getDeleteList'
 
+const timeLog = createTimeLog()
 /**
  *
  * @param source 源地址
  * @param dest 目标地址
  */
 async function deleteLinks(source: string, dest: string) {
-  const startTime = Date.now()
+  timeLog.start()
   const deleteList = getDeleteList(source, dest)
   log.info('开始执行删除:')
   log.info('源地址:', chalk.cyan(source))
@@ -20,11 +22,7 @@ async function deleteLinks(source: string, dest: string) {
     await execa('rm', deleteList)
     await deleteEmptyDir(dest) // 清除空文件夹
     log.success('硬链接全部删除完成')
-    log.info(
-      '共计耗时',
-      chalk.cyan(Math.ceil((Date.now() - startTime) / 1000)),
-      '秒'
-    )
+    timeLog.end()
   } else {
     log.info('没有找到相关的硬链')
   }

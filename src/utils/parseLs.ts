@@ -1,14 +1,14 @@
-import execa from 'execa'
 import path from 'path'
 import getFileAndNumber from './getFileAndNumber'
+import lsirf from './lsirf'
 
 function parseLs(
   dir: string,
   callback: (num: string, fullPath: string) => void
 ) {
-  var str = execa.sync('ls', ['-iRF', dir]).stdout
+  var str = lsirf(dir);
   const files = str.split('\n').filter(a => !a?.endsWith('/'))
-  let currentDir = ''
+  let currentDir = '.'
   let prevIsBlank = true // 记录上一行是否是空行
   files.forEach((file: string) => {
     // 上一行是空行，并且是:结尾，表示是目录

@@ -24,10 +24,6 @@ module.exports = {
    */
   excludeExtname: [],
   /**
-   * 最大的查找目录级别, 最大为6，太大的话可能会卡死
-   */
-  maxFindLevel: 4,
-  /**
    * 0：保持原有的目录结构
    * 1：只保存一级目录结构
    * 默认为 0
@@ -44,7 +40,7 @@ module.exports = {
    *
    * 打开后，每次硬链后会把对应文件存入缓存，就算下次删除硬链，也不会进行硬链
    */
-  openCache: true,
+  openCache: false,
   /**
    * 是否为独立文件创建同名文件夹，默认创建
    */

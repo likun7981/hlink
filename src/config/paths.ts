@@ -8,6 +8,6 @@ export const configName = 'hlink.config.js'
 export const configPath = path.join(os.homedir(), configName)
 export const cachePath = path.join(hlinkHomeDir, 'cache.json')
 
-export const deleteConfig = new Config('cacheForDelete.json')
+export const deleteConfig = new Config<Record<string, string[]>>('cacheForDelete.json', {})
 
-export const cacheConfig = new Config('cache.json', true)
+export const cacheConfig = new Config<Array<string>>('cache.json', [])

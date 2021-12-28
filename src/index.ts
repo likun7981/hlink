@@ -8,11 +8,13 @@ import {
 import saveRecord from './config/saveRecord'
 import parse from './utils/parse'
 import analyse from './utils/analyse'
+import createTimeLog from './utils/timeLog'
 import deleteLinks from './delete'
 import link from './link'
 import saveCache from './config/saveCache'
 import chalk from 'chalk'
 
+const timeLog = createTimeLog();
 async function hardLink(input: string[], options: any): Promise<void> {
   const config = await parse(input, options)
   const {
@@ -29,7 +31,7 @@ async function hardLink(input: string[], options: any): Promise<void> {
   } = config
   if (!isDelete) {
     const isWhiteList = !!exts.length
-    const startTime = startLog(
+    startLog(
       {
         extname: (isWhiteList ? exts : excludeExts).join(','),
         // maxLevel: maxFindLevel,
@@ -40,6 +42,7 @@ async function hardLink(input: string[], options: any): Promise<void> {
       },
       isWhiteList
     )
+    timeLog.start()
     const { waitLinkFiles } = analyse({
       source,
       dest,
@@ -84,7 +87,8 @@ async function hardLink(input: string[], options: any): Promise<void> {
       )
       saveCache(waitLinkFiles)
     }
-    endLog(successCount, failCount, jumpCount, startTime)
+    endLog(successCount, failCount, jumpCount)
+    timeLog.end()
   } else {
     deleteLinks(source, dest)
   }

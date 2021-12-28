@@ -11,13 +11,20 @@ import * as paths from './config/paths'
 import { log } from './utils'
 import execa from 'execa'
 import os from 'os'
+import rm from './rm'
 
 const cli = meow(
   `
   QQ反馈群号：${chalk.cyanBright('807101297')}
 
   用法:
-    $ hlink [--Options] [sourceDir] distDir
+    $ hlink [--Options] [sourceDir] destPath
+    ${chalk.gray('备份hlink目录缓存等 备份路径')}
+    $ hlink backup /path/to/back
+    ${chalk.gray('还原hlink目录缓存等 还原路径')}
+    $ hlink restore /path/to/restore
+    ${chalk.gray('还原hlink目录缓存等 还原路径')}
+    $ hlink rm /path/to/rm
 
   可配置选项:
     --saveMode,-s         保存模式,默认为模式0
@@ -42,15 +49,13 @@ const cli = meow(
       打开后,每次硬链后会把对应文件存入缓存,就算下次删除硬链，也不会进行硬链
 
     --mkdirIfSingle       是否为独立文件创建同名文件夹,默认为true,会创建
-    --backup              备份hlink目录缓存等 备份路径
-    --restore             还原hlink目录缓存等 还原路径
 
   例子:
     ${chalk.grey('# 创建 /share/download 下面文件到目标地址 /share/movie')}
     $ hlink /share/download /share/movie
 
     ${chalk.grey(
-      '# 删除 /share/download 下面文件在 /share/movie 下面的对应硬链的文件夹'
+      '# 删除 /share/download 中文件在 /share/movie 下面的对应硬链的文件'
     )}
     $ hlink -d /share/download /share/movie
 
@@ -116,42 +121,57 @@ const cli = meow(
   }
 )
 const flags = cli.flags
+const [_command, _path] = cli.input
 
-if (flags.backup) {
-  execa.sync('cp', ['-r', paths.hlinkHomeDir, flags.backup])
-} else if (flags.restore) {
-  execa.sync('cp', [
-    '-r',
-    flags.restore.indexOf('.hlink')
-      ? flags.restore
-      : path.join(flags.restore, '.hlink'),
-    os.homedir()
-  ])
-} else {
-  if (flags.r) {
-    if (fs.existsSync(flags.c || paths.configPath)) {
-      fs.unlinkSync(flags.c || paths.configPath)
-      log.success('移除配置文件成功')
-      console.log()
-    } else {
-      log.warn('您并没有创建配置文件')
-      console.log()
+switch (_command) {
+  case 'backup':
+    if (!_path) {
+      log.warn('请输入需要备份的路径', chalk.cyan('hlink backup 路径'))
+      break
     }
-  } else if ('g' in flags) {
-    createConfig(
-      !!flags.g
-        ? path.isAbsolute(flags.g)
-          ? path.join(flags.g, paths.configName)
-          : path.join(process.cwd(), flags.g, paths.configName)
-        : undefined
-    )
-  } else {
-    hardLink(cli.input, flags)
-  }
+    execa.sync('cp', ['-r', paths.hlinkHomeDir, flags.backup])
+    break
+  case 'restore':
+    if (!_path) {
+      log.warn('请输入需要还原的文件路径', chalk.cyan('hlink restore 路径'))
+      break
+    }
+    execa.sync('cp', [
+      '-r',
+      flags.restore.indexOf('.hlink')
+        ? flags.restore
+        : path.join(flags.restore, '.hlink'),
+      os.homedir()
+    ])
+    break
+  case 'remove':
+  case 'rm':
+    rm(_path);
+    break
+  default:
+    if (flags.r) {
+      if (fs.existsSync(flags.c || paths.configPath)) {
+        fs.unlinkSync(flags.c || paths.configPath)
+        log.success('移除配置文件成功')
+        console.log()
+      } else {
+        log.warn('您并没有创建配置文件')
+        console.log()
+      }
+    } else if ('g' in flags) {
+      createConfig(
+        !!flags.g
+          ? path.isAbsolute(flags.g)
+            ? path.join(flags.g, paths.configName)
+            : path.join(process.cwd(), flags.g, paths.configName)
+          : undefined
+      )
+    } else {
+      hardLink(cli.input, flags)
+    }
 }
 
 process.on('SIGINT', function() {
-  log.info('手动中断')
-
+  log.info('由于你手动中断, 已硬链的文件不会进行缓存')
   process.exit()
 })
