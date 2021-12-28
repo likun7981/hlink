@@ -1,6 +1,7 @@
 import path from 'path'
 import getFileAndNumber from './getFileAndNumber'
 import lsirf from './lsirf'
+import fs from 'fs-extra'
 
 function parseLs(
   dir: string,
@@ -22,11 +23,8 @@ function parseLs(
     } else {
       prevIsBlank = false
       file = file.trim() // 清除收尾空格
-      if(file.endsWith('*')) {
-        file = file.slice(0, file.lastIndexOf('*'))
-      }
       const [number, filepath] = getFileAndNumber(file)
-      const fullPath = path.join(
+      let fullPath = path.join(
         currentDir
           ? path.isAbsolute(currentDir)
             ? currentDir
@@ -34,6 +32,9 @@ function parseLs(
           : '',
         filepath
       )
+      if(!fs.existsSync(fullPath) && fullPath.endsWith('*')) {
+        fullPath = fullPath.slice(0, fullPath.lastIndexOf('*'))
+      }
       callback(number, fullPath)
     }
   })
