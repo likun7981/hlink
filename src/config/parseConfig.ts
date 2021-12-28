@@ -40,7 +40,7 @@ function parseConfig(configPath: string) {
     saveMode,
     maxFindLevel,
     source: path.resolve(source),
-    dest: path.resolve(source),
+    dest: path.resolve(dest),
     includeExtname: includeExtname?.join(','),
     excludeExtname: excludeExtname?.join(','),
     openCache,
