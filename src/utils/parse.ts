@@ -65,7 +65,6 @@ async function parseInput(input: Array<string>, isDelete: boolean) {
 
 function getConfig(ci: any, config: any, defaultValue: any) {
   if (typeof ci === 'undefined') {
-    console.log(config)
     if (typeof config === 'undefined') {
       return defaultValue
     }
