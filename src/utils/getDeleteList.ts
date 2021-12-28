@@ -8,7 +8,7 @@ function getAllFiles(dir: string) {
     } else {
       numbersKey[number] = [fullPath]
     }
-  })
+  }, true)
   return numbersKey
 }
 

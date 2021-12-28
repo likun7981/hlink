@@ -5,9 +5,10 @@ import fs from 'fs-extra'
 
 function parseLs(
   dir: string,
-  callback: (num: string, fullPath: string) => void
+  callback: (num: string, fullPath: string) => void,
+  ignoreError = false,
 ) {
-  var str = lsirf(dir);
+  var str = lsirf(dir, ignoreError);
   const files = str.split('\n').filter(a => !a?.endsWith('/'))
   let currentDir = '.'
   let prevIsBlank = true // 记录上一行是否是空行
