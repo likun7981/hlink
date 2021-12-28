@@ -65,6 +65,7 @@ async function parseInput(input: Array<string>, isDelete: boolean) {
 
 function getConfig(ci: any, config: any, defaultValue: any) {
   if (typeof ci === 'undefined') {
+    console.log(config)
     if (typeof config === 'undefined') {
       return defaultValue
     }
@@ -106,7 +107,7 @@ async function parse(input: Array<string>, options: any) {
     .map((s: string) => s.toLowerCase())
   const saveMode = +(s || sm || 0)
   const maxFindLevel = +(m || mfl || 4)
-  const finalOpenCache = getConfig(openCache, configOpenCache, true)
+  const finalOpenCache = getConfig(openCache, configOpenCache, false)
   const finalMkdirIfSingle = getConfig(mkdirIfSingle, configMkdirIfSingle, true)
   checkDirectory(source, dest)
   checkFindLevel(maxFindLevel)
