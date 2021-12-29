@@ -5,7 +5,6 @@ import {
   log,
   getDirBasePath
 } from './utils'
-import saveRecord from './config/saveRecord'
 import parse from './utils/parse'
 import analyse from './utils/analyse'
 import createTimeLog from './utils/timeLog'
@@ -13,8 +12,11 @@ import deleteLinks from './delete'
 import link from './link'
 import saveCache from './config/saveCache'
 import chalk from 'chalk'
+import path from 'path'
+import { saveFileRecord } from './config/fileRecord'
+import saveRecord from './config/saveRecord'
 
-const timeLog = createTimeLog();
+const timeLog = createTimeLog()
 async function hardLink(input: string[], options: any): Promise<void> {
   const config = await parse(input, options)
   const {
@@ -43,7 +45,7 @@ async function hardLink(input: string[], options: any): Promise<void> {
       isWhiteList
     )
     timeLog.start()
-    const { waitLinkFiles } = analyse({
+    const { waitLinkFiles, sourceListUseNumberKey } = analyse({
       source,
       dest,
       exts,
@@ -88,6 +90,14 @@ async function hardLink(input: string[], options: any): Promise<void> {
       saveCache(waitLinkFiles)
     }
     endLog(successCount, failCount, jumpCount)
+    Object.keys(sourceListUseNumberKey).map(inode => {
+      const sourceFile = sourceListUseNumberKey[inode]
+      const destFile = path.join(
+        getOriginalDestPath(sourceFile, source, dest, saveMode, mkdirIfSingle),
+        path.basename(sourceFile)
+      )
+      saveFileRecord([sourceFile, destFile], inode)
+    })
     timeLog.end()
   } else {
     deleteLinks(source, dest)

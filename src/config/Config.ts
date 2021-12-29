@@ -2,7 +2,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import os from 'os'
 
-class Config<T extends Array<string> | Record<string, any>> {
+class Config<T extends Array<any> | Record<string, any>> {
   private jsonPath: string
   private saveDir: string
   private defaultValue: T
