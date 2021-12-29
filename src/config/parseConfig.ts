@@ -16,7 +16,6 @@ function parseConfig(configPath: string) {
     dest,
     includeExtname,
     excludeExtname,
-    maxFindLevel,
     openCache,
     mkdirIfSingle,
   } = require(configPath)
@@ -38,7 +37,6 @@ function parseConfig(configPath: string) {
   }
   return {
     saveMode,
-    maxFindLevel,
     source: path.resolve(source),
     dest: path.resolve(dest),
     includeExtname: includeExtname?.join(','),

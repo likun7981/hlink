@@ -15,18 +15,6 @@ function checkSaveMode(saveMode: number) {
     saveMode
   )
 }
-function checkFindLevel(level: number) {
-  warning(
-    Number.isNaN(level),
-    '查找的最大层级maxFindLevel必须设置为数字',
-    '当前配置为',
-    level
-  )
-  if (level > 6) {
-    log.warn('最大层级maxFindLevel大于6 可能会有性能问题! 请根据情况自行处理')
-  }
-  warning(level < 1, '保存的最大层级maxFindLevel不能小于1', '当前配置为', level)
-}
 
 function checkDirectory(source: string, dest: string) {
   warning(!source || !dest, '必须指定原地址和目标地址')
@@ -83,7 +71,6 @@ async function parse(input: Array<string>, options: any) {
     isDelete
   )
   const {
-    maxFindLevel: mfl,
     saveMode: sm,
     includeExtname: ie,
     excludeExtname: ee,
@@ -105,15 +92,12 @@ async function parse(input: Array<string>, options: any) {
     .filter(Boolean)
     .map((s: string) => s.toLowerCase())
   const saveMode = +(s || sm || 0)
-  const maxFindLevel = +(m || mfl || 4)
   const finalOpenCache = getConfig(openCache, configOpenCache, false)
   const finalMkdirIfSingle = getConfig(mkdirIfSingle, configMkdirIfSingle, true)
   checkDirectory(source, dest)
-  checkFindLevel(maxFindLevel)
   checkSaveMode(saveMode)
   return {
     saveMode,
-    maxFindLevel,
     excludeExts,
     exts,
     source,

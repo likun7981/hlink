@@ -24,7 +24,6 @@ async function hardLink(input: string[], options: any): Promise<void> {
     saveMode,
     dest,
     isDelete,
-    // maxFindLevel,
     exts,
     excludeExts,
     sourceDir,
@@ -36,7 +35,6 @@ async function hardLink(input: string[], options: any): Promise<void> {
     startLog(
       {
         extname: (isWhiteList ? exts : excludeExts).join(','),
-        // maxLevel: maxFindLevel,
         saveMode,
         source,
         dest,

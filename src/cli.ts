@@ -33,10 +33,6 @@ const cli = meow({
       default: '',
       alias: 'e'
     },
-    maxFindLevel: {
-      type: 'string',
-      alias: 'm'
-    },
     delete: {
       type: 'boolean',
       alias: 'd'

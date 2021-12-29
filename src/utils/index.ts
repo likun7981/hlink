@@ -48,7 +48,6 @@ export function getDirBasePath(baseDir: string, filepath: string) {
 
 type LogOptions = {
   extname: string
-  // maxLevel: number
   saveMode: number
   source: string
   dest: string
@@ -62,7 +61,6 @@ export const startLog = (options: LogOptions, isWhiteList: boolean) => {
     source: '  源地址:',
     dest: '  目标地址:',
     extname: isWhiteList ? '  包含的后缀有:' : '  排除的后缀有:',
-    // maxLevel: '  最大查找层级为:',
     saveMode: '  硬链保存模式:',
     openCache: '  是否开启缓存:'
   }
