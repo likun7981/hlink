@@ -7,7 +7,7 @@ type CallbackType = (num: string, fullPath: string) => void
 function parseLs(dir: string, callback: CallbackType, ignoreError = false) {
   const str = lsirf(dir, ignoreError)
   const files = str.split('\n').filter(a => !a?.endsWith('/'))
-  let currentDir = '.'
+  let currentDir = dir
   let prevIsBlank = true // 记录上一行是否是空行
   files.forEach((file: string) => {
     // 上一行是空行，并且是:结尾，表示是目录

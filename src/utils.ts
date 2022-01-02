@@ -85,19 +85,17 @@ export const startLog = (options: LogOptions) => {
   const { isWhiteList } = options
 
   const messageMap: Record<keyof LogOptions, string> = {
-    source: '  源地址:',
-    dest: '  目标地址:',
-    isWhiteList: '  当前运行模式:',
-    extname: isWhiteList ? '  包含的后缀有:' : '  排除的后缀有:',
-    saveMode: '  硬链保存模式:',
-    openCache: '  是否开启缓存:'
+    source: '源地址:',
+    dest: '目标地址:',
+    isWhiteList: '当前运行模式:',
+    extname: isWhiteList ? '包含的后缀有:' : '排除的后缀有:',
+    saveMode: '硬链保存模式:',
+    openCache: '是否开启缓存:'
   }
-  log.success('配置检查完毕!')
-  log.info('当前为', chalk.magenta(`${isWhiteList ? '白' : '黑'}名单`), '模式')
-  log.info('当前配置为:')
+  log.success('配置检查完毕!现有配置为')
   Object.keys(messageMap).forEach(k => {
     const keyName = k as keyof LogOptions
-    let message = options[keyName] || '无'
+    let message = options[keyName]
     if (keyName === 'saveMode') {
       message = saveModeMessage[message as number]
     }
@@ -105,27 +103,37 @@ export const startLog = (options: LogOptions) => {
       message = message ? '是' : '否'
     }
     if (keyName === 'isWhiteList') {
-      message = message ? '白名单' : '黑名单'
+      message = message ? '白名单' : '黑名单' + '模式'
     }
     if (message) {
       log.info(messageMap[keyName], chalk.magenta(message))
     }
   })
   console.log()
-  log.info('开始执行创建任务...')
 }
 
 export const endLog = (
   successCount: number,
   failCount: number,
-  jumpCount: number
+  jumpCount: number,
+  failFiles: Record<string, string[]>
 ) => {
   const totalCount = successCount + failCount + jumpCount
   if (totalCount) {
     log.success('执行完毕!', '总计', chalk.magenta(totalCount), '条')
     log.info('  成功', chalk.green(successCount), '条')
     log.info('  失败', chalk.red(failCount), '条')
-    log.info('  跳过', chalk.yellow(jumpCount), '条')
+    // jumpCount && log.info('  跳过', chalk.yellow(jumpCount), '条')
+  }
+  const failReasons = Object.keys(failFiles)
+  if(failReasons.length) {
+    console.log()
+    log.warn('以下文件存在问题:')
+    failReasons.forEach((key) => {
+      log.warn('',chalk.yellow(key+':'))
+      failFiles[key].forEach((v) => log.warn('','', v))
+    })
+    console.log()
   }
 }
 

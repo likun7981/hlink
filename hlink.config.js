@@ -42,6 +42,6 @@ export default {
    */
   saveMode: 0,
   openCache: false,
-  mkdirIfSingle: true,
+  mkdirIfSingle: false,
   delete: true,
 }

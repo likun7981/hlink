@@ -53,6 +53,7 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
   let successCount = 0
   let jumpCount = 0
   let failCount = 0
+  let failFiles: Record<string, string[]> = {}
   if (waitLinkFiles.length) {
     const count = 21
     let c = 0
@@ -79,10 +80,23 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
             saveMode,
             mkdirIfSingle
           )
-          const counts = await link(sourceFilePath, originalDestPath)
+          const counts = await link(
+            sourceFilePath,
+            originalDestPath,
+            source,
+            dest
+          )
           failCount += counts.failCount
           successCount += counts.successCount
-          bar.tick(counts.successCount, {
+          if (counts.failFiles.length) {
+            const [reason, detailed] = counts.failFiles
+            if (failFiles[reason]) {
+              failFiles[reason].push(detailed)
+            } else {
+              failFiles[reason] = [detailed]
+            }
+          }
+          bar.tick(counts.successCount + counts.failCount, {
             file: chalk.gray(getDirBasePath(source, sourceFilePath))
           })
         })
@@ -91,7 +105,7 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     }
     saveCache(waitLinkFiles)
   }
-  endLog(successCount, failCount, jumpCount)
+  endLog(successCount, failCount, jumpCount, failFiles)
   log.info('正在写入缓存...')
   Object.keys(sourceMap).map(inode => {
     const sourceFile = sourceMap[inode]
@@ -101,7 +115,7 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     )
     saveFileRecord([sourceFile, destFile], inode)
   })
-  log.success('写入成功!')
+  log.success('缓存写入成功!')
   timeLog.end()
 }
 
