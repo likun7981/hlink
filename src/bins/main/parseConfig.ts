@@ -1,9 +1,16 @@
 import fs from 'fs-extra'
-import { warning } from '../utils'
+import { warning } from '../../utils.js'
 import path from 'path'
 import chalk from 'chalk'
 
-function parseConfig(configPath: string) {
+type Config = Pick<IHlink.Flags, 'mkdirIfSingle' | 'saveMode' | 'openCache'> & {
+  source: string
+  dest: string
+  includeExtname?: string[]
+  excludeExtname?: string[]
+}
+
+async function parseConfig(configPath: string) {
   configPath = path.isAbsolute(configPath)
     ? configPath
     : path.join(process.cwd(), configPath)
@@ -17,8 +24,8 @@ function parseConfig(configPath: string) {
     includeExtname,
     excludeExtname,
     openCache,
-    mkdirIfSingle,
-  } = require(configPath)
+    mkdirIfSingle
+  } = (await import(configPath)).default as Config
   if (source) {
     warning(
       !path.isAbsolute(source),
@@ -42,7 +49,7 @@ function parseConfig(configPath: string) {
     includeExtname: includeExtname?.join(','),
     excludeExtname: excludeExtname?.join(','),
     openCache,
-    mkdirIfSingle,
+    mkdirIfSingle
   }
 }
 

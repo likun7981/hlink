@@ -1,19 +1,13 @@
-import { fileRecordConfig } from './config/paths'
+import { fileRecord } from '../../paths.js'
 import chokidar from 'chokidar'
-import { log } from './utils'
-import checkPathExist from './utils/checkPathExist'
+import { log, checkPathExist } from '../../utils.js'
 import path from 'path'
-import { deleteRecord, findFiles } from './config/fileRecord'
+import { deleteRecord, findFiles } from '../../config/recordHelp.js'
 import execa from 'execa'
-import deleteEmptyDir from './utils/deleteEmptyDir'
+import deleteEmptyDir from './deleteEmptyDir.js'
 
 async function watch(dir: string) {
-  const allRecord = fileRecordConfig.read()
-  // const status = await fs.stat(dir)
-  // if (!status.isDirectory()) {
-  //   log.error(chalk.cyan(dir), '必须是一个目录')
-  //   process.exit(0)
-  // }
+  const allRecord = fileRecord.read()
   if (dir) {
     dir = path.resolve(dir)
     checkPathExist(dir)

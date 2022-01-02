@@ -1,9 +1,9 @@
 import path from 'path'
-import * as paths from '../config/paths'
-import parseConfig from '../config/parseConfig'
-import { log, warning } from './index'
+import * as paths from '../../paths.js'
+import parseConfig from './parseConfig.js'
+import { warning } from '../../utils.js'
 import fs from 'fs-extra'
-import { deleteQuestion, getSource } from './questions'
+import { Flags } from './index.js'
 
 const resolvePath = (p: string) => (!!p ? path.resolve(p) : p)
 
@@ -22,32 +22,21 @@ function checkDirectory(source: string, dest: string) {
   warning(source === dest, '源地址和目标地址不能相同')
 }
 
-async function parseInput(input: Array<string>, isDelete: boolean) {
+async function parseInput(input: Array<string>) {
   let source = ''
-  let sourceDir = ''
   let dest = ''
 
   if (input.length === 1) {
     source = process.cwd()
-    sourceDir = process.cwd()
     dest = input[0]
   } else if (input.length >= 2) {
     source = input[0]
-    sourceDir = input[0]
     dest = input[1]
-  } else if (isDelete) {
-    const answers = await deleteQuestion()
-    const saveRecords = paths.deleteConfig.read()
-    const [finalSource, finalSourceDir] = getSource(answers)
-    source = finalSource
-    sourceDir = finalSourceDir
-    dest = answers.destDir || saveRecords[finalSourceDir][0]
   }
 
   return {
     source: resolvePath(source),
-    sourceDir: resolvePath(sourceDir),
-    dest: resolvePath(dest),
+    dest: resolvePath(dest)
   }
 }
 
@@ -61,51 +50,48 @@ function getConfig(ci: any, config: any, defaultValue: any) {
   return ci
 }
 
-async function parse(input: Array<string>, options: any) {
-  const isDelete = !!options.d
-
+async function parse(input: Array<string>, options: Flags) {
   let configPath = options.configPath || paths.configPath
-
-  let { source, sourceDir, dest } = await parseInput(
-    input,
-    isDelete
-  )
+  let { source, dest } = await parseInput(input)
   const {
-    saveMode: sm,
-    includeExtname: ie,
-    excludeExtname: ee,
+    saveMode: configSaveMode,
+    includeExtname: configIncludeExtname,
+    excludeExtname: configExcludeExtname,
     source: configSource,
     dest: configDest,
     openCache: configOpenCache,
     mkdirIfSingle: configMkdirIfSingle
-  } = parseConfig(configPath)
+  } = await parseConfig(configPath)
   source = source || configSource || ''
-  sourceDir = sourceDir || source
   dest = dest || configDest || ''
-  const { s, i, m, e, openCache, mkdirIfSingle } = options
-  const exts = (i || ie || '')
+  const {
+    saveMode,
+    includeExtname,
+    excludeExtname,
+    openCache,
+    mkdirIfSingle
+  } = options
+  const exts = (includeExtname || configIncludeExtname || '')
     .split(',')
     .filter(Boolean)
     .map((s: string) => s.toLowerCase())
-  const excludeExts = (e || ee || '')
+  const excludeExts = (excludeExtname || configExcludeExtname || '')
     .split(',')
     .filter(Boolean)
     .map((s: string) => s.toLowerCase())
-  const saveMode = +(s || sm || 0)
+  const finalSaveMode = saveMode || configSaveMode || 0
   const finalOpenCache = getConfig(openCache, configOpenCache, false)
   const finalMkdirIfSingle = getConfig(mkdirIfSingle, configMkdirIfSingle, true)
   checkDirectory(source, dest)
-  checkSaveMode(saveMode)
+  checkSaveMode(finalSaveMode)
   return {
-    saveMode,
+    saveMode: finalSaveMode,
     excludeExts,
     exts,
     source,
     dest,
-    isDelete,
-    sourceDir,
     openCache: finalOpenCache,
-    mkdirIfSingle: finalMkdirIfSingle,
+    mkdirIfSingle: finalMkdirIfSingle
   }
 }
 

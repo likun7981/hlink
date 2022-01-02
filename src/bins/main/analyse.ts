@@ -1,35 +1,32 @@
 import chalk from 'chalk'
 import path from 'path'
-import { log } from '.'
-import { cacheConfig, cachePath } from '../config/paths'
-import getDestNumbers from './getDestNumbers'
-import getSourceList from './getSourceList'
+import { log } from '../../utils.js'
+import { cacheRecord, cachePath } from '../../paths.js'
+import { getInodes, getList } from '../../core/get.js'
 
 type ConfigType = {
   exts: string[]
   excludeExts: string[]
-  isDelete: boolean
   openCache: boolean
   source: string
   dest: string
 }
 
+
 function judge(config: ConfigType) {
   log.info('开始分析源目录..')
-  const { exts, excludeExts, isDelete, openCache, source, dest } = config
-  const { numbersKey: sourceListUseNumberKey, sourceFiles } = getSourceList(
-    source
-  )
-  const { result: destNumbers } = getDestNumbers(dest)
-  const keysOfSourceNumbers = Object.keys(sourceListUseNumberKey)
+  const { exts, excludeExts, openCache, source, dest } = config
+  const { inodeAndFileMap: sourceMap, files: sourceFiles } = getList(source)
+  const dstInodes = getInodes(dest)
+  const keysOfSourceNumbers = Object.keys(sourceMap)
   const existFiles: string[] = []
   const waitLinkFiles: string[] = []
   const excludeFiles: string[] = []
   const cacheFiles: string[] = []
-  const cached = cacheConfig.read()
+  const cached = cacheRecord.read()
   const isWhiteList = !!exts.length
   keysOfSourceNumbers.forEach(num => {
-    const fullPath = sourceListUseNumberKey[num]
+    const fullPath = sourceMap[num]
     const extname = path
       .extname(fullPath)
       .replace('.', '')
@@ -41,7 +38,7 @@ function judge(config: ConfigType) {
       excludeFiles.push(fullPath)
     } else if (openCache && cached.indexOf(fullPath) > -1) {
       cacheFiles.push(fullPath)
-    } else if (destNumbers.indexOf(num) > -1) {
+    } else if (dstInodes.indexOf(num) > -1) {
       existFiles.push(fullPath)
     } else {
       waitLinkFiles.push(fullPath)
@@ -67,7 +64,7 @@ function judge(config: ConfigType) {
     waitLinkFiles,
     excludeFiles,
     cacheFiles,
-    sourceListUseNumberKey
+    sourceMap
   }
 }
 

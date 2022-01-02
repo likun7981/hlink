@@ -1,4 +1,5 @@
 import execa from 'execa'
+
 async function deleteEmptyDir(dir: string) {
   let preResult = ''
   let executeAgain = true

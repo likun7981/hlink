@@ -1,10 +1,11 @@
+import { configPath } from '../../paths.js'
 import fs from 'fs-extra'
-import * as paths from './paths'
-import path from 'path'
 import chalk from 'chalk'
-import { log, warning } from '../utils'
+import path from 'path'
+import { warning, log } from '../../utils.js'
 
-function createConfig(createPath = paths.configPath) {
+export default function createConfig(createPath?: string | false) {
+  createPath = createPath || configPath
   if (fs.existsSync(createPath)) {
     warning(
       fs.existsSync(createPath),
@@ -26,5 +27,3 @@ function createConfig(createPath = paths.configPath) {
     log.error('配置文件创建失败', e)
   }
 }
-
-export default createConfig

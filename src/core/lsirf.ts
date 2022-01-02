@@ -1,4 +1,4 @@
-import execa from "execa"
+import execa from 'execa'
 
 function lsirf(path: string, ignoreError = false) {
   try {

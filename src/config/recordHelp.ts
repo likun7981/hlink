@@ -1,9 +1,9 @@
-import { fileRecordConfig, RecordType } from './paths'
+import { fileRecord, RecordType } from '../paths.js'
 
 export function saveFileRecord(saveFiles: string[], number: string) {
-  const fileRecord = fileRecordConfig.read()
+  const record = fileRecord.read()
   let index = -1
-  fileRecord.some(({ inode }, i) => {
+  record.some(({ inode }, i) => {
     if (number === inode) {
       index = i
     }
@@ -11,17 +11,17 @@ export function saveFileRecord(saveFiles: string[], number: string) {
   })
 
   if (index !== -1) {
-    fileRecord[index] = {
-      files: Array.from(new Set([...fileRecord[index].files, ...saveFiles])),
+    record[index] = {
+      files: Array.from(new Set([...record[index].files, ...saveFiles])),
       inode: number
     }
   } else {
-    fileRecord.push({
+    record.push({
       files: saveFiles,
       inode: number
     })
   }
-  fileRecordConfig.write(fileRecord)
+  fileRecord.write(record)
 }
 
 function filter(records: RecordType[], pathOrNumber: string): RecordType[] {
@@ -33,8 +33,7 @@ function filter(records: RecordType[], pathOrNumber: string): RecordType[] {
 }
 
 export function deleteRecord(filePathOrNumber: string | string[]) {
-  const fileRecord = fileRecordConfig.read()
-  let record = fileRecord
+  let record = fileRecord.read()
 
   if (Array.isArray(filePathOrNumber)) {
     filePathOrNumber.forEach(n => {
@@ -44,7 +43,7 @@ export function deleteRecord(filePathOrNumber: string | string[]) {
     record = record = filter(record, filePathOrNumber)
   }
 
-  fileRecordConfig.write(record)
+  fileRecord.write(record)
 }
 
 function find(records: RecordType[], pathOrNumber: string): string[] {
@@ -65,17 +64,17 @@ function find(records: RecordType[], pathOrNumber: string): string[] {
 }
 
 export function findFiles(filePathOrNumber: string | string[]) {
-  const fileRecord = fileRecordConfig.read()
+  const record = fileRecord.read()
   if (Array.isArray(filePathOrNumber)) {
     return Array.from(
       new Set(
         filePathOrNumber.reduce((result, file) => {
-          result = result.concat(find(fileRecord, file))
+          result = result.concat(find(record, file))
           return result
         }, [] as string[])
       )
     )
   } else {
-    return find(fileRecord, filePathOrNumber)
+    return find(record, filePathOrNumber)
   }
 }
