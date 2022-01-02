@@ -30,7 +30,8 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     exts,
     excludeExts,
     openCache,
-    mkdirIfSingle
+    mkdirIfSingle,
+    configPath
   } = config
   const isWhiteList = !!exts.length
   startLog({
@@ -39,7 +40,8 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     source,
     dest,
     openCache,
-    isWhiteList
+    isWhiteList,
+    configPath,
   })
   timeLog.start()
   const { waitLinkFiles, sourceMap } = analyse({
@@ -49,12 +51,12 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     excludeExts,
     openCache
   })
-  log.info('开始执行...')
   let successCount = 0
   let jumpCount = 0
   let failCount = 0
   let failFiles: Record<string, string[]> = {}
   if (waitLinkFiles.length) {
+    log.info('开始执行...')
     const count = 21
     let c = 0
     const bar = new ProgressBar(
@@ -104,18 +106,18 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
       c += 1
     }
     saveCache(waitLinkFiles)
+    endLog(successCount, failCount, jumpCount, failFiles)
+    log.info('正在写入缓存...')
+    Object.keys(sourceMap).map(inode => {
+      const sourceFile = sourceMap[inode]
+      const destFile = path.join(
+        getOriginalDestPath(sourceFile, source, dest, saveMode, mkdirIfSingle),
+        path.basename(sourceFile)
+      )
+      saveFileRecord([sourceFile, destFile], inode)
+    })
+    log.success('缓存写入成功!')
   }
-  endLog(successCount, failCount, jumpCount, failFiles)
-  log.info('正在写入缓存...')
-  Object.keys(sourceMap).map(inode => {
-    const sourceFile = sourceMap[inode]
-    const destFile = path.join(
-      getOriginalDestPath(sourceFile, source, dest, saveMode, mkdirIfSingle),
-      path.basename(sourceFile)
-    )
-    saveFileRecord([sourceFile, destFile], inode)
-  })
-  log.success('缓存写入成功!')
   timeLog.end()
 }
 

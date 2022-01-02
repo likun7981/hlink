@@ -1,7 +1,7 @@
 import path from 'path'
 import * as paths from '../../paths.js'
 import parseConfig from './parseConfig.js'
-import { warning } from '../../utils.js'
+import { checkPathExist, log, warning } from '../../utils.js'
 import fs from 'fs-extra'
 import { Flags } from './index.js'
 
@@ -51,6 +51,10 @@ function getConfig(ci: any, config: any, defaultValue: any) {
 }
 
 async function parse(input: Array<string>, options: Flags) {
+  options.configPath = path.isAbsolute(options.configPath) ? options.configPath : path.resolve(options.configPath)
+  if(options.configPath && !(await checkPathExist(options.configPath, true))) {
+    log.warn('指定的配置文件不存在，全部使用命令行配置项')
+  }
   let configPath = options.configPath || paths.configPath
   let { source, dest } = await parseInput(input)
   const {
@@ -91,7 +95,8 @@ async function parse(input: Array<string>, options: Flags) {
     source,
     dest,
     openCache: finalOpenCache,
-    mkdirIfSingle: finalMkdirIfSingle
+    mkdirIfSingle: finalMkdirIfSingle,
+    configPath: (await checkPathExist(configPath, true)) ? configPath : false
   }
 }
 

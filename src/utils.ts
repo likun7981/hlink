@@ -2,6 +2,7 @@ import chalk, { Chalk } from 'chalk'
 import fs from 'fs-extra'
 import path from 'path'
 import singleLog from 'single-line-log'
+import { configPath } from './paths';
 
 const { stat }  = fs;
 
@@ -50,13 +51,18 @@ export function makeOnly(arr: any[]) {
   return Array.from(new Set(arr))
 }
 
-export async function checkPathExist(path: string) {
+export async function checkPathExist(path: string, ignore = false) {
   try {
     await stat(path)
+    return true;
   } catch (e) {
-    console.log(e)
-    log.error('无法访问路径', chalk.cyan(path))
-    process.exit(0)
+    if(!ignore) {
+      console.log(e)
+      log.error('无法访问路径', chalk.cyan(path))
+      process.exit(0)
+    } else {
+      return false
+    }
   }
 }
 
@@ -77,6 +83,7 @@ type LogOptions = {
   dest: string
   openCache: boolean
   isWhiteList: boolean
+  configPath?: string | boolean;
 }
 
 const saveModeMessage = ['保持原有目录结构', '只保存一级目录结构']
@@ -90,7 +97,8 @@ export const startLog = (options: LogOptions) => {
     isWhiteList: '当前运行模式:',
     extname: isWhiteList ? '包含的后缀有:' : '排除的后缀有:',
     saveMode: '硬链保存模式:',
-    openCache: '是否开启缓存:'
+    openCache: '是否开启缓存:',
+    configPath: '使用的配置文件:'
   }
   log.success('配置检查完毕!现有配置为')
   Object.keys(messageMap).forEach(k => {

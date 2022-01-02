@@ -12,7 +12,6 @@ type ConfigType = {
   dest: string
 }
 
-
 function judge(config: ConfigType) {
   log.info('开始分析源目录..')
   const { exts, excludeExts, openCache, source, dest } = config
@@ -58,7 +57,11 @@ function judge(config: ConfigType) {
           : ''
       }`
     )
-  log.info('需要硬链的文件', chalk.cyan(waitLinkFiles.length), '个')
+  if (waitLinkFiles.length) {
+    log.info('需要硬链的文件', chalk.cyan(waitLinkFiles.length), '个')
+  } else {
+    log.info('没有需要硬链的文件')
+  }
   return {
     existFiles,
     waitLinkFiles,
