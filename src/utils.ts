@@ -95,10 +95,10 @@ export const startLog = (options: LogOptions) => {
     source: '源地址:',
     dest: '目标地址:',
     isWhiteList: '当前运行模式:',
+    configPath: '使用的配置文件:',
     extname: isWhiteList ? '包含的后缀有:' : '排除的后缀有:',
     saveMode: '硬链保存模式:',
     openCache: '是否开启缓存:',
-    configPath: '使用的配置文件:'
   }
   log.success('配置检查完毕!现有配置为')
   Object.keys(messageMap).forEach(k => {

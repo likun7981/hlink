@@ -22,6 +22,14 @@ function checkDirectory(source: string, dest: string) {
   warning(source === dest, '源地址和目标地址不能相同')
 }
 
+async function checkConfigFile(configPath: string) {
+  if(configPath && !(await checkPathExist(configPath, true))) {
+    log.warn('指定的配置文件不存在')
+    console.log()
+    process.exit(0)
+  }
+}
+
 async function parseInput(input: Array<string>) {
   let source = ''
   let dest = ''
@@ -52,9 +60,7 @@ function getConfig(ci: any, config: any, defaultValue: any) {
 
 async function parse(input: Array<string>, options: Flags) {
   options.configPath = path.isAbsolute(options.configPath) ? options.configPath : path.resolve(options.configPath)
-  if(options.configPath && !(await checkPathExist(options.configPath, true))) {
-    log.warn('指定的配置文件不存在，全部使用命令行配置项')
-  }
+  await checkConfigFile(options.configPath)
   let configPath = options.configPath || paths.configPath
   let { source, dest } = await parseInput(input)
   const {
