@@ -4,7 +4,6 @@ import execa from 'execa'
 async function deleteEmptyDir(dir: string) {
   let preResult = ''
   let executeAgain = true
-  let count = 0
   while (executeAgain) {
     let result
     try {
@@ -17,7 +16,6 @@ async function deleteEmptyDir(dir: string) {
     } catch (e) {
       executeAgain = false
     }
-    count += 1;
   }
 }
 

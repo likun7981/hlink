@@ -14,12 +14,6 @@ const color: Record<LogLevel, Chalk> = {
   SUCCEED: chalk.black.bgGreen
 }
 
-const copies: Record<LogLevel, string> = {
-  INFO: '信息',
-  WARN: '警告',
-  ERROR: '错误',
-  SUCCEED: '成功'
-}
 
 const getTag = (type: LogLevel) => color[type](` ${type} `)
 
