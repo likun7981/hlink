@@ -19,7 +19,7 @@
     "test": "xo && ava",
     "dev": "tsc -w",
     "clean": "rm -rf lib",
-    "cp": "cp src/config/hlink.config.tpl lib/config/hlink.config.tpl",
+    "cp": "cp src/hlink.config.tpl lib/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
     "prepublishOnly": "npm run build",
     "np": "np --no-cleanup --no-tests --no-yarn",

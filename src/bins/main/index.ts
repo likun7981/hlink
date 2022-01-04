@@ -19,7 +19,7 @@ export default (inputs: string[], flags: Flags) => {
     } else {
       log.warn('您并没有创建配置文件\n')
     }
-  } else if ('g' in flags) {
+  } else if ('generateConfig' in flags) {
     const configPath = path.isAbsolute(flags.generateConfig)
       ? path.join(flags.generateConfig, configName)
       : path.join(process.cwd(), flags.generateConfig, configName)

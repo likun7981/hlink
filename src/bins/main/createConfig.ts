@@ -3,6 +3,7 @@ import fs from 'fs-extra'
 import chalk from 'chalk'
 import path from 'path'
 import { warning, log } from '../../utils.js'
+import { fileURLToPath } from 'url'
 
 export default function createConfig(createPath?: string | false) {
   createPath = createPath || configPath
@@ -14,7 +15,9 @@ export default function createConfig(createPath?: string | false) {
   }
   try {
     fs.ensureDirSync(path.dirname(createPath))
-    const content = fs.readFileSync(path.join(__dirname, './hlink.config.tpl'))
+    const content = fs.readFileSync(
+      path.join(path.dirname(fileURLToPath(import.meta.url)), '../../hlink.config.tpl')
+    )
     fs.writeFileSync(createPath, content)
     log.success('配置文件创建成功, 路径为', chalk.cyan(createPath))
     log.success(
