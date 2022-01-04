@@ -1,5 +1,5 @@
 // 重要说明路径地址都请填写 绝对路径！！！！
-module.exports = {
+export default {
   /**
    * 源地址
    */

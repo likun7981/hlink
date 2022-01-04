@@ -1,8 +1,9 @@
 import { cacheRecord } from '../paths.js'
+import { makeOnly } from '../utils.js'
 
 export function saveCache(sourceCached: string[]) {
   const savedPath: string[] = cacheRecord.read()
-  cacheRecord.write(Array.from(new Set([...savedPath, ...sourceCached ])))
+  cacheRecord.write(makeOnly([...savedPath, ...sourceCached ]))
 }
 
 export const checkCache = (source: string): boolean => {

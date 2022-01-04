@@ -32,6 +32,12 @@ const knownError = Object.keys(errorSuggestion) as Array<
  * @param originalDestPath 硬链文件实际存放的目录(绝对路径)
  * @returns 计数
  */
+
+export type FailType = {
+  reason: string[]
+  path: string
+}
+
 async function link(
   sourceFile: string,
   originalDestPath: string,
@@ -40,7 +46,7 @@ async function link(
 ) {
   let successCount = 0
   let failCount = 0
-  let failFiles: string[] = []
+  let failFiles: FailType | undefined
   // 做硬链接
   try {
     await fs.ensureDir(originalDestPath)
@@ -49,6 +55,10 @@ async function link(
   } catch (e) {
     if (typeof e === 'object' && e instanceof Error) {
       const error = e as ExecaSyncError
+      if (error.signal === 'SIGINT') {
+        global.printOnExit()
+        process.exit(0) // 提前中断
+      }
       const findError = knownError.find(
         (err: string) => (error.stderr || error.message).indexOf(err) > -1
       )
@@ -59,13 +69,18 @@ async function link(
           console.log()
           log.error('出错了!请根据描述自行检查')
         } else if (typeof ignore === 'string') {
-          failFiles = [
-            ignore,
-            `${chalk.gray(getDirBasePath(source, sourceFile))} ${chalk.cyan('-->')} ${getDirBasePath(
-              dest,
-              path.join(originalDestPath, path.basename(sourceFile))
-            )}`
-          ]
+          failFiles = {
+            reason: [
+              ignore,
+              `${chalk.gray(getDirBasePath(source, sourceFile))} ${chalk.cyan(
+                '-->'
+              )} ${getDirBasePath(
+                dest,
+                path.join(originalDestPath, path.basename(sourceFile))
+              )}`
+            ],
+            path: sourceFile
+          }
         }
       } else {
         log.error('未知错误，请截图贴出命令及错误信息询问!')

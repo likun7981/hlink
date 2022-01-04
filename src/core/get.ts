@@ -20,10 +20,14 @@ export function getList(dir: string) {
   const files: string[] = []
   const inodes: string[] = []
   const inodeAndFileMap: Record<string, string> = {}
+  const fileAndInodeMap: Record<string, string> = {}
   parseLs(dir, (inode, fullPath) => {
-    files.push(fullPath)
-    inodes.push(inode)
-    inodeAndFileMap[inode] = fullPath
+    if(inodes.indexOf(inode) === -1) {
+      files.push(fullPath)
+      inodes.push(inode)
+      inodeAndFileMap[inode] = fullPath
+      fileAndInodeMap[fullPath] = inode
+    }
   })
-  return { files, inodeAndFileMap, inodes }
+  return { files, inodeAndFileMap, inodes, fileAndInodeMap }
 }

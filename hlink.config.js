@@ -12,11 +12,11 @@ export default {
   /**
    * 源地址
    */
-  source: '/Users/likun/Projects/github/hlink/node_modules/@babel',
+  source: '/Users/likun/Projects/github/hlink/destDir6',
   /**
    * 目标地址
    */
-  dest: '/Users/likun/Projects/github/hlink/destDir',
+  dest: '/Users/likun/Projects/github/hlink/destDir88',
   /**
    * 需要包含的后缀名,如果不配置该项，会采用以下策略
    *  1. 配置了excludeExtname，则链接文件为排除后的其他文件
@@ -42,6 +42,6 @@ export default {
    */
   saveMode: 0,
   openCache: false,
-  mkdirIfSingle: false,
+  mkdirIfSingle: true,
   delete: true,
 }

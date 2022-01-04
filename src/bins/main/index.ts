@@ -12,9 +12,10 @@ export default (inputs: string[], flags: Flags) => {
   if (flags.help) {
     console.log(helpText)
   } else if (flags.removeConfig) {
-    if (fs.existsSync(flags.configPath || configPath)) {
-      fs.unlinkSync(flags.configPath || configPath)
-      log.success('移除配置文件成功\n')
+    const _configPath = flags.configPath || configPath
+    if (fs.existsSync(_configPath)) {
+      fs.unlinkSync(_configPath)
+      log.success(`移除配置文件成功,${_configPath}\n`)
     } else {
       log.warn('您并没有创建配置文件\n')
     }
@@ -24,6 +25,9 @@ export default (inputs: string[], flags: Flags) => {
       : path.join(process.cwd(), flags.generateConfig, configName)
     createConfig(!!flags.generateConfig && configPath)
   } else {
+    global.printOnExit = () => {
+      log.info('手动打断硬链过程，不会保存缓存')
+    }
     hlink(inputs, flags)
   }
 }

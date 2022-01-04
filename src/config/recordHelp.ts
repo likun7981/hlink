@@ -1,80 +1,106 @@
 import { fileRecord, RecordType } from '../paths.js'
+import { makeOnly } from '../utils.js'
 
-export function saveFileRecord(saveFiles: string[], number: string) {
-  const record = fileRecord.read()
+export function saveFileRecord(
+  sourceFile: string,
+  destFile: string,
+  number: string
+) {
+  const records = fileRecord.read()
   let index = -1
-  record.some(({ inode }, i) => {
-    if (number === inode) {
-      index = i
-    }
+  const record = records.find(({ inode }, i) => {
+    index = i
     return number === inode
   })
 
-  if (index !== -1) {
-    record[index] = {
-      files: Array.from(new Set([...record[index].files, ...saveFiles])),
+  if (record) {
+    records[index] = {
+      source: makeOnly([...record.source, sourceFile]),
+      dest: makeOnly([...record.dest, destFile]),
       inode: number
     }
   } else {
-    record.push({
-      files: saveFiles,
+    records.push({
+      source: [sourceFile],
+      dest: [destFile],
       inode: number
     })
   }
-  fileRecord.write(record)
+  fileRecord.write(records)
 }
 
 function filter(records: RecordType[], pathOrNumber: string): RecordType[] {
   if (Number.isNaN(Number(pathOrNumber))) {
-    return records.filter(({ files }) => files.indexOf(pathOrNumber) === -1)
+    return records.filter(
+      ({ source, dest }) =>
+        makeOnly([...source, ...dest]).indexOf(pathOrNumber) === -1
+    )
   } else {
     return records.filter(({ inode }) => inode !== pathOrNumber)
   }
 }
 
 export function deleteRecord(filePathOrNumber: string | string[]) {
-  let record = fileRecord.read()
+  let records = fileRecord.read()
 
   if (Array.isArray(filePathOrNumber)) {
     filePathOrNumber.forEach(n => {
-      record = filter(record, n)
+      records = filter(records, n)
     })
   } else {
-    record = record = filter(record, filePathOrNumber)
+    records = records = filter(records, filePathOrNumber)
   }
 
-  fileRecord.write(record)
+  fileRecord.write(records)
 }
 
-function find(records: RecordType[], pathOrNumber: string): string[] {
-  return Array.from(
-    new Set(
-      records.reduce((result, { files, inode }) => {
-        if (
-          Number.isNaN(Number(pathOrNumber))
-            ? files.indexOf(pathOrNumber) > -1
-            : inode === pathOrNumber
-        ) {
-          result = result.concat(files)
+type FindResultType = { files: string[]; inodes: string[] }
+
+function find(
+  records: RecordType[],
+  pathOrNumber: string,
+  deleteSource: boolean
+): FindResultType {
+  const inodes: string[] = []
+  const files = makeOnly(
+    records.reduce((result, { source, dest, inode }) => {
+      if (
+        Number.isNaN(Number(pathOrNumber))
+          ? makeOnly([...source, ...dest]).indexOf(pathOrNumber) > -1
+          : inode === pathOrNumber
+      ) {
+        inodes.push(inode)
+        result = result.concat(dest)
+        // 是否删除源文件
+        if (deleteSource) {
+          result = result.concat(source)
         }
-        return result
-      }, [] as string[])
-    )
+      }
+      return result
+    }, [] as string[])
   )
+  return {
+    inodes,
+    files
+  }
 }
 
-export function findFiles(filePathOrNumber: string | string[]) {
+export function findFilesFromRecord(
+  filePathOrNumber: string | string[],
+  deleteSource: boolean = false
+) {
   const record = fileRecord.read()
   if (Array.isArray(filePathOrNumber)) {
-    return Array.from(
-      new Set(
-        filePathOrNumber.reduce((result, file) => {
-          result = result.concat(find(record, file))
-          return result
-        }, [] as string[])
-      )
+    return filePathOrNumber.reduce(
+      (result, file) => {
+        const re = find(record, file, deleteSource)
+        result.files = result.files.concat(makeOnly(re.files))
+        result.inodes = result.inodes.concat(makeOnly(re.inodes))
+        return result
+      },
+      { files: [], inodes: [] } as FindResultType
     )
   } else {
-    return find(record, filePathOrNumber)
+    return find(record, filePathOrNumber, deleteSource)
   }
 }

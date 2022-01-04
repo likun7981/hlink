@@ -1,17 +1,23 @@
 import execa from 'execa'
 
+
 async function deleteEmptyDir(dir: string) {
   let preResult = ''
   let executeAgain = true
+  let count = 0
   while (executeAgain) {
+    let result
     try {
-      const result = (await execa('find', [dir, '-type', 'd', '-empty'])).stdout
+      result = (await execa('find', [dir, '-type', 'd', '-empty'])).stdout
       if (result) {
-        await execa('rmdir', result.split('\n'))
+        await execa('rmdir', result.split('\n').filter(Boolean))
       }
-      executeAgain = preResult !== result && result !== dir
+      executeAgain = preResult !== result && !!result
       preResult = result
-    } catch (e) {}
+    } catch (e) {
+      executeAgain = false
+    }
+    count += 1;
   }
 }
 

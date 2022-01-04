@@ -19,8 +19,8 @@ class Config<T extends Array<any> | Record<string, any>> {
     if (!fs.existsSync(saveDir)) {
       fs.ensureDirSync(saveDir)
     }
+    this.cacheRead = content
     if(this.timeoutHandle) {
-      this.cacheRead = content
       clearTimeout(this.timeoutHandle)
     }
     this.timeoutHandle = setTimeout(() => {

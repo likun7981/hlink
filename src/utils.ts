@@ -1,22 +1,27 @@
 import chalk, { Chalk } from 'chalk'
+import execa from 'execa'
 import fs from 'fs-extra'
 import path from 'path'
-import singleLog from 'single-line-log'
-import { configPath } from './paths';
 
-const { stat }  = fs;
+const { stat } = fs
 
-type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'SUCCESS'
+type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'SUCCEED'
 
 const color: Record<LogLevel, Chalk> = {
   INFO: chalk.black.bgBlue,
   WARN: chalk.black.bgHex('#faad14'),
   ERROR: chalk.black.bgRedBright,
-  SUCCESS: chalk.black.bgGreen
+  SUCCEED: chalk.black.bgGreen
 }
 
-const getTag = (type: 'INFO' | 'WARN' | 'ERROR' | 'SUCCESS') =>
-  color[type](` ${type} `)
+const copies: Record<LogLevel, string> = {
+  INFO: '信息',
+  WARN: '警告',
+  ERROR: '错误',
+  SUCCEED: '成功'
+}
+
+const getTag = (type: LogLevel) => color[type](` ${type} `)
 
 export const log = {
   info: function(...args: any[]) {
@@ -29,13 +34,7 @@ export const log = {
     console.log(getTag('ERROR'), ...args)
   },
   success: function(...args: any[]) {
-    console.log(getTag('SUCCESS'), ...args)
-  },
-  infoSingle: function(...args: any[]) {
-    singleLog.stdout([getTag('INFO'), ...args, '\n'].join(' '))
-  },
-  successSingle: function(...args: any[]) {
-    singleLog.stdout([getTag('SUCCESS'), ...args, '\n'].join(' '))
+    console.log(getTag('SUCCEED'), ...args)
   }
 }
 
@@ -47,18 +46,18 @@ export function warning(warning: boolean, ...message: Array<any>) {
   }
 }
 
-export function makeOnly(arr: any[]) {
+export function makeOnly<T = any>(arr: T[]) {
   return Array.from(new Set(arr))
 }
 
 export async function checkPathExist(path: string, ignore = false) {
   try {
     await stat(path)
-    return true;
+    return true
   } catch (e) {
-    if(!ignore) {
-      console.log(e)
-      log.error('无法访问路径', chalk.cyan(path))
+    if (!ignore) {
+      log.error('无法访问路径', chalk.cyan(path), '请检查是否存在')
+      console.log()
       process.exit(0)
     } else {
       return false
@@ -83,7 +82,7 @@ type LogOptions = {
   dest: string
   openCache: boolean
   isWhiteList: boolean
-  configPath?: string | boolean;
+  configPath?: string | boolean
 }
 
 const saveModeMessage = ['保持原有目录结构', '只保存一级目录结构']
@@ -98,7 +97,7 @@ export const startLog = (options: LogOptions) => {
     configPath: '使用的配置文件:',
     extname: isWhiteList ? '包含的后缀有:' : '排除的后缀有:',
     saveMode: '硬链保存模式:',
-    openCache: '是否开启缓存:',
+    openCache: '是否开启缓存:'
   }
   log.success('配置检查完毕!现有配置为')
   Object.keys(messageMap).forEach(k => {
@@ -134,12 +133,12 @@ export const endLog = (
     // jumpCount && log.info('  跳过', chalk.yellow(jumpCount), '条')
   }
   const failReasons = Object.keys(failFiles)
-  if(failReasons.length) {
+  if (failReasons.length) {
     console.log()
     log.warn('以下文件存在问题:')
-    failReasons.forEach((key) => {
-      log.warn('',chalk.yellow(key+':'))
-      failFiles[key].forEach((v) => log.warn('','', v))
+    failReasons.forEach(key => {
+      log.warn('', chalk.yellow(key + ':'))
+      failFiles[key].forEach(v => log.warn('', '', v))
     })
     console.log()
   }
@@ -187,4 +186,13 @@ export function createTimeLog() {
       log.info('共计耗时', minus, '秒')
     }
   }
+}
+
+export async function rmFiles(files: string[]) {
+  try {
+    await execa('rm', ['-r', ...makeOnly(files)])
+  } catch (e) {
+    // 忽略移除 的错误
+  }
+  return
 }

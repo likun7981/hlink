@@ -31,7 +31,8 @@ const cli = meow({
       alias: 'o'
     },
     mkdirIfSingle: {
-      type: 'boolean'
+      type: 'boolean',
+      alias: 'm'
     },
     delete: {
       type: 'boolean',
@@ -52,10 +53,14 @@ const cli = meow({
     watch: {
       type: 'boolean',
       alias: 'w'
+    },
+    all: {
+      type: 'boolean',
+      alias: 'a'
     }
   }
 })
-const { help, watch, ...flags } = cli.flags as IHlink.Flags
+const { help, watch, all, ...flags } = cli.flags as IHlink.Flags
 const [_command, ...inputs] = cli.input
 
 switch (_command) {
@@ -69,7 +74,8 @@ switch (_command) {
   case 'rm':
     rm(inputs, {
       watch,
-      help
+      help,
+      all
     })
     break
   default:
@@ -84,4 +90,5 @@ process.on('SIGINT', () => {
     console.log()
     global.printOnExit()
   }
+  process.exit(0)
 })

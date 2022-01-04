@@ -41,7 +41,7 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     dest,
     openCache,
     isWhiteList,
-    configPath,
+    configPath
   })
   timeLog.start()
   const { waitLinkFiles, sourceMap } = analyse({
@@ -54,7 +54,8 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
   let successCount = 0
   let jumpCount = 0
   let failCount = 0
-  let failFiles: Record<string, string[]> = {}
+  let failReasons: Record<string, string[]> = {}
+  let failFiles: string[] = []
   if (waitLinkFiles.length) {
     log.info('开始执行...')
     const count = 21
@@ -90,13 +91,14 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
           )
           failCount += counts.failCount
           successCount += counts.successCount
-          if (counts.failFiles.length) {
-            const [reason, detailed] = counts.failFiles
-            if (failFiles[reason]) {
-              failFiles[reason].push(detailed)
+          if (counts.failFiles) {
+            const [reason, detailed] = counts.failFiles.reason
+            if (failReasons[reason]) {
+              failReasons[reason].push(detailed)
             } else {
-              failFiles[reason] = [detailed]
+              failReasons[reason] = [detailed]
             }
+            failFiles.push(counts.failFiles.path)
           }
           bar.tick(counts.successCount + counts.failCount, {
             file: chalk.gray(getDirBasePath(source, sourceFilePath))
@@ -106,15 +108,19 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
       c += 1
     }
     saveCache(waitLinkFiles)
-    endLog(successCount, failCount, jumpCount, failFiles)
+    endLog(successCount, failCount, jumpCount, failReasons)
     log.info('正在写入缓存...')
-    Object.keys(sourceMap).map(inode => {
-      const sourceFile = sourceMap[inode]
+    // 移除失败的文件
+    failFiles.forEach(f => {
+      delete sourceMap[f]
+    })
+    Object.keys(sourceMap).map(sourceFile => {
+      const inode = sourceMap[sourceFile]
       const destFile = path.join(
         getOriginalDestPath(sourceFile, source, dest, saveMode, mkdirIfSingle),
         path.basename(sourceFile)
       )
-      saveFileRecord([sourceFile, destFile], inode)
+      saveFileRecord(sourceFile, destFile, inode)
     })
     log.success('缓存写入成功!')
   }

@@ -1,42 +1,24 @@
-import { fileRecord } from '../../paths.js'
 import chokidar from 'chokidar'
-import { log, checkPathExist } from '../../utils.js'
-import path from 'path'
-import { deleteRecord, findFiles } from '../../config/recordHelp.js'
-import execa from 'execa'
-import deleteEmptyDir from './deleteEmptyDir.js'
+import { checkPathExist, log } from '../../utils.js'
+import { rmAll } from './rm.js'
 
-async function watch(dir: string) {
-  const allRecord = fileRecord.read()
-  if (dir) {
-    dir = path.resolve(dir)
-    checkPathExist(dir)
-  }
-  const allFiles = allRecord.reduce(
-    (result, record) => result.concat(record.files),
-    [] as string[]
-  )
-  if (!allFiles.length && !dir) {
-    log.error('没有创建记录, 无法监听')
+async function watch(dir: string, deleteSource: boolean = false) {
+  if (!dir) {
+    log.error('必须指定监听文件或者目录')
+    console.log()
     process.exit(0)
   }
+  checkPathExist(dir)
   let paths: string[] = []
   let timeoutHandle: NodeJS.Timeout
-  chokidar.watch(dir || allFiles).on('unlink', p => {
+  chokidar.watch(dir).on('unlink', p => {
     paths.push(p)
     if (timeoutHandle) {
       clearTimeout(timeoutHandle)
     }
     timeoutHandle = setTimeout(async () => {
       try {
-        const needDelete = findFiles(paths).filter(f => paths.indexOf(f) === -1)
-        await execa('rm', ['-r', ...needDelete])
-        await Promise.all(
-          needDelete.concat(paths).map(async f => {
-            await deleteEmptyDir(path.dirname(f))
-          })
-        )
-        deleteRecord(paths)
+        await rmAll(paths, deleteSource)
         paths = []
       } catch (e) {
         console.log(e)

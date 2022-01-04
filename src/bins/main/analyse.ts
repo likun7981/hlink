@@ -15,17 +15,17 @@ type ConfigType = {
 function judge(config: ConfigType) {
   log.info('开始分析源目录..')
   const { exts, excludeExts, openCache, source, dest } = config
-  const { inodeAndFileMap: sourceMap, files: sourceFiles } = getList(source)
+  const { fileAndInodeMap: sourceMap, files: sourceFiles } = getList(source)
   const dstInodes = getInodes(dest)
-  const keysOfSourceNumbers = Object.keys(sourceMap)
+  const fullPaths = Object.keys(sourceMap)
   const existFiles: string[] = []
   const waitLinkFiles: string[] = []
   const excludeFiles: string[] = []
   const cacheFiles: string[] = []
   const cached = cacheRecord.read()
   const isWhiteList = !!exts.length
-  keysOfSourceNumbers.forEach(num => {
-    const fullPath = sourceMap[num]
+  fullPaths.forEach(fullPath => {
+    const inode = sourceMap[fullPath]
     const extname = path
       .extname(fullPath)
       .replace('.', '')
@@ -37,7 +37,7 @@ function judge(config: ConfigType) {
       excludeFiles.push(fullPath)
     } else if (openCache && cached.indexOf(fullPath) > -1) {
       cacheFiles.push(fullPath)
-    } else if (dstInodes.indexOf(num) > -1) {
+    } else if (dstInodes.indexOf(inode) > -1) {
       existFiles.push(fullPath)
     } else {
       waitLinkFiles.push(fullPath)
