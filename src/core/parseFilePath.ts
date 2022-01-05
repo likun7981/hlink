@@ -16,7 +16,7 @@ function parseFilePath(file: string, dir: string = '') {
   if (dir) {
     filepath = path.join(dir, filepath)
     endsWithes.forEach((endWith) => {
-      if (!fs.existsSync(filepath) && filepath.endsWith(endWith)) {
+      if (filepath.endsWith(endWith) && !fs.existsSync(filepath)) {
         filepath = filepath.slice(0, filepath.lastIndexOf(endWith))
       }
     })
