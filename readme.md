@@ -5,7 +5,7 @@
 [![npm download][npm-download]][npm-download-url]
 
 ## 所需环境：
-nodejs 10 以上；
+nodejs 12 以上；
 
 ## 安装
 ```bash
@@ -15,75 +15,32 @@ $ npm install -g hlink
 
 $ hlink --help
 ```
-## 功能：
-1. 批量创建源地址下面所有视频文件 硬链 到目标地址
-2. 重复硬链检测，就算硬链接已改名也能检查到
-3. 批量删除源地址在目标地址所创建的硬链
+## 与`cp -lr`的优势功能：
+1. 重复硬链检测，就算硬链接已改名也能检查到(内容改了不行)
+2. 更好的硬链删除机制
+3. 更友好的的提示
 
 ## 使用
 
-![使用](./media/ghelp.png)
+<img src="https://user-images.githubusercontent.com/13427467/148177243-50ce207f-a31e-4a0a-b601-27ea9cbb1e1f.png" width="520"/>
 
 ## 效果截图
-![创建](./media/gcreate.png)
+<img src="https://user-images.githubusercontent.com/13427467/148171766-ccbe2a1a-c30c-4e1a-868c-4e2c69617d29.png" width="520"/>
 
-![重复创建](./media/gexist.png)
-
-![删除目录](./media/gdeletedir.png)
-
-![删除文件](./media/gdeletefile.png)
-
-## 威联通关联环境变量
-> 由于威联通重启后会重置部分配置，而且威联通安装node后默认没有设置环境变量，所以需要配置开机启动脚本来进行自动配置 hlink 到环境变量中，不然很麻烦
-
-1. ssh 登录你的威联通机器
-执行以下命令
-
-```bash
-$ mount $(/sbin/hal_app --get_boot_pd port_id=0)6 /tmp/config
-```
-
-2. 编辑autorun.sh脚本
-
-```bash
-$ vim /tmp/config/autorun.sh
-```
-
-添加以下脚本到autorun.sh
-```
-ln -s  /share/CACHEDEV1_DATA/.qpkg/NodeJS/bin/hlink /usr/local/bin/hlink
-```
-
-
-其中`/share/CACHEDEV1_DATA/.qpkg/NodeJS/bin/hlink` 为你npm安装后的hlink 路径，根据各自的路径进行更换
-
-3. 给autorun.sh添加执行权限
-```
-$ chmod +x /tmp/config/autorun.sh
-```
-
-4. 开启用户自定义脚本
-
-`控制台` > `硬盘` > `启动时运行用户定义的进程` 打上勾，最后别忘记点击`应用`
-
-![删除文件](./media/autorun.png)
-
-5. 卸载`/tmp/config`
-
-```bash
-$ umount /tmp/config
-```
+## 教程
+- [威联通开机启动添加环境变量](./qnap.md)
 
 # 打赏作者
 
 请作者喝一杯咖啡😄
 
-<img width="300" src="https://gw.alipayobjects.com/mdn/rms_b6fef5/afts/img/A*YAgoQobVpFkAAAAAAAAAAAAAARQnAQ" /><img width="300" src="https://gw.alipayobjects.com/mdn/rms_b6fef5/afts/img/A*8F0WTo48mFkAAAAAAAAAAAAAARQnAQ" />
+<img width="300" src="https://user-images.githubusercontent.com/13427467/148188331-c997f355-2a80-46b9-ba6b-d189186ac356.png" /><img width="300" src="https://user-images.githubusercontent.com/13427467/148188398-d6d9e8e5-bd75-4de4-9faa-dbd4846b4103.png" />
 
 打赏列表:
 
 - 脱光游侠/诈尸求邀没结果 `16.60 RMB`
 - 月与徘徊 `10.00 RMB`
+- 庭下雀 `88.00 RMB`
 
 
 # License

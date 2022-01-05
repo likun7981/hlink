@@ -20,7 +20,7 @@ async function rm(fileOrDir: string, deleteSource: boolean = true) {
   }
   checkPathExist(fileOrDir)
   timeLog.start()
-  log.info('开始删除', chalk.cyan(fileOrDir))
+  log.info('开始删除任务', chalk.cyan(fileOrDir))
   const { inodes } = getList(fileOrDir)
 
   const deleteLen = await rmAll(inodes, deleteSource)
@@ -34,34 +34,23 @@ async function rm(fileOrDir: string, deleteSource: boolean = true) {
 }
 
 export const rmAll = async (fileOrInode: string[], deleteSource?: boolean) => {
+  log.info('开始查找需要删除的文件...')
   const {
     files: needDeleteFiles,
     inodes: needDeleteRecord
   } = findFilesFromRecord(fileOrInode, deleteSource)
+  console.log(needDeleteFiles)
   const task: any[] = []
+  log.info('共计', chalk.cyan(needDeleteFiles.length), '个文件需要删除')
   if (needDeleteFiles.length) {
     task.push(rmFiles(needDeleteFiles))
     task.push(deleteRecord(needDeleteRecord))
   }
   // 删除文件和记录
   await Promise.all(task)
+
   // 移除空文件夹
-  await Promise.all(
-    makeOnly(
-      needDeleteFiles
-        .map(filename => {
-          log.info('移除', chalk.gray(filename))
-          return path.dirname(filename)
-        })
-        .sort((a, b) => {
-          const s1 = a.split(path.sep)
-          const s2 = b.split(path.sep)
-          if (s1 === s2) return 0
-          if (s1 > s2) return 1
-          return -1
-        })
-    ).map(deleteEmptyDir)
-  )
+  await deleteEmptyDir(needDeleteFiles)
   return needDeleteFiles.length
 }
 
