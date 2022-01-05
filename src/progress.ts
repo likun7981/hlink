@@ -71,7 +71,7 @@ class ProgressBar {
     this.curr = curr || 0
     this.total = total
     this.columns = (process.stderr.columns || 80) - 10
-    this.width = width || this.columns - 33;
+    this.width = width || this.columns - 38 * 2;
     this.clear = clear
     this.lines = fmt.split('\n').length
     this.chars = {

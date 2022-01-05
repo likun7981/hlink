@@ -59,8 +59,10 @@ function getConfig(ci: any, config: any, defaultValue: any) {
 }
 
 async function parse(input: Array<string>, options: Flags) {
-  options.configPath = path.isAbsolute(options.configPath) ? options.configPath : path.resolve(options.configPath)
-  await checkConfigFile(options.configPath)
+  if(options.configPath) {
+    options.configPath = path.isAbsolute(options.configPath) ? options.configPath : path.resolve(options.configPath)
+    await checkConfigFile(options.configPath)
+  }
   let configPath = options.configPath || paths.configPath
   let { source, dest } = await parseInput(input)
   const {

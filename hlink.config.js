@@ -12,7 +12,7 @@ export default {
   /**
    * 源地址
    */
-  source: '/Users/likun/Projects/github/hlink/destDir6',
+  source: '/Users/likun/Projects/github/hlink/node_modules',
   /**
    * 目标地址
    */

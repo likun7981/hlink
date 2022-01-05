@@ -16,18 +16,23 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
 
 可配置选项:
   --saveMode,-s         保存模式,默认为模式0
-    ${chalk.gray(`saveMode=1 保存一级目录
-    saveMode=0 保存原有的相对源地址的路径`)}
+                        ${chalk.gray(`saveMode=1 保存一级目录
+                        saveMode=0 保存原有的相对源地址的路径`)}
+
   --includeExtname,-i   包含的扩展名,多个用','隔开
-    ${chalk.gray(`如果不配置该项,会采用以下策略
-    *  1. 配置了excludeExtnam,则链接文件为排除后的其他文件
-    *  2. 未配置excludeExtname,则链接文件为目录下的所有文件`)}
+                        ${chalk.gray(`如果不配置该项,会采用以下策略
+                        1. 配置了excludeExtnam,则链接文件为排除后的其他文件
+                        2. 未配置excludeExtname,则链接文件为目录下的所有文件`)}
+
   --excludeExtname,-e   排除的扩展名,多个用','隔开如果配置了${chalk.cyan(
     'includeExtname'
   )}则该配置无效
+
   --mkdirIfSingle,-m    是否为独立文件创建同名文件夹,默认为true,会创建
+
   --openCache,-o        是否打开缓存,默认为true, 会打开
-    ${chalk.gray('打开后,每次硬链后会把对应文件存入缓存,就算下次删除硬链，也不会进行硬链')}
+                        ${chalk.gray('打开后,每次硬链后会把对应文件存入缓存,就算下次删除硬链，也不会进行硬链')}
+
   --configPath,-c       指定配置文件路径,请使用绝对路径
   --generateConfig,-g   生成config文件,可以使用 hlink -g 查看路径
   --removeConfig,-r     删除配置文件

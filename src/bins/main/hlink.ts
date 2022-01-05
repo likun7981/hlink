@@ -61,7 +61,7 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     const count = 21
     let c = 0
     const bar = new ProgressBar(
-      `\n ${chalk.green('hlink')} :bar :percent :etas ${chalk.gray(
+      `\n ${chalk.green('● hlink')} :bar :percent :etas ${chalk.gray(
         ':current/:total'
       )} \n :file \n \n`,
       {
