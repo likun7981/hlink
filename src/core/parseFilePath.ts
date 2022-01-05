@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 
+const endsWithes = ['*', '@'];
 /**
  * @description 解析出inode及绝对路径
  * @param file inode+filepath
@@ -14,9 +15,11 @@ function parseFilePath(file: string, dir: string = '') {
   let filepath = file.slice(index + 1)
   if (dir) {
     filepath = path.join(dir, filepath)
-    if (!fs.existsSync(filepath) && filepath.endsWith('*')) {
-      filepath = filepath.slice(0, filepath.lastIndexOf('*'))
-    }
+    endsWithes.forEach((endWith) => {
+      if (!fs.existsSync(filepath) && filepath.endsWith(endWith)) {
+        filepath = filepath.slice(0, filepath.lastIndexOf(endWith))
+      }
+    })
   }
   return [inode, filepath]
 }

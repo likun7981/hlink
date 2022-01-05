@@ -4,9 +4,7 @@ import {
   checkPathExist,
   createTimeLog,
   rmFiles,
-  makeOnly
 } from '../../utils.js'
-import path from 'path'
 import deleteEmptyDir from './deleteEmptyDir.js'
 import { deleteRecord, findFilesFromRecord } from '../../config/recordHelp.js'
 import { getList } from '../../core/get.js'
