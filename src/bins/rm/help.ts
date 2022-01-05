@@ -1,5 +1,4 @@
 import chalk from 'chalk'
-import wrapAnsi from 'wrap-ansi'
 
 export default `
 QQ反馈群号：${chalk.cyanBright('807101297')}
