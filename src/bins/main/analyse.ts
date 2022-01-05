@@ -34,10 +34,13 @@ function judge(config: ConfigType) {
       ? exts.indexOf(extname) > -1
       : excludeExts.indexOf(extname) === -1
     if (!isSupported) {
+      delete sourceMap[fullPath]
       excludeFiles.push(fullPath)
     } else if (openCache && cached.indexOf(fullPath) > -1) {
+      delete sourceMap[fullPath]
       cacheFiles.push(fullPath)
     } else if (dstInodes.indexOf(inode) > -1) {
+      delete sourceMap[fullPath]
       existFiles.push(fullPath)
     } else {
       waitLinkFiles.push(fullPath)

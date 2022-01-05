@@ -129,11 +129,11 @@ export const endLog = (
   const failReasons = Object.keys(failFiles)
   if (failReasons.length) {
     console.log()
-    log.warn('以下文件存在问题:')
     failReasons.forEach(key => {
-      log.warn('', chalk.yellow(key + ':'))
+      log.warn('', chalk.yellow(key))
       failFiles[key].forEach(v => log.warn('', '', v))
     })
+    log.warn('以上文件存在问题')
     console.log()
   }
 }

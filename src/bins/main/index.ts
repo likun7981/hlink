@@ -26,7 +26,7 @@ export default (inputs: string[], flags: Flags) => {
     createConfig(!!flags.generateConfig && configPath)
   } else {
     global.printOnExit = () => {
-      log.info('手动打断硬链过程，不会保存缓存')
+      log.info('手动打断硬链过程，不会保存硬链记录')
     }
     hlink(inputs, flags)
   }

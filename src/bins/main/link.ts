@@ -6,16 +6,18 @@ import chalk from 'chalk'
 
 const errorSuggestion: Record<string, () => boolean | string> = {
   'Invalid cross-device link': () => {
-    log.info('跨设备硬链,以下两种情况属于跨设备硬链:')
-    log.info(` 1. 请检查是否跨盘！`)
-    log.info(
+    console.log()
+    log.warn('跨设备硬链,以下两种情况属于跨设备硬链:')
+    log.warn(` 1. 请检查是否跨盘！`)
+    log.warn(
       ` 2. 请检查是否跨越共享文件夹! 目前只支持群晖ext4才能同盘跨共享文件夹硬链`
     )
     return false
   },
   'Operation not permitted': () => {
-    log.info('hlink没有权限')
-    log.info(` 试试使用sudo执行: ${chalk.cyan('sudo hlink xxxx')}`)
+    console.log()
+    log.warn('hlink没有权限')
+    log.warn(` 试试使用sudo执行: ${chalk.cyan('sudo hlink xxxx')}`)
     return false
   },
   'File exists': () => {
@@ -73,7 +75,7 @@ async function link(
             reason: [
               ignore,
               `${chalk.gray(getDirBasePath(source, sourceFile))} ${chalk.cyan(
-                '-->'
+                '>'
               )} ${getDirBasePath(
                 dest,
                 path.join(originalDestPath, path.basename(sourceFile))
