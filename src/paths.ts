@@ -4,7 +4,7 @@ import Config from './config/Config.js'
 
 export const hlinkHomeDir = path.join(os.homedir(), '.hlink')
 
-export const configName = 'hlink.config.js'
+export const configName = 'hlink.config.mjs'
 export const configPath = path.join(os.homedir(), configName)
 export const cachePath = path.join(hlinkHomeDir, 'cache-array.json')
 

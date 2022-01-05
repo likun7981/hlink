@@ -17,6 +17,7 @@ async function parseConfig(configPath: string) {
   if (!fs.existsSync(configPath)) {
     return {}
   }
+  const config = (await import(configPath)).default as Config
   const {
     saveMode,
     source,
@@ -25,7 +26,7 @@ async function parseConfig(configPath: string) {
     excludeExtname,
     openCache,
     mkdirIfSingle
-  } = (await import(configPath)).default as Config
+  } = config;
   if (source) {
     warning(
       !path.isAbsolute(source),
