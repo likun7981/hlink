@@ -37,7 +37,6 @@ export const rmAll = async (fileOrInode: string[], deleteSource?: boolean) => {
     files: needDeleteFiles,
     inodes: needDeleteRecord
   } = findFilesFromRecord(fileOrInode, deleteSource)
-  console.log(needDeleteFiles)
   const task: any[] = []
   log.info('共计', chalk.cyan(needDeleteFiles.length), '个文件需要删除')
   if (needDeleteFiles.length) {
@@ -49,6 +48,9 @@ export const rmAll = async (fileOrInode: string[], deleteSource?: boolean) => {
 
   // 移除空文件夹
   await deleteEmptyDir(needDeleteFiles)
+  needDeleteFiles.forEach((file) => {
+    log.info('移除', chalk.gray(file))
+  })
   return needDeleteFiles.length
 }
 
