@@ -2,7 +2,7 @@ import execa from 'execa'
 
 function lsirf(path: string, ignoreError = false) {
   try {
-    return execa.sync('ls', ['-iRF', path]).stdout
+    return execa.sync('ls', ['-iRFL', path]).stdout
   } catch (e) {
     if (!ignoreError) {
       throw e
