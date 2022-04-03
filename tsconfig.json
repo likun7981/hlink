@@ -2,8 +2,7 @@
   "include": ["src"],
   "exclude": ["test", "example"],
   "compilerOptions": {
-    "target": "ES5",
-    "module": "commonjs",
+    "module": "esnext",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -13,6 +12,7 @@
     "lib": ["esnext", "DOM"],
     "moduleResolution": "node",
     "outDir": "lib",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["./src/global"]
   }
 }

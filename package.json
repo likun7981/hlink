@@ -1,6 +1,6 @@
 {
   "name": "hlink",
-  "version": "0.4.2",
+  "version": "0.6.0-next.7",
   "description": "hlink",
   "license": "MIT",
   "repository": "likun7981/hlink",
@@ -8,25 +8,23 @@
     "name": "likun7981",
     "email": "likun7981@gmail.com"
   },
+  "type": "module",
   "bin": {
     "hlink": "./lib/cli.js"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "scripts": {
     "test": "xo && ava",
-    "start": "chmod +x ./lib/cli.js && ./lib/cli.js -c hlink.config.js",
-    "new": "rm -rf ./destDir && npm run start",
-    "delete": "chmod +x ./lib/cli.js && ./lib/cli.js -d",
-    "help": "chmod +x ./lib/cli.js && ./lib/cli.js --help",
     "dev": "tsc -w",
     "clean": "rm -rf lib",
-    "cp": "cp src/config/hlink.config.tpl lib/config/hlink.config.tpl",
+    "cp": "cp src/hlink.config.tpl lib/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
     "prepublishOnly": "npm run build",
     "np": "np --no-cleanup --no-tests --no-yarn",
-    "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn"
+    "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn",
+    "np:next": "np --tag=next --any-branch --no-cleanup --no-tests --no-yarn"
   },
   "files": [
     "lib"
@@ -38,17 +36,23 @@
     "fun"
   ],
   "dependencies": {
-    "@types/fs-extra": "^9.0.6",
-    "@types/inquirer": "^7.3.1",
-    "@types/node": "^14.14.25",
+    "ansi-escapes": "^5.0.0",
     "chalk": "^4.1.0",
+    "chokidar": "^3.5.2",
     "execa": "^2.1.0",
     "fs-extra": "^9.0.1",
     "inquirer": "^7.3.3",
-    "meow": "^5.0.0"
+    "meow": "^10.1.2",
+    "progress": "^2.0.3",
+    "wrap-ansi": "^8.0.1"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.6",
+    "@types/inquirer": "^7.3.1",
+    "@types/node": "^14.14.25",
     "@types/meow": "^5.0.0",
+    "@types/single-line-log": "^1.1.0",
+    "@types/wrap-ansi": "^8.0.1",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "ava": "^2.1.0",
     "eslint": "^7.15.0",

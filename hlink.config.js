@@ -1,29 +1,34 @@
+
+/**
+ *
+ * !!!重要提醒：这是开发时使用的调试配置文件，不要直接使用，
+ *
+ * 请使用 hlink -g 生成使用
+ *
+ */
 // 重要说明路径地址都请填写 绝对路径！！！！
-module.exports = {
+
+export default {
   /**
    * 源地址
    */
-  source: '/Users/likun/Projects/github/hlink/sourceDir',
+  source: '/Users/likun/Projects/github/hlink/node_modules',
   /**
    * 目标地址
    */
-  dest: '/Users/likun/Projects/github/hlink/destDir',
+  dest: '/Users/likun/Projects/github/hlink/destDir88',
   /**
    * 需要包含的后缀名,如果不配置该项，会采用以下策略
    *  1. 配置了excludeExtname，则链接文件为排除后的其他文件
    *  2. 未配置excludeExtname，则链接文件为目录下的所有文件
    */
   includeExtname: [
-
+    // 'js'
   ],
   /**
    * 需要排除的后缀名, 如果配置了includeExtname则该配置无效
    */
-  excludeExtname: ['db@SynoEAStream'],
-  /**
-   * 最大的查找目录级别, 最大为6，太大的话可能会卡死
-   */
-  maxFindLevel: 4,
+  excludeExtname: [],
   /**
    * 0：保持原有的目录结构
    * 1：只保存一级目录结构

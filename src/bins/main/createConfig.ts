@@ -1,10 +1,12 @@
+import { configPath } from '../../paths.js'
 import fs from 'fs-extra'
-import * as paths from './paths'
-import path from 'path'
 import chalk from 'chalk'
-import { log, warning } from '../utils'
+import path from 'path'
+import { warning, log } from '../../utils.js'
+import { fileURLToPath } from 'url'
 
-function createConfig(createPath = paths.configPath) {
+export default function createConfig(createPath?: string | false) {
+  createPath = createPath || configPath
   if (fs.existsSync(createPath)) {
     warning(
       fs.existsSync(createPath),
@@ -13,7 +15,9 @@ function createConfig(createPath = paths.configPath) {
   }
   try {
     fs.ensureDirSync(path.dirname(createPath))
-    const content = fs.readFileSync(path.join(__dirname, './hlink.config.tpl'))
+    const content = fs.readFileSync(
+      path.join(path.dirname(fileURLToPath(import.meta.url)), '../../hlink.config.tpl')
+    )
     fs.writeFileSync(createPath, content)
     log.success('配置文件创建成功, 路径为', chalk.cyan(createPath))
     log.success(
@@ -26,5 +30,3 @@ function createConfig(createPath = paths.configPath) {
     log.error('配置文件创建失败', e)
   }
 }
-
-export default createConfig
