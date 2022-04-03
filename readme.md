@@ -5,7 +5,7 @@
 [![npm download][npm-download]][npm-download-url]
 
 ## 所需环境：
-nodejs 12 以上；
+Node.js 12.20 或者 Node.js 14.14及以上
 
 ## 安装
 ```bash
@@ -30,6 +30,9 @@ $ hlink --help
 ## 教程
 - [威联通开机启动添加环境变量](./qnap.md)
 
+## 更新日志
+- [新版本0.6.x改动](https://github.com/likun7981/hlink/pull/42)
+
 # 打赏作者
 
 请作者喝一杯咖啡😄
@@ -41,6 +44,14 @@ $ hlink --help
 - 脱光游侠/诈尸求邀没结果 `16.60 RMB`
 - 月与徘徊 `10.00 RMB`
 - 庭下雀 `88.00 RMB`
+- *宋 `30.00 RMB`
+- *黑 `18.00 RMB`
+- *宋 `20.00 RMB`
+- *沐 `30.00 RMB`
+- *春 `1.00 RMB`
+- *卷 `20.00 RMB`
+
+感谢各位的支持，如果有遗漏，实在抱歉，可联系作者补充~
 
 
 # License
