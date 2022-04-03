@@ -8,7 +8,14 @@ export const configName = 'hlink.config.mjs'
 export const configPath = path.join(os.homedir(), configName)
 export const cachePath = path.join(hlinkHomeDir, 'cache-array.json')
 
-export const cacheRecord = new Config<Array<string>>('cache-array.json', [])
+export const cacheRecord = new Config<Array<string>>([], cachePath)
 
-export type RecordType = { source: string[]; dest: string[], inode: string }
-export const fileRecord = new Config<RecordType[]>('files.json', [])
+export type RecordType = { source: string[]; dest: string[]; inode: string }
+
+export const fileRecord = new Config<RecordType[]>([], 'files.json')
+
+export type CreateRecordType = { sourcePaths: string[]; inodes: string[] }
+export const createRecord = new Config<Record<string, CreateRecordType>>(
+  {},
+  'createRecord.json'
+)

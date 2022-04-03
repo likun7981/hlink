@@ -25,8 +25,8 @@ export function getList(dir: string) {
     if(inodes.indexOf(inode) === -1) {
       files.push(fullPath)
       inodes.push(inode)
-      inodeAndFileMap[inode] = fullPath
       fileAndInodeMap[fullPath] = inode
+      inodeAndFileMap[inode] = fullPath
     }
   })
   return { files, inodeAndFileMap, inodes, fileAndInodeMap }

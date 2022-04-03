@@ -23,7 +23,7 @@ declare namespace IHlink {
     /**
      * @description hlink rm 专用
      */
-    watch?: boolean
+    scan?: boolean;
     /**
      * @description hlink rm 专用；是否删除硬链关联的源文件
      */

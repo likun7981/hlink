@@ -5,8 +5,6 @@ import bins from './bins/index.js'
 
 const { hlink, rm, backup, restore } = bins
 
-process.env.NODE_OPTIONS = '--experimental-specifier-resolution=node'
-
 const cli = meow({
   autoHelp: false,
   booleanDefault: undefined,
@@ -50,9 +48,8 @@ const cli = meow({
       type: 'string',
       alias: 'c'
     },
-    watch: {
+    scan: {
       type: 'boolean',
-      alias: 'w'
     },
     all: {
       type: 'boolean',
@@ -60,7 +57,7 @@ const cli = meow({
     }
   }
 })
-const { help, watch, all, ...flags } = cli.flags as IHlink.Flags
+const { help, scan, all, ...flags } = cli.flags as IHlink.Flags
 const [_command, ...inputs] = cli.input
 
 switch (_command) {
@@ -73,7 +70,7 @@ switch (_command) {
   case 'remove':
   case 'rm':
     rm(inputs, {
-      watch,
+      scan,
       help,
       all
     })

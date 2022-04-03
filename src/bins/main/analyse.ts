@@ -15,7 +15,7 @@ type ConfigType = {
 function judge(config: ConfigType) {
   log.info('开始分析源目录..')
   const { exts, excludeExts, openCache, source, dest } = config
-  const { fileAndInodeMap: sourceMap, files: sourceFiles } = getList(source)
+  const { fileAndInodeMap: sourceMap, files: sourceFiles, inodeAndFileMap } = getList(source)
   const dstInodes = getInodes(dest)
   const fullPaths = Object.keys(sourceMap)
   const existFiles: string[] = []
@@ -34,13 +34,13 @@ function judge(config: ConfigType) {
       ? exts.indexOf(extname) > -1
       : excludeExts.indexOf(extname) === -1
     if (!isSupported) {
-      delete sourceMap[fullPath]
+      delete inodeAndFileMap[sourceMap[fullPath]]
       excludeFiles.push(fullPath)
     } else if (openCache && cached.indexOf(fullPath) > -1) {
-      delete sourceMap[fullPath]
+      delete inodeAndFileMap[sourceMap[fullPath]]
       cacheFiles.push(fullPath)
     } else if (dstInodes.indexOf(inode) > -1) {
-      delete sourceMap[fullPath]
+      delete inodeAndFileMap[sourceMap[fullPath]]
       existFiles.push(fullPath)
     } else {
       waitLinkFiles.push(fullPath)
@@ -70,7 +70,8 @@ function judge(config: ConfigType) {
     waitLinkFiles,
     excludeFiles,
     cacheFiles,
-    sourceMap
+    sourceMap,
+    inodes: Object.keys(inodeAndFileMap)
   }
 }
 

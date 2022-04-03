@@ -2,7 +2,7 @@
   "include": ["src"],
   "exclude": ["test", "example"],
   "compilerOptions": {
-    "module": "esnext",
+    "module": "es5",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

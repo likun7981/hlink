@@ -10,11 +10,10 @@ import parse from './parse.js'
 import analyse from './analyse.js'
 import link from './link.js'
 import chalk from 'chalk'
-import path from 'path'
 import { saveCache } from '../../config/cacheHelp.js'
-import { saveFileRecord } from '../../config/recordHelp.js'
 import { Flags } from './index.js'
 import ProgressBar from '../../progress.js'
+import { saveCreateRecord } from '../../config/createRecordHelp.js'
 
 const green = '\u001b[42m \u001b[0m'
 const red = '\u001b[47m \u001b[0m'
@@ -44,7 +43,7 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     configPath
   })
   timeLog.start()
-  const { waitLinkFiles, sourceMap } = analyse({
+  const { waitLinkFiles, sourceMap, inodes } = analyse({
     source,
     dest,
     exts,
@@ -114,14 +113,7 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     failFiles.forEach(f => {
       delete sourceMap[f]
     })
-    Object.keys(sourceMap).map(sourceFile => {
-      const inode = sourceMap[sourceFile]
-      const destFile = path.join(
-        getOriginalDestPath(sourceFile, source, dest, saveMode, mkdirIfSingle),
-        path.basename(sourceFile)
-      )
-      saveFileRecord(sourceFile, destFile, inode)
-    })
+    saveCreateRecord(dest, source, inodes)
     log.success('硬链记录写入成功!')
   }
   timeLog.end()
