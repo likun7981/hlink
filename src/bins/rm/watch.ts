@@ -9,10 +9,17 @@ async function watch(dir: string, delAll: boolean) {
     console.log()
     process.exit(0)
   }
+  log.warn(`监听模式为 ${chalk.cyan('测试功能')}，请慎重使用，如果造成误删，无法恢复!!`)
+  log.info('开始监听删除', chalk.cyan(dir))
+  global.printOnExit = () => {
+    log.warn('停止监听', chalk.gray(dir))
+  }
   checkPathExist(dir)
   let paths: string[] = []
   let timeoutHandle: NodeJS.Timeout
-  log.info(`开始监听文件删除动作，你可以使用 ${chalk.cyan('Ctrl + C')} 退出监听`)
+  log.info(
+    `开始监听文件删除动作，你可以使用 ${chalk.cyan('Ctrl + C')} 退出监听`
+  )
   chokidar.watch(dir).on('unlink', p => {
     paths.push(p)
     if (timeoutHandle) {
