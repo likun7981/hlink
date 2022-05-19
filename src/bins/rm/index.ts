@@ -17,12 +17,8 @@ export default (inputs: Inputs, flags: Flags) => {
     return
   }
   const absolutePath = path.resolve(_path)
+  log.info('当前删除模式:', chalk.magenta(all ? '删除硬链及源文件' : '只删除硬链'))
   if (watch) {
-    log.info('开始监听移除', chalk.cyan(absolutePath))
-    log.info('当前移除模式:', chalk.magenta(all ? '移除硬链及源文件' : '只移除硬链'))
-    global.printOnExit = () => {
-      log.warn('停止监听', chalk.gray(absolutePath))
-    }
     watchMode(absolutePath, all)
   } else {
     rm(absolutePath, all)

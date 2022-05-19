@@ -1,12 +1,13 @@
+import chalk from 'chalk'
+import fs from 'fs-extra'
 import hlink from './hlink.js'
 import helpText from './help.js'
-import fs from 'fs-extra'
 import { log } from '../../utils.js'
 import { configPath, configName } from '../../paths.js'
 import path from 'path'
 import createConfig from './createConfig.js'
 
-export type Flags = Omit<IHlink.Flags, 'watch'>
+export type Flags = Omit<IHlink.Flags, 'watch' | 'all'>
 
 export default (inputs: string[], flags: Flags) => {
   if (flags.help) {
@@ -17,7 +18,7 @@ export default (inputs: string[], flags: Flags) => {
       fs.unlinkSync(_configPath)
       log.success(`移除配置文件成功,${_configPath}\n`)
     } else {
-      log.warn('您并没有创建配置文件\n')
+      log.warn(`没有找到 ${chalk.cyan(_configPath)}，无需删除配置文件\n`)
     }
   } else if ('generateConfig' in flags) {
     const configPath = path.isAbsolute(flags.generateConfig)

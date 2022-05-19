@@ -1,5 +1,5 @@
-import chalk, { Chalk } from 'chalk'
-import execa from 'execa'
+import chalk, { ChalkInstance } from 'chalk'
+import { execa } from 'execa'
 import fs from 'fs-extra'
 import path from 'path'
 
@@ -7,7 +7,7 @@ const { stat } = fs
 
 type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'SUCCEED'
 
-const color: Record<LogLevel, Chalk> = {
+const color: Record<LogLevel, ChalkInstance> = {
   INFO: chalk.black.bgBlue,
   WARN: chalk.black.bgHex('#faad14'),
   ERROR: chalk.black.bgRedBright,

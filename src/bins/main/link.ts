@@ -1,4 +1,4 @@
-import execa, { ExecaSyncError } from 'execa'
+import { ExecaSyncError, execa } from 'execa'
 import path from 'path'
 import { getDirBasePath, log } from '../../utils.js'
 import fs from 'fs-extra'
