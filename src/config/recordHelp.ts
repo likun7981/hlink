@@ -59,7 +59,7 @@ type FindResultType = { files: string[]; inodes: string[] }
 function find(
   records: RecordType[],
   pathOrNumber: string,
-  deleteSource: boolean
+  delAll: boolean
 ): FindResultType {
   const inodes: string[] = []
   const files = makeOnly(
@@ -72,7 +72,7 @@ function find(
         inodes.push(inode)
         result = result.concat(dest)
         // 是否删除源文件
-        if (deleteSource) {
+        if (delAll) {
           result = result.concat(source)
         }
       }
@@ -87,13 +87,13 @@ function find(
 
 export function findFilesFromRecord(
   filePathOrNumber: string | string[],
-  deleteSource: boolean = false
+  delAll: boolean = false
 ) {
   const record = fileRecord.read()
   if (Array.isArray(filePathOrNumber)) {
     return filePathOrNumber.reduce(
       (result, file) => {
-        const re = find(record, file, deleteSource)
+        const re = find(record, file, delAll)
         result.files = result.files.concat(makeOnly(re.files))
         result.inodes = result.inodes.concat(makeOnly(re.inodes))
         return result
@@ -101,6 +101,6 @@ export function findFilesFromRecord(
       { files: [], inodes: [] } as FindResultType
     )
   } else {
-    return find(record, filePathOrNumber, deleteSource)
+    return find(record, filePathOrNumber, delAll)
   }
 }

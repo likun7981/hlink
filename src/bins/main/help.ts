@@ -40,11 +40,5 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
 例子:
   ${chalk.grey('# 创建 /share/download 下面文件到目标地址 /share/movie')}
   $ hlink /share/download /share/movie
-  ${chalk.grey(
-    '# 删除 /share/download 中文件在 /share/movie 下面的对应硬链的文件'
-  )}
-  $ hlink -d /share/download /share/movie
-  ${chalk.grey('# 交互删除(推荐)')}
-  $ hlink -d
   ${chalk.grey('# 生成配置文件')}
   $ hlink -g`
