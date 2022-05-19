@@ -1,5 +1,5 @@
 {
-  "include": ["src"],
+  "include": ["src", "src/types/*"],
   "exclude": ["test", "example"],
   "compilerOptions": {
     "module": "esnext",
@@ -12,7 +12,6 @@
     "lib": ["esnext", "DOM"],
     "moduleResolution": "node",
     "outDir": "lib",
-    "skipLibCheck": true,
-    "types": ["./src/global"]
+    "skipLibCheck": true
   }
 }

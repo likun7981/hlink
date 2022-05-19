@@ -1,11 +1,10 @@
 #!/usr/bin/env node
-
+import chalk from 'chalk'
 import meow from 'meow'
-import bins from './bins/index.js'
-
-const { hlink, rm, backup, restore } = bins
-
-process.env.NODE_OPTIONS = '--experimental-specifier-resolution=node'
+import rm from './bins/rm/index.js'
+import { restore, backup } from './bins/qnap.js'
+import hlink from './bins/main/index.js'
+import { log } from './utils.js'
 
 const cli = meow({
   autoHelp: false,
@@ -34,7 +33,7 @@ const cli = meow({
       type: 'boolean',
       alias: 'm'
     },
-    delete: {
+    del: {
       type: 'boolean',
       alias: 'd'
     },
@@ -56,12 +55,22 @@ const cli = meow({
     },
     all: {
       type: 'boolean',
-      alias: 'a'
+      alias: 'a',
+      default: false
     }
   }
 })
-const { help, watch, all, ...flags } = cli.flags as IHlink.Flags
+const { help, watch, all, del, ...flags } = cli.flags as IHlink.Flags
 const [_command, ...inputs] = cli.input
+
+if (del) {
+  log.warn(
+    `已移除 ${chalk.gray('-d')} 配置选项，请使用 ${chalk.cyan(
+      'hlink rm'
+    )} 替代,详情见 ${chalk.cyan('hlink rm --help')}`
+  )
+  process.exit(0)
+}
 
 switch (_command) {
   case 'backup':
@@ -75,7 +84,7 @@ switch (_command) {
     rm(inputs, {
       watch,
       help,
-      all
+      all,
     })
     break
   default:

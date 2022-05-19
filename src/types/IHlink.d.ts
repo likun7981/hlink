@@ -1,9 +1,3 @@
-declare module NodeJS {
-  interface Global {
-    printOnExit: () => void
-  }
-}
-
 declare namespace IHlink {
   interface Flags {
     saveMode: number
@@ -14,7 +8,7 @@ declare namespace IHlink {
     /**
      * @deprecated 废弃，请 使用 hlink rm 代替
      */
-    delete?: boolean
+    del?: boolean
     generateConfig: string
     removeConfig: boolean
     configPath: string
@@ -25,10 +19,8 @@ declare namespace IHlink {
      */
     watch?: boolean
     /**
-     * @description hlink rm 专用；是否删除硬链关联的源文件
+     * @description hlink rm 专用；删除硬链的同时是否删除源文件
      */
-    all?: boolean;
+    all: boolean
   }
 }
-
-declare module 'progress'

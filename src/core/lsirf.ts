@@ -1,8 +1,8 @@
-import execa from 'execa'
+import { execaSync } from 'execa'
 
-function lsirf(path: string, ignoreError = false) {
+function lsirf(path: string, ignoreError = false): string {
   try {
-    return execa.sync('ls', ['-iRFL', path]).stdout
+    return execaSync('ls', ['-iRFL', path]).stdout
   } catch (e) {
     if (!ignoreError) {
       throw e
