@@ -22,9 +22,12 @@
     "cp": "cp src/hlink.config.tpl lib/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
     "prepublishOnly": "npm run build",
+    "rm": "rm /usr/local/bin/hlink ",
+    "env": "npm run rm && ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js",
     "np": "np --no-cleanup --no-tests --no-yarn",
     "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn",
-    "np:next": "np --tag=next --any-branch --no-cleanup --no-tests --no-yarn"
+    "np:next": "np --tag=next --any-branch --no-cleanup --no-tests --no-yarn",
+    "postinstall": "hlink rebuild"
   },
   "files": [
     "lib"

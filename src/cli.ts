@@ -3,6 +3,7 @@ import chalk from 'chalk'
 import meow from 'meow'
 import rm from './bins/rm/index.js'
 import { restore, backup } from './bins/qnap.js'
+import rebuild from './bins/rebuild.js'
 import hlink from './bins/main/index.js'
 import { log } from './utils.js'
 
@@ -78,6 +79,9 @@ switch (_command) {
     break
   case 'restore':
     restore(inputs[0])
+    break
+  case 'rebuild':
+    rebuild();
     break
   case 'remove':
   case 'rm':
