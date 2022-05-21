@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 import rebuild from './bins/rebuild.js'
 
 const currentDir = path.resolve(fileURLToPath(import.meta.url), '..')
+const cli = process.env.NODE_ENV === 'development' ? 'cli-dev.js' : 'cli.js';
 function check() {
   execaSync('hlink', ['check'])
   rebuild() // 由于历史记录数据结构有变更，所以需要构建历史记录
@@ -21,10 +22,10 @@ try {
   try {
     execaSync('ln', [
       '-s',
-      path.resolve(currentDir, 'cli-dev.js'),
+      path.resolve(currentDir, cli),
       '/usr/local/bin/hlink'
     ])
-    execaSync('chmod', ['+x', path.resolve(currentDir, 'cli.js')])
+    execaSync('chmod', ['+x', path.resolve(currentDir, cli)])
     log.success('添加到环境变量成功~')
     check()
   } catch (e) {
