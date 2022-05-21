@@ -1,8 +1,7 @@
-import { execa } from 'execa'
+import { execaSync } from 'execa'
 import fs from 'fs-extra'
 import path from 'path'
 import { hlinkHomeDir } from '../paths.js'
-import { checkPathExist } from '../utils.js'
 
 class Config<T extends Array<any> | Record<string, any>> {
   private jsonPath: string
@@ -51,26 +50,36 @@ class Config<T extends Array<any> | Record<string, any>> {
     return fs.readJSONSync(mapJson)
   }
 
-  async backup() {
-    if (!(await this.exist(true)) && (await this.exist())) {
+  backup() {
+    if (!this.exist(true) && this.exist()) {
       try {
-        await execa('cp', [this.jsonPath, this.backupPath])
-        await execa('rm', [this.jsonPath])
+        execaSync('cp', [this.jsonPath, this.backupPath])
+        this.rm()
       } catch (e) {}
     }
   }
 
-  async restore() {
-    if (await this.exist(true)) {
+  restore() {
+    if (this.exist(true)) {
       try {
-        execa('cp', [this.backupPath, this.jsonPath])
-        await execa('rm', [this.backupPath])
-      } catch(e) {}
+        execaSync('cp', [this.backupPath, this.jsonPath])
+        this.rm(true)
+      } catch (e) {}
     }
   }
 
-  async exist(backup: boolean = false): Promise<boolean> {
-    return checkPathExist(backup ? this.backupPath : this.jsonPath, true)
+  exist(backup: boolean = false): boolean {
+    try {
+      return fs.existsSync(backup ? this.backupPath : this.jsonPath)
+    } catch (e) {
+      return false
+    }
+  }
+
+  rm(backup: boolean = false) {
+    if (this.exist(backup)) {
+      execaSync('rm', [backup ? this.backupPath : this.jsonPath])
+    }
   }
 }
 

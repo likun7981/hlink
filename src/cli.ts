@@ -74,6 +74,8 @@ if (del) {
 }
 
 switch (_command) {
+  case 'check':
+    break
   case 'backup':
     backup(inputs[0])
     break
@@ -81,14 +83,14 @@ switch (_command) {
     restore(inputs[0])
     break
   case 'rebuild':
-    rebuild();
+    rebuild()
     break
   case 'remove':
   case 'rm':
     rm(inputs, {
       watch,
       help,
-      all,
+      all
     })
     break
   default:
