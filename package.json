@@ -27,6 +27,7 @@
     "np": "np --no-cleanup --no-tests --no-yarn",
     "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn",
     "np:next": "np --tag=next --any-branch --no-cleanup --no-tests --no-yarn",
+    "np:test": "np --tag=test --any-branch --no-cleanup --no-tests --no-yarn",
     "postinstall": "hlink rebuild"
   },
   "files": [
