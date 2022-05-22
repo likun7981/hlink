@@ -21,7 +21,7 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
 
   --includeExtname,-i   包含的扩展名,多个用','隔开
                         ${chalk.gray(`如果不配置该项,会采用以下策略
-                        1. 配置了excludeExtnam,则链接文件为排除后的其他文件
+                        1. 配置了excludeExtname,则链接文件为排除后的其他文件
                         2. 未配置excludeExtname,则链接文件为目录下的所有文件`)}
 
   --excludeExtname,-e   排除的扩展名,多个用','隔开如果配置了${chalk.cyan(

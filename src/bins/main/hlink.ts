@@ -44,7 +44,7 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     configPath
   })
   timeLog.start()
-  const { waitLinkFiles, sourceMap } = analyse({
+  const { waitLinkFiles } = analyse({
     source,
     dest,
     exts,
@@ -109,20 +109,6 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     }
     saveCache(waitLinkFiles)
     endLog(successCount, failCount, jumpCount, failReasons)
-    log.info('正在写入硬链记录...')
-    // 移除失败的文件
-    failFiles.forEach(f => {
-      delete sourceMap[f]
-    })
-    Object.keys(sourceMap).map(sourceFile => {
-      const inode = sourceMap[sourceFile]
-      const destFile = path.join(
-        getOriginalDestPath(sourceFile, source, dest, saveMode, mkdirIfSingle),
-        path.basename(sourceFile)
-      )
-      saveFileRecord(sourceFile, destFile, inode)
-    })
-    log.success('硬链记录写入成功!')
   }
   timeLog.end()
 }

@@ -28,5 +28,6 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
 
   --withoutConfirm,-w  删除前是否需确认? 默认需要确认。
                        如果你使用计划任务，建议设置为无需确认
-
+  --includeExtname,i   检测包含的后缀名，同hlink --help中的includeExtname一样
+  --excludeExtname,e   检测排除的后缀名，同hlink --help中的excludeExtname一样
 `

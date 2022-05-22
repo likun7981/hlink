@@ -4,6 +4,7 @@ import parseConfig from './parseConfig.js'
 import { checkPathExist, log, warning } from '../../utils.js'
 import fs from 'fs-extra'
 import { Flags } from './index.js'
+import defaultInclude from '../defaultInclude.js'
 
 const resolvePath = (p: string) => (!!p ? path.resolve(p) : p)
 
@@ -83,7 +84,7 @@ async function parse(input: Array<string>, options: Flags) {
     openCache,
     mkdirIfSingle
   } = options
-  const exts = (includeExtname || configIncludeExtname || '')
+  const exts = (includeExtname || configIncludeExtname || excludeExtname ? '' : defaultInclude)
     .split(',')
     .filter(Boolean)
     .map((s: string) => s.toLowerCase())
