@@ -30,7 +30,7 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
 
   --mkdirIfSingle,-m    是否为独立文件创建同名文件夹,默认为true,会创建
 
-  --openCache,-o        是否打开缓存,默认为true, 会打开
+  --openCache,-o        是否打开缓存,默认为false, 不会会打开
                         ${chalk.gray('打开后,每次硬链后会把对应文件存入缓存,就算下次删除硬链，也不会进行硬链')}
 
   --configPath,-c       指定配置文件路径,请使用绝对路径

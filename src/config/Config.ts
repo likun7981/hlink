@@ -60,7 +60,7 @@ class Config<T extends Array<any> | Record<string, any>> {
   }
 
   restore() {
-    if (this.exist(true)) {
+    if (this.exist(true) && !this.exist()) {
       try {
         execaSync('cp', [this.backupPath, this.jsonPath])
         this.rm(true)

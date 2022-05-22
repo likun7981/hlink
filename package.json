@@ -1,6 +1,6 @@
 {
   "name": "hlink",
-  "version": "0.6.3-test.4",
+  "version": "0.6.3-test.6",
   "description": "hlink",
   "license": "MIT",
   "repository": "likun7981/hlink",
@@ -26,9 +26,7 @@
     "env": "ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js",
     "np": "np --no-cleanup --no-tests --no-yarn",
     "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn",
-    "np:next": "np --tag=next --any-branch --no-cleanup --no-tests --no-yarn",
-    "np:test": "np --tag=test --any-branch --no-cleanup --no-tests --no-yarn",
-    "postinstall": "chmod +x $PWD/lib/doctor.js && $PWD/lib/doctor.js"
+    "np:next": "np --tag=next --any-branch --no-cleanup --no-tests --no-yarn"
   },
   "files": [
     "lib"

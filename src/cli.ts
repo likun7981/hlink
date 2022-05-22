@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import chalk from 'chalk'
 import meow from 'meow'
-import rm from './bins/rm/index.js'
 import { restore, backup } from './bins/qnap.js'
-import rebuild from './bins/rebuild.js'
+import doctor from './bins/doctor.js'
+import prune from './bins/prune/index.js'
 import hlink from './bins/main/index.js'
 import { log } from './utils.js'
 
@@ -34,6 +34,15 @@ const cli = meow({
       type: 'boolean',
       alias: 'm'
     },
+    pruneDir: {
+      type: 'boolean',
+      alias: 'p'
+    },
+    withoutConfirm: {
+      type: 'boolean',
+      alias: 'w',
+      default: false,
+    },
     del: {
       type: 'boolean',
       alias: 'd'
@@ -49,48 +58,53 @@ const cli = meow({
     configPath: {
       type: 'string',
       alias: 'c'
-    },
-    watch: {
-      type: 'boolean',
-      alias: 'w'
-    },
-    all: {
-      type: 'boolean',
-      alias: 'a',
-      default: false
     }
   }
 })
-const { help, watch, all, del, ...flags } = cli.flags as IHlink.Flags
+const { help, del, ...flags } = cli.flags as IHlink.Flags
 const [_command, ...inputs] = cli.input
 
-if (del) {
-  log.warn(
-    `已移除 ${chalk.gray('-d')} 配置选项，请使用 ${chalk.cyan(
-      'hlink rm'
-    )} 替代,详情见 ${chalk.cyan('hlink rm --help')}`
+function logDeprecatedRm() {
+  log.info(`${chalk.gray('rm')} 命令彻底废除，使用体感特别差，没有存在的意义`)
+  log.info(
+    `如果你只是简单想删除硬链，请使用系统自带的 rm 命令，用法可以参考${chalk.cyan(
+      'https://www.linuxcool.com/rm'
+    )}`
   )
+  log.info(
+    `如果你只是在移除源文件后，检测多余的硬链，可以使用 ${chalk.cyan(
+      'hlink prune'
+    )} 来进行`
+  )
+}
+
+/**
+ * @deprecated
+ */
+if (del) {
+  logDeprecatedRm
   process.exit(0)
 }
 
 switch (_command) {
-  case 'check':
-    break
   case 'backup':
     backup(inputs[0])
     break
   case 'restore':
     restore(inputs[0])
     break
-  case 'rebuild':
-    rebuild()
+  case 'doctor':
+    doctor()
     break
   case 'remove':
   case 'rm':
-    rm(inputs, {
-      watch,
+    logDeprecatedRm()
+    break
+  case 'prune':
+    prune(inputs[0], inputs[1], {
       help,
-      all
+      pruneDir: flags.pruneDir,
+      withoutConfirm: flags.withoutConfirm
     })
     break
   default:

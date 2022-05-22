@@ -28,7 +28,7 @@ $ hlink --help
 <img src="https://user-images.githubusercontent.com/13427467/148171766-ccbe2a1a-c30c-4e1a-868c-4e2c69617d29.png" width="520"/>
 
 ## 教程
-- [威联通开机启动添加环境变量](./qnap.md)
+- [威联通开机启动添加环境变量](./docs/qnap.md)
 
 ## 更新日志
 - [新版本0.6.x改动](https://github.com/likun7981/hlink/pull/42)
