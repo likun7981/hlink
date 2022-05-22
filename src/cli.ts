@@ -104,7 +104,9 @@ switch (_command) {
     prune(inputs[0], inputs[1], {
       help,
       pruneDir: flags.pruneDir,
-      withoutConfirm: flags.withoutConfirm
+      withoutConfirm: flags.withoutConfirm,
+      includeExtname: flags.includeExtname,
+      excludeExtname: flags.excludeExtname
     })
     break
   default:
