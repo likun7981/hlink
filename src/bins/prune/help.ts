@@ -17,7 +17,7 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
 用法:
   ${chalk.gray('# 修剪多余硬链文件')}
   $ hlink prune sourceDir1,sourceDir2 destDir1,destDir2
-  ${chalk.gray('# 修剪多余硬链所在目录')}
+  ${chalk.gray('# 修剪多余硬链并删除所在目录')}
   $ hlink prune -p sourceDir1,sourceDir2 destDir1,destDir2
   ${chalk.gray('# 修剪时无需确认，一般使用于计划任务')}
   $ hlink prune -w sourceDir1,sourceDir2 destDir1,destDir2
