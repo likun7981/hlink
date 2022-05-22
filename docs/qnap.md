@@ -32,7 +32,7 @@ $ chmod +x /tmp/config/autorun.sh
 
 `控制台` > `硬盘` > `启动时运行用户定义的进程` 打上勾，最后别忘记点击`应用`
 
-![删除文件](./media/autorun.png)
+![删除文件](../media/autorun.png)
 
 5. 卸载`/tmp/config`
 
