@@ -1,4 +1,3 @@
-
 /**
  *
  * !!!重要提醒：这是开发时使用的调试配置文件，不要直接使用，
@@ -12,11 +11,11 @@ export default {
   /**
    * 源地址
    */
-  source: '/Users/likun/Projects/github/hlink/node_modules',
+  source: '/Users/likun/Code/my-github/hlink/sourceDir1',
   /**
    * 目标地址
    */
-  dest: '/Users/likun/Projects/github/hlink/destDir88',
+  dest: '/Users/likun/Code/my-github/hlink/destDir1',
   /**
    * 需要包含的后缀名,如果不配置该项，会采用以下策略
    *  1. 配置了excludeExtname，则链接文件为排除后的其他文件
@@ -42,6 +41,6 @@ export default {
    */
   saveMode: 0,
   openCache: false,
-  mkdirIfSingle: true,
-  delete: true,
+  mkdirIfSingle: false,
+  delete: true
 }

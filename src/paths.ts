@@ -12,3 +12,6 @@ export const cacheRecord = new Config<Array<string>>('cache-array.json', [])
 
 export type RecordType = { source: string[]; dest: string[], inode: string }
 export const fileRecord = new Config<RecordType[]>('files.json', [])
+
+export type newRecordType = { source: string; dest: string, inode: string }
+export const newFileRecord = new Config<newRecordType[]>('record-files.json', [])

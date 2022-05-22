@@ -190,3 +190,30 @@ export async function rmFiles(files: string[]) {
   }
   return
 }
+
+/**
+ *
+ * @param _paths 路劲集合
+ * @returns 返回_paths的公共父目录
+ *
+ * _paths = ['/a/c/d/e', '/a/b/c/d/e']
+ *  result = '/a/'
+ *
+ */
+export function findParent(_paths: string[]) {
+  let paths = [..._paths]
+  if (!paths.length) return ''
+  /**
+   * 排序，把最短的路劲排到最前面
+   */
+  paths = paths.sort(
+    (a, b) => a.split(path.sep).length - b.split(path.sep).length
+  )
+  const firstItem = paths.shift() as string // 这里必有
+  let dirname = path.join(path.dirname(firstItem), '/')
+  // 如果paths里面每个都包含了最短路劲，说明最短路劲就算所有路劲的目录了
+  while (!paths.every(p => p.includes(dirname))) {
+    dirname = path.join(path.dirname(dirname), '/')
+  }
+  return dirname
+}

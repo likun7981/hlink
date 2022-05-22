@@ -16,9 +16,9 @@ function checkSaveMode(saveMode: number) {
   )
 }
 
-function checkDirectory(source: string, dest: string) {
+export function checkDirectory(source?: string, dest?: string) {
   warning(!source || !dest, '必须指定原地址和目标地址')
-  warning(!fs.existsSync(source), '源地址不存在，请检查路径是否正确')
+  warning(!!source && !fs.existsSync(source), '源地址不存在，请检查路径是否正确')
   warning(source === dest, '源地址和目标地址不能相同')
 }
 
