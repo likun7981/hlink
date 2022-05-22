@@ -3,6 +3,9 @@ import chalk from 'chalk'
 export default `
 QQ反馈群号：${chalk.cyanBright('807101297')}
 
+用法:
+  hlink prune /path/to/source1,/path/to/source2 /path/to/dest1,/path/to/dest2
+
 说明:
   详细说明见 https://github.com/likun7981/hlink/blob/master/docs/prune.md
 
