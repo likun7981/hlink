@@ -32,7 +32,7 @@ async function parseConfig(configPath: string) {
       !path.isAbsolute(source),
       '配置文件',
       chalk.cyan(configPath),
-      '源地址必须指定绝对路劲'
+      '源地址必须指定绝对路径'
     )
   }
   if (dest) {
@@ -40,7 +40,7 @@ async function parseConfig(configPath: string) {
       !path.isAbsolute(dest),
       '配置文件',
       chalk.cyan(configPath),
-      '目标必须指定绝对路劲'
+      '目标必须指定绝对路径'
     )
   }
   return {

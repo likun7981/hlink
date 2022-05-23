@@ -12,7 +12,7 @@ import link from './link.js'
 import chalk from 'chalk'
 import { saveCache } from '../../config/cacheHelp.js'
 import { Flags } from './index.js'
-import ProgressBar from '../../progress.js'
+import ProgressBar, { SimpleProgressBar } from '../../progress.js'
 
 const green = '\u001b[42m \u001b[0m'
 const red = '\u001b[47m \u001b[0m'
@@ -58,7 +58,7 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
     log.info('开始执行...')
     const count = 21
     let c = 0
-    const bar = new ProgressBar(
+    const bar = process.stdout.isTTY ? new ProgressBar(
       `\n ${chalk.green('● hlink')} :bar :percent :etas ${chalk.gray(
         ':current/:total'
       )} \n :file \n \n`,
@@ -68,7 +68,7 @@ async function hardLink(input: string[], options: Flags): Promise<void> {
         total: waitLinkFiles.length,
         clear: true
       }
-    )
+    ) : new SimpleProgressBar(waitLinkFiles.length)
     for (let i = 0, len = waitLinkFiles.length / count; i < len; i++) {
       const start = c * count
       const end = (c + 1) * count

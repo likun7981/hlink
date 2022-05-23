@@ -1,5 +1,6 @@
 import ansiEscapes from 'ansi-escapes'
 import wrapAnsi from 'wrap-ansi'
+import { log } from './utils.js'
 
 type TokenType = Record<string, any>
 type OptionsType = {
@@ -211,6 +212,21 @@ class ProgressBar {
     } else {
       this.stream.write('\n')
     }
+  }
+}
+
+
+export class SimpleProgressBar {
+  private total: number
+  private current: number;
+  constructor(total: number) {
+    log.info('如果你看到这个消息，说明你的bash不支持格式化输入')
+    this.total = total
+    this.current = 0
+  }
+  tick = (count: number) => {
+    this.current += count
+    log.info(`执行中，当前进度${this.current}/${this.total}`)
   }
 }
 
