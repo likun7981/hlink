@@ -21,9 +21,7 @@ export default {
    *  1. 配置了excludeExtname，则链接文件为排除后的其他文件
    *  2. 未配置excludeExtname，则链接文件为目录下的所有文件
    */
-  includeExtname: [
-    // 'js'
-  ],
+  includeExtname: ['js'],
   /**
    * 需要排除的后缀名, 如果配置了includeExtname则该配置无效
    */

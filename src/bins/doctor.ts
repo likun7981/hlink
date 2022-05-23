@@ -37,7 +37,7 @@ function doctor() {
       log.info('如何添加环境变量请自行搜索~')
       let full = currentDir
       log.info(
-        '或者你可以全局路劲使用hlink, 路劲为',
+        '或者你可以全局路径使用hlink, 路径为',
         chalk.cyan(path.resolve(full, '../../../../bin/hlink'))
       )
     }

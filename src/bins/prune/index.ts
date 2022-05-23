@@ -102,7 +102,7 @@ async function prune(sourceStr: string, destStr: string, flags: Flags) {
       )
     }
     log.info(
-      `共计找到 ${chalk.cyan(pathsNeedDelete.length)} 个路劲需要删除，列表如下`
+      `共计找到 ${chalk.cyan(pathsNeedDelete.length)} 个路径需要删除，列表如下`
     )
     pathsNeedDelete.forEach(file => {
       console.log('', chalk.gray(file))
