@@ -84,7 +84,7 @@ async function parse(input: Array<string>, options: Flags) {
     openCache,
     mkdirIfSingle
   } = options
-  const exts = (includeExtname || configIncludeExtname || excludeExtname ? '' : defaultInclude)
+  const exts = (includeExtname || configIncludeExtname || (excludeExtname || configExcludeExtname) ? '' : defaultInclude)
     .split(',')
     .filter(Boolean)
     .map((s: string) => s.toLowerCase())
