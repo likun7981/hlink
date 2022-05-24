@@ -5,3 +5,5 @@ destDir*
 /.hlink
 /hlink
 sourceDir1
+
+/docs/.vitepress/dist
