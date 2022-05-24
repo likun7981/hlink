@@ -2,6 +2,7 @@ import fs from 'fs-extra'
 import { warning } from '../../utils.js'
 import path from 'path'
 import chalk from 'chalk'
+import { pathToFileURL } from 'url'
 
 type Config = Pick<IHlink.Flags, 'mkdirIfSingle' | 'saveMode' | 'openCache'> & {
   source: string
@@ -17,7 +18,7 @@ async function parseConfig(configPath: string) {
   if (!fs.existsSync(configPath)) {
     return {}
   }
-  const config = (await import(configPath)).default as Config
+  const config = (await import(pathToFileURL(configPath).href)).default as Config
   const {
     saveMode,
     source,
