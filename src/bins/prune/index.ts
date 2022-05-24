@@ -5,6 +5,7 @@ import parseLsirf from '../../core/parseLsirf.js'
 import { createTimeLog, log, makeOnly, rmFiles, warning } from '../../utils.js'
 import helpText from './help.js'
 import defaultInclude from '../defaultInclude.js'
+import deleteEmptyDir from './deleteEmptyDir.js'
 
 const timeLog = createTimeLog()
 export type Flags = Pick<
@@ -109,7 +110,7 @@ async function prune(sourceStr: string, destStr: string, flags: Flags) {
     })
     console.log()
     let answer = true
-    if (!withoutConfirm) {
+    if (!withoutConfirm && process.stdout.isTTY) {
       answer = await confirm({
         message: '确认是否继续？删除后无法恢复',
         default: false
@@ -117,6 +118,7 @@ async function prune(sourceStr: string, destStr: string, flags: Flags) {
     }
     if (answer) {
       await rmFiles(pathsNeedDelete)
+      await deleteEmptyDir(pathsNeedDelete)
       log.success('删除完成')
     } else {
       log.info('已终止任务')
