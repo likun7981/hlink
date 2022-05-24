@@ -1,7 +1,8 @@
 ## 如何在hlink官方库，发布你的教程？
 > 作者一个人精力有限，不能说清楚所有的事情，所以希望大家能一起来完善教程文档
 
-这里出一个提文档到hlink官方仓库的过程
+
+这里出一个提文档到hlink官方仓库的过程，主要给第一次做提交的人，大佬请无视
 
 ### 1. fork官方仓库
 
@@ -46,12 +47,25 @@
 来到pr的创建界面，输入标题和描述，就可以提交了
 ![image](https://user-images.githubusercontent.com/13427467/169982051-7d9dff05-a3a1-457f-b63b-960331e98f14.png)
 
-### 等待审核
+### 6. 等待审核
 
 提交完成后，就等待作者审核就可以了，到此结束！~
 
 ![image](https://user-images.githubusercontent.com/13427467/169982738-5c351347-6e1e-42b3-abaa-f497ecc6cdd7.png)
 
+### 7. 合并完成
+看到一下merged说明你的文档就合并完成了
+![image](https://user-images.githubusercontent.com/13427467/169983037-853989e7-e958-4750-8bc8-b0571ed97e6f.png)
+
+你可以在官方仓库看到你的教程了
+![image](https://user-images.githubusercontent.com/13427467/169983887-1237af7d-8645-4442-8556-dc0168ca8769.png)
+
+
+### 8. 更新自己的仓库
+
+![image](https://user-images.githubusercontent.com/13427467/169983610-babb8406-2950-4527-b0de-6120a249d6d3.png)
+
+如果你前面已经提交过一个了，后面希望再提交，你只需要到你的仓库，点击更新拉取hlink主仓库的最新代码，然后从`第2步`开始执行即可
 
 
 
