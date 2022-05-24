@@ -46,7 +46,12 @@
 来到pr的创建界面，输入标题和描述，就可以提交了
 ![image](https://user-images.githubusercontent.com/13427467/169982051-7d9dff05-a3a1-457f-b63b-960331e98f14.png)
 
-### 提交完成后，就等待作者审核就可以了，到此结束！~
+### 等待审核
+
+提交完成后，就等待作者审核就可以了，到此结束！~
+
+![image](https://user-images.githubusercontent.com/13427467/169982738-5c351347-6e1e-42b3-abaa-f497ecc6cdd7.png)
+
 
 
 
