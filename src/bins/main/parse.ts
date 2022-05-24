@@ -84,7 +84,8 @@ async function parse(input: Array<string>, options: Flags) {
     openCache,
     mkdirIfSingle
   } = options
-  const exts = (includeExtname || configIncludeExtname || (excludeExtname || configExcludeExtname) ? '' : defaultInclude)
+  console.log(options, includeExtname)
+  const exts = (includeExtname || configIncludeExtname || ((excludeExtname || configExcludeExtname) ? '' : defaultInclude))
     .split(',')
     .filter(Boolean)
     .map((s: string) => s.toLowerCase())
@@ -97,6 +98,7 @@ async function parse(input: Array<string>, options: Flags) {
   const finalMkdirIfSingle = getConfig(mkdirIfSingle, configMkdirIfSingle, true)
   checkDirectory(source, dest)
   checkSaveMode(finalSaveMode)
+  console.log(exts)
   return {
     saveMode: finalSaveMode,
     excludeExts,
