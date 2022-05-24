@@ -8,7 +8,6 @@
     "name": "likun7981",
     "email": "likun7981@gmail.com"
   },
-  "type": "module",
   "bin": {
     "hlink": "./lib/cli.js"
   },
@@ -25,7 +24,9 @@
     "env": "rm /usr/local/bin/hlink && ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js",
     "np": "np --no-cleanup --no-tests --no-yarn",
     "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn",
-    "np:next": "np --tag=next --any-branch --no-cleanup --no-tests --no-yarn"
+    "np:next": "np --tag=next --any-branch --no-cleanup --no-tests --no-yarn",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs"
   },
   "files": [
     "lib"
@@ -64,6 +65,8 @@
     "eslint-plugin-promise": "^4.3.1",
     "np": "^7.6.1",
     "typescript": "^4.6.4",
+    "vitepress": "^0.22.4",
+    "vue": "^3.2.36",
     "xo": "^0.24.0"
   }
 }
