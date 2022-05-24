@@ -3,7 +3,7 @@ home: true
 actionText: 快速开始
 actionLink: /guide/
 
-altActionText: 为什么不是cp -lr?
+altActionText: 为什么是hlink?
 altActionLink: /guide/why
 
 features:

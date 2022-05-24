@@ -7,3 +7,4 @@ destDir*
 sourceDir1
 
 /docs/.vitepress/dist
+.DS_Store

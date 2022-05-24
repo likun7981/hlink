@@ -43,11 +43,11 @@ export default defineConfig({
           text: '安装',
           children: [
             {
-              text: '所需环境',
-              link: '/install/env'
+              text: 'nodejs',
+              link: '/install/nodejs'
             },
             {
-              text: '安装hlink',
+              text: 'hlink',
               link: '/install/hlink'
             }
           ]
@@ -56,11 +56,11 @@ export default defineConfig({
           text: '使用介绍',
           children: [
             {
-              text: 'hlink',
+              text: '主命令',
               link: '/command/'
             },
             {
-              text: 'hlink prune',
+              text: 'prune命令',
               link: '/command/prune'
             }
           ]

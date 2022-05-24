@@ -11,6 +11,7 @@
   "bin": {
     "hlink": "./lib/cli.js"
   },
+  "type": "module",
   "engines": {
     "node": ">=12"
   },
