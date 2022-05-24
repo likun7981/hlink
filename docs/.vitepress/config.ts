@@ -21,7 +21,20 @@ export default defineConfig({
     nav: [
       { text: '快速开始', link: '/guide/' },
       { text: '使用介绍', link: '/command/' },
-      { text: '文档贡献', link: '/other/contributing' }
+      { text: '文档贡献', link: '/other/contributing' },
+      {
+        text: '相关链接',
+        items: [
+          {
+            text: 'hlink发布日志',
+            link: 'https://github.com/likun7981/hlink/releases'
+          },
+          {
+            text: '作者的github',
+            link: 'https://github.com/likun7981'
+          },
+        ]
+      },
     ],
 
     sidebar: {
