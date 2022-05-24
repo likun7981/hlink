@@ -14,7 +14,7 @@
 
 ### 2. 打开你fork的仓库地址，找到docs目录
 
-点击addFile -> add new file
+点击 `addFile` > `add new file`
 
 ![image](https://user-images.githubusercontent.com/13427467/169977753-818706a2-206f-4995-95c8-ad07eab5e47c.png)
 
@@ -32,11 +32,22 @@
 
 ### 4. 编辑完成提交
 
-在下面可以提交你编辑你编辑的文档标题，和描述。点击`Commit new file`
+在下面可以提交你编辑你编辑的文档标题和描述。点击`Commit new file`
 ![image](https://user-images.githubusercontent.com/13427467/169979131-0ade3414-b4dd-49b3-802d-cf0376bc994e.png)
 
-### 5. 提交mr到官方仓库
+### 5. 提交pr到官方仓库
 
-你提交完成后，到下面的界面，点击open pull request
+你提交完成后，到下面的界面，点击`open pull request`
 ![image](https://user-images.githubusercontent.com/13427467/169980843-edba3830-e29d-429c-9ccf-94c4d88cd44d.png)
+
+然后你会看到pull request的界面，点击`create pull request`
+![image](https://user-images.githubusercontent.com/13427467/169981178-82027db6-7d06-40d6-af1e-8b4e4b9de79d.png)
+
+来到pr的创建界面，输入标题和描述，就可以提交了
+![image](https://user-images.githubusercontent.com/13427467/169982051-7d9dff05-a3a1-457f-b63b-960331e98f14.png)
+
+### 提交完成后，就等待作者审核就可以了，到此结束！~
+
+
+
 
