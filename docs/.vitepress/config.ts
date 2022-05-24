@@ -21,7 +21,7 @@ export default defineConfig({
     nav: [
       { text: '快速开始', link: '/guide/' },
       { text: '使用介绍', link: '/command/' },
-      { text: '其他教程', link: '/other/contributing' }
+      { text: '文档贡献', link: '/other/contributing' }
     ],
 
     sidebar: {
