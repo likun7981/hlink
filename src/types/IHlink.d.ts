@@ -6,6 +6,15 @@ declare namespace IHlink {
     openCache?: boolean
     mkdirIfSingle?: boolean
     /**
+     * @deprecated 废弃
+     */
+    del?: boolean
+    generateConfig: string
+    removeConfig: boolean
+    configPath: string
+    help?: boolean
+
+    /**
      * @description prune命令专用
      */
     pruneDir?: boolean
@@ -14,12 +23,8 @@ declare namespace IHlink {
      */
     withoutConfirm?: boolean
     /**
-     * @deprecated 废弃
+     * @description prune命令专用
      */
-    del?: boolean
-    generateConfig: string
-    removeConfig: boolean
-    configPath: string
-    help?: boolean
+    reverse?: boolean
   }
 }
