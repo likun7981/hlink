@@ -6,11 +6,17 @@ import { createTimeLog, log, makeOnly, rmFiles, warning } from '../../utils.js'
 import helpText from './help.js'
 import defaultInclude from '../defaultInclude.js'
 import deleteEmptyDir from './deleteEmptyDir.js'
+import { cacheRecord } from '../../paths.js'
 
 const timeLog = createTimeLog()
 export type Flags = Pick<
   IHlink.Flags,
-  'help' | 'pruneDir' | 'withoutConfirm' | 'includeExtname' | 'excludeExtname'
+  | 'help'
+  | 'pruneDir'
+  | 'withoutConfirm'
+  | 'includeExtname'
+  | 'excludeExtname'
+  | 'reverse'
 >
 
 async function prune(sourceStr: string, destStr: string, flags: Flags) {
@@ -19,13 +25,15 @@ async function prune(sourceStr: string, destStr: string, flags: Flags) {
     pruneDir,
     withoutConfirm,
     includeExtname,
-    excludeExtname
+    excludeExtname,
+    reverse
   } = flags
   if (help) {
     console.log(helpText)
     process.exit(0)
   }
   warning(!sourceStr || !destStr, '必须指定要检测的源目录和硬链目录集合')
+  const cached = (reverse && cacheRecord.read()) || []
   const exts = (includeExtname || excludeExtname ? '' : defaultInclude)
     .split(',')
     .filter(Boolean)
@@ -36,8 +44,8 @@ async function prune(sourceStr: string, destStr: string, flags: Flags) {
     .map((s: string) => s.toLowerCase())
   const isWhiteList = !!exts.length
   timeLog.start()
-  const sourceArr = sourceStr.split(',').map(s => path.resolve(s))
-  const destArr = destStr.split(',').map(d => path.resolve(d))
+  let sourceArr = sourceStr.split(',').map(s => path.resolve(s))
+  let destArr = destStr.split(',').map(d => path.resolve(d))
   log.info('开始执行...')
   log.info('指定的源目录有:')
   sourceArr.forEach(s => {
@@ -50,6 +58,14 @@ async function prune(sourceStr: string, destStr: string, flags: Flags) {
   })
   console.log()
   log.info(
+    '检测模式:',
+    chalk.magenta(
+      reverse
+        ? '反向检测，删除源目录比硬链目录多的文件，hlink会帮你排除缓存的文件'
+        : '正向检测，删除硬链目录比源目录多的文件'
+    )
+  )
+  log.info(
     '删除模式:',
     chalk.magenta(pruneDir ? '删除硬链所在目录' : '仅仅删除硬链文件')
   )
@@ -61,6 +77,11 @@ async function prune(sourceStr: string, destStr: string, flags: Flags) {
     isWhiteList ? '包含的后缀有:' : '排除的后缀有:',
     chalk.magenta(isWhiteList ? exts.join(',') : excludeExts.join(','))
   )
+  if (reverse) {
+    const tmp = sourceArr
+    sourceArr = destArr
+    destArr = tmp
+  }
   log.info('开始分析目录集合...')
   const inodes = makeOnly(
     sourceArr.reduce<string[]>(
@@ -80,9 +101,13 @@ async function prune(sourceStr: string, destStr: string, flags: Flags) {
                 .extname(item.fullPath)
                 .replace('.', '')
                 .toLowerCase()
-              const isSupported = isWhiteList
+              let isSupported = isWhiteList
                 ? exts.indexOf(extname) > -1
                 : excludeExts.indexOf(extname) === -1
+              // 反向检测，则需要关注cache的处理
+              if (reverse && isSupported) {
+                isSupported = !cached.includes(item.fullPath)
+              }
               return isSupported
             })
             .map(item =>

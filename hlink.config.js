@@ -21,7 +21,7 @@ export default {
    *  1. 配置了excludeExtname，则链接文件为排除后的其他文件
    *  2. 未配置excludeExtname，则链接文件为目录下的所有文件
    */
-  includeExtname: ['js'],
+  includeExtname: [],
   /**
    * 需要排除的后缀名, 如果配置了includeExtname则该配置无效
    */
@@ -38,7 +38,7 @@ export default {
    *  如果保存模式为1 生成的硬链地址为：/d/y/mv.mkv
    */
   saveMode: 0,
-  openCache: false,
+  openCache: true,
   mkdirIfSingle: false,
   delete: true
 }
