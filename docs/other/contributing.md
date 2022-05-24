@@ -18,18 +18,22 @@
 
 打开你fork的仓库地址，找到`docs/other`目录，点击 `addFile` > `add new file`
 
-![image](https://user-images.githubusercontent.com/13427467/169977753-818706a2-206f-4995-95c8-ad07eab5e47c.png)
+![image](https://user-images.githubusercontent.com/13427467/170038192-17b9827b-0941-489a-9575-71a4ffa98738.png)
 
-给教程文档取个名称必须以`.md` 为后缀
+给教程文档取个`英文`名称必须以`.md` 为后缀
 
-![image](https://user-images.githubusercontent.com/13427467/169978122-5dea0e7e-74d0-4181-ba12-95a4a56453ec.png)
+![image](https://user-images.githubusercontent.com/13427467/170038302-89ff3889-eb64-4acb-ad5d-5538b0e03e43.png)
+
+在`docs/other/index.ts`里面加上文件名称和标题
+
+![image](https://user-images.githubusercontent.com/13427467/170037963-39c21667-5823-49de-8ab8-2adf38fc6ace.png)
 
 
 ## 3. 开始编辑你的文档
 
 接下来你就可以编写教程文档了，具体 markdown的语法可以见 [github markdown语法文档](https://docs.github.com/cn/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 编辑过程中你可以使用`Preview`进行预览
-![image](https://user-images.githubusercontent.com/13427467/169979479-6c346f4d-852f-4f82-8bb1-038c445f11dc.png)
+![image](https://user-images.githubusercontent.com/13427467/170038496-73741589-6c74-4866-b295-5d29ee478039.png)
 
 
 ## 4. 编辑完成提交
@@ -54,12 +58,13 @@
 
 ![image](https://user-images.githubusercontent.com/13427467/169982738-5c351347-6e1e-42b3-abaa-f497ecc6cdd7.png)
 
-## 7. 合并完成
+## 7. 合并
 看到一下merged说明你的文档就合并完成了
 ![image](https://user-images.githubusercontent.com/13427467/169983037-853989e7-e958-4750-8bc8-b0571ed97e6f.png)
 
-你可以在官方仓库看到你的教程了
-![image](https://user-images.githubusercontent.com/13427467/169983887-1237af7d-8645-4442-8556-dc0168ca8769.png)
+等待部署完成，部署完成后，你就可以通过下面的按钮访问，能找到你的文档
+![image](https://user-images.githubusercontent.com/13427467/170038926-ce0f7e61-870d-4659-99ab-05cefc7d7f86.png)
+
 
 
 ## 8. 更新自己的仓库
