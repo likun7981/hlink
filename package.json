@@ -1,6 +1,6 @@
 {
   "name": "hlink",
-  "version": "0.7.5",
+  "version": "0.7.3",
   "description": "hlink",
   "license": "MIT",
   "repository": "likun7981/hlink",
@@ -17,13 +17,12 @@
   },
   "scripts": {
     "test": "xo && ava",
-    "dev": "tsc -w",
+    "dev": "npm run clean && tsc && npm run env && tsc -w",
     "clean": "rm -rf lib",
     "cp": "cp src/hlink.config.tpl lib/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
     "prepublishOnly": "npm run build",
-    "rm": "rm /usr/local/bin/hlink ",
-    "env": "ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js",
+    "env": "rm /usr/local/bin/hlink && ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js",
     "np": "np --no-cleanup --no-tests --no-yarn",
     "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn",
     "np:next": "np --tag=next --any-branch --no-cleanup --no-tests --no-yarn"
@@ -39,6 +38,7 @@
   ],
   "dependencies": {
     "@inquirer/confirm": "0.0.19-alpha.0",
+    "@types/update-notifier": "^5.1.0",
     "ansi-escapes": "^5.0.0",
     "chalk": "^5",
     "chokidar": "^3.5.3",
@@ -46,6 +46,7 @@
     "fs-extra": "^10",
     "meow": "^10.1.2",
     "progress": "^2.0.3",
+    "update-notifier": "^5.1.0",
     "wrap-ansi": "^8.0.1"
   },
   "devDependencies": {

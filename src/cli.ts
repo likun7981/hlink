@@ -1,11 +1,36 @@
 #!/usr/bin/env node
 import chalk from 'chalk'
 import meow from 'meow'
+import fs from 'fs-extra'
 import { restore, backup } from './bins/qnap.js'
 import doctor from './bins/doctor.js'
 import prune from './bins/prune/index.js'
 import hlink from './bins/main/index.js'
 import { log } from './utils.js'
+import updateNotifier from 'update-notifier'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const pkg = fs.readJSONSync(
+  path.resolve(fileURLToPath(import.meta.url), '../../package.json')
+)
+
+const notifier = updateNotifier({
+  pkg,
+})
+
+notifier.notify({
+  isGlobal: true,
+  message:
+    '有版本可更新 ' +
+    chalk.dim('{currentVersion}') +
+    chalk.reset(' → ') +
+    chalk.green('{latestVersion}') +
+    ' \n使用命令 ' +
+    chalk.cyan('{updateCommand}') +
+    ' 进行更新，更新日志：' +
+    '\nhttps://github.com/likun7981/hlink/releases'
+})
 
 const cli = meow({
   autoHelp: false,
@@ -34,15 +59,6 @@ const cli = meow({
       type: 'boolean',
       alias: 'm'
     },
-    pruneDir: {
-      type: 'boolean',
-      alias: 'p'
-    },
-    withoutConfirm: {
-      type: 'boolean',
-      alias: 'w',
-      default: false,
-    },
     del: {
       type: 'boolean',
       alias: 'd'
@@ -58,6 +74,21 @@ const cli = meow({
     configPath: {
       type: 'string',
       alias: 'c'
+    },
+
+    pruneDir: {
+      type: 'boolean',
+      alias: 'p'
+    },
+    withoutConfirm: {
+      type: 'boolean',
+      alias: 'w',
+      default: false
+    },
+    reverse: {
+      type: 'boolean',
+      alias: 'r',
+      default: false
     }
   }
 })
@@ -103,10 +134,7 @@ switch (_command) {
   case 'prune':
     prune(inputs[0], inputs[1], {
       help,
-      pruneDir: flags.pruneDir,
-      withoutConfirm: flags.withoutConfirm,
-      includeExtname: flags.includeExtname,
-      excludeExtname: flags.excludeExtname
+      ...flags
     })
     break
   default:
