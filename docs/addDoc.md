@@ -14,7 +14,7 @@
 
 ### 2. 打开你fork的仓库地址，找到docs目录
 
-点击addFile
+点击addFile -> add new file
 
 ![image](https://user-images.githubusercontent.com/13427467/169977753-818706a2-206f-4995-95c8-ad07eab5e47c.png)
 
@@ -37,4 +37,6 @@
 
 ### 5. 提交mr到官方仓库
 
+你提交完成后，到下面的界面，点击open pull request
+![image](https://user-images.githubusercontent.com/13427467/169980843-edba3830-e29d-429c-9ccf-94c4d88cd44d.png)
 
