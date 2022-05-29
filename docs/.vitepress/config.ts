@@ -12,6 +12,7 @@ export default defineConfig({
   },
 
   themeConfig: {
+    logo: '/logo.svg',
     docsDir: 'docs',
     docsBranch: 'master',
     editLinks: true,

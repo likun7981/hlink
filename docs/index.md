@@ -1,5 +1,6 @@
 ---
 home: true
+heroImage: /logo.svg
 actionText: 快速开始
 actionLink: /guide/
 
