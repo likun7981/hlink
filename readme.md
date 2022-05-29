@@ -1,11 +1,26 @@
+<p align="center">
+  <a href="https://hlink.likun7981.cn" target="_blank" rel="noopener noreferrer">
+    <img width="180" src="https://hlink.likun7981.cn/logo.svg" alt="hlink logo">
+  </a>
+</p>
+<p align="center">
+  <a href="https://www.npmjs.com/package/hlink"><img src="https://img.shields.io/npm/v/hlink.svg" alt="npm package"></a>
+  <a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/hlink.svg" alt="node compatibility"></a>
+  <a href="https://npmjs.com/package/hlink"><img src="https://img.shields.io/npm/dm/hlink.svg" alt="downloads"></a>
+  <a href="https://github.com/likun7981/hlink/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/hlink.svg" alt="downloads"></a>
+</p>
+
+
 # hlink
+> 批量、快速硬链工具(The batch, fast hard link toolkit)
 
-[![npm package][npm]][npm-url]
-[![node version][node]][node-url]
-[![npm download][npm-download]][npm-download-url]
+- 💡 重复检测：支持文件名变更的重复检测
+- ⚡️ 快速：`20000+`文件只需要30秒
+- 📦 多平台：支持Windows、Mac、Linux
+- 🛠️ 丰富的配置：支持黑白名单，缓存等多个配置
+- 🔩 修剪机制：让你更方便的同步源文件和硬链
 
-## 所需环境：
-Node.js 12.20 或者 Node.js 14.14及以上
+更多介绍：https://hlink.likun7981.cn
 
 ## 安装
 ```bash
@@ -15,10 +30,6 @@ $ npm install -g hlink
 
 $ hlink --help
 ```
-## 与`cp -lr`的优势功能：
-1. 重复硬链检测，就算硬链接已改名也能检查到(内容改了不行)
-2. 更好的硬链删除机制
-3. 更友好的的提示
 
 ## 使用
 
@@ -27,13 +38,7 @@ $ hlink --help
 ## 效果截图
 <img src="https://user-images.githubusercontent.com/13427467/148171766-ccbe2a1a-c30c-4e1a-868c-4e2c69617d29.png" width="520"/>
 
-## 教程
-- [威联通开机启动添加环境变量](./docs/qnap.md)
-
-## 更新日志
-- [新版本0.6.x改动](https://github.com/likun7981/hlink/pull/42)
-
-# 打赏作者
+## 打赏作者
 
 请作者喝一杯咖啡😄
 
@@ -58,14 +63,3 @@ $ hlink --help
 
 [MIT][license-url]
 
-[npm]: https://img.shields.io/npm/v/hlink.svg
-[npm-url]: https://www.npmjs.com/package/hlink
-
-[node]: https://img.shields.io/node/v/hlink.svg
-[node-url]: https://nodejs.org
-
-[npm-download-url]: https://npmjs.com/package/hlink
-[npm-download]: https://img.shields.io/npm/dm/hlink.svg
-
-[license-url]: https://github.com/likun7981/hlink/blob/master/LICENSE
-[license]: http://img.shields.io/npm/l/hlink.svg?style=flat
