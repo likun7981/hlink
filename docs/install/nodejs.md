@@ -2,9 +2,14 @@
 
 ## 第一步、安装nvm
 
+- 非Window用户
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 ```
+
+- Windows用户
+
+[点击下载nvm-windows](https://github.com/coreybutler/nvm-windows/releases/download/1.1.9/nvm-setup.exe)
 
 ## 第二步、使用`nvm`安装nodejs
 
