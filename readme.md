@@ -24,11 +24,11 @@
 
 ## 安装
 ```bash
-$ npm install -g hlink
+npm install -g hlink
 
 # 查看帮助
 
-$ hlink --help
+hlink --help
 ```
 
 ## 使用

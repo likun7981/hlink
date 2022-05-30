@@ -16,11 +16,11 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
 
 用法:
   ${chalk.gray('# 修剪多余硬链文件')}
-  $ hlink prune sourceDir1,sourceDir2 destDir1,destDir2
+  hlink prune sourceDir1,sourceDir2 destDir1,destDir2
   ${chalk.gray('# 修剪多余硬链并删除所在目录')}
-  $ hlink prune -p sourceDir1,sourceDir2 destDir1,destDir2
+  hlink prune -p sourceDir1,sourceDir2 destDir1,destDir2
   ${chalk.gray('# 修剪时无需确认，一般使用于计划任务')}
-  $ hlink prune -w sourceDir1,sourceDir2 destDir1,destDir2
+  hlink prune -w sourceDir1,sourceDir2 destDir1,destDir2
 
 可配置选项:
   --pruneDir,-p        是否删除文件及所在目录，默认只会删除文件
@@ -36,6 +36,6 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
   --reverse,-r         检测方向，默认是正向检测，如果你指定了该选项则会是反向检测
                        ${chalk.gray(`1. 正向检测：删除的是硬链目录的文件，修剪硬链目录比源目录多的文件。
                        ${chalk.cyan('注意：正向检测一定要列全所有的源目录')}
-                       2. 反向检测：删除的是源目录目录的文件，修剪源目录比硬链目录多的文件。
+                       2. 反向检测：删除的是源目录的文件，修剪源目录比硬链目录多的文件。
                        ${chalk.cyan('注意：反向检测一定要列全所有的硬链目录，hlink会帮你排除缓存的文件')}`)}
 `

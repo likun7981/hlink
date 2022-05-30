@@ -4,15 +4,15 @@ export default `
 QQ反馈群号：${chalk.cyanBright('807101297')}
 
 用法:
-  $ hlink [--Options] [sourceDir] destPath
+  hlink [--Options] [sourceDir] destPath
 
 子命令:
   ${chalk.gray('备份hlink目录缓存等 备份路径')}
-  $ hlink backup /path/to/back
+  hlink backup /path/to/back
   ${chalk.gray('还原hlink目录缓存等 还原路径')}
-  $ hlink restore /path/to/restore
+  hlink restore /path/to/restore
   ${chalk.gray('移除命令查看帮助')}
-  $ hlink rm --help
+  hlink rm --help
 
 可配置选项:
   --saveMode,-s         保存模式,默认为模式0
@@ -39,6 +39,6 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
 
 例子:
   ${chalk.grey('# 创建 /share/download 下面文件到目标地址 /share/movie')}
-  $ hlink /share/download /share/movie
+  hlink /share/download /share/movie
   ${chalk.grey('# 生成配置文件')}
-  $ hlink -g`
+  hlink -g`

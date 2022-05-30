@@ -5,7 +5,7 @@
 执行以下命令即可完成安装
 
 ```bash
-$ npm i -g hlink
+npm i -g hlink
 ```
 
 
