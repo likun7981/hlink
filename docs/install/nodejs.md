@@ -21,12 +21,21 @@ nvm install 14
 nvm ls
 ```
 
-### 选项指定的node版本
+### 选择指定的node版本
 
 ```bash
 nvm use stable
+## 或者你可以指定选择某个版本号
+nvm use 14
 ## 查看node是否安装成功
 node -v
+```
+
+### 指定默认的nodejs版本
+
+```bash
+## 指定14为默认的版本
+nvm alias default 14
 ```
 
 ::: warning 重要提醒
