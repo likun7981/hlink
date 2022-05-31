@@ -10,5 +10,9 @@ export default [
   {
     text: '为什么有prune命令',
     link: 'prune'
+  },
+  {
+    text: '常见问题',
+    link: 'troubleshooting'
   }
 ]

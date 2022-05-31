@@ -7,7 +7,7 @@
   <a href="https://www.npmjs.com/package/hlink"><img src="https://img.shields.io/npm/v/hlink.svg" alt="npm package"></a>
   <a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/hlink.svg" alt="node compatibility"></a>
   <a href="https://npmjs.com/package/hlink"><img src="https://img.shields.io/npm/dm/hlink.svg" alt="downloads"></a>
-  <a href="https://github.com/likun7981/hlink/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/hlink.svg" alt="downloads"></a>
+  <a href="https://github.com/likun7981/hlink/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/hlink.svg" alt="license"></a>
 </p>
 
 
@@ -44,8 +44,6 @@ hlink --help
 
 <img width="300" src="https://user-images.githubusercontent.com/13427467/148188331-c997f355-2a80-46b9-ba6b-d189186ac356.png" /><img width="300" src="https://user-images.githubusercontent.com/13427467/148188398-d6d9e8e5-bd75-4de4-9faa-dbd4846b4103.png" />
 
-打赏列表:
-
 - 脱光游侠/诈尸求邀没结果 `16.60 RMB`
 - 月与徘徊 `10.00 RMB`
 - 庭下雀 `88.00 RMB`
@@ -61,5 +59,5 @@ hlink --help
 
 # License
 
-[MIT][license-url]
+[MIT](https://github.com/likun7981/hlink/blob/master/LICENSE)
 

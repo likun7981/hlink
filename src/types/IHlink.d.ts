@@ -3,6 +3,14 @@ declare namespace IHlink {
     saveMode: number
     includeExtname: string
     excludeExtname: string
+    include: {
+      extensions: Array<string>
+      globs: Array<string>
+    }
+    exclude: {
+      extensions: Array<string>
+      globs: Array<string>
+    }
     openCache?: boolean
     mkdirIfSingle?: boolean
     /**

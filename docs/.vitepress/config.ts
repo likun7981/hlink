@@ -18,24 +18,20 @@ export default defineConfig({
     editLinks: true,
     editLinkText: '更新此文档',
     repo: 'likun7981/hlink',
-
+    repoLabel: 'github',
     nav: [
-      { text: '快速开始', link: '/guide/' },
-      { text: '使用介绍', link: '/command/' },
-      { text: '文档贡献', link: '/other/contributing' },
+      { text: '如何贡献文档', link: '/other/contributing' },
+      { text: '常见问题', link: '/other/troubleshooting' },
       {
         text: '相关链接',
         items: [
           {
-            text: 'hlink发布日志',
+            text: '更新日志',
             link: 'https://github.com/likun7981/hlink/releases'
           },
-          {
-            text: '作者的github',
-            link: 'https://github.com/likun7981'
-          },
+          { text: '作者的github', link: 'https://github.com/likun7981' }
         ]
-      },
+      }
     ],
 
     sidebar: {
