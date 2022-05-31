@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://hlink.likun7981.cn" target="_blank" rel="noopener noreferrer">
-    <img width="180" src="https://hlink.likun7981.cn/logo.svg" alt="hlink logo">
+  <a href="https://hlink.likun.me" target="_blank" rel="noopener noreferrer">
+    <img width="180" src="https://hlink.likun.me/logo.svg" alt="hlink logo">
   </a>
 </p>
 <p align="center">
