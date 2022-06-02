@@ -3,11 +3,11 @@ declare namespace IHlink {
     saveMode: number
     includeExtname: string
     excludeExtname: string
-    include: {
+    include?: {
       extensions: Array<string>
       globs: Array<string>
     }
-    exclude: {
+    exclude?: {
       extensions: Array<string>
       globs: Array<string>
     }

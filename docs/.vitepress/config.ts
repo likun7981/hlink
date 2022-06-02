@@ -5,7 +5,18 @@ export default defineConfig({
   title: 'hlink',
   description: '批量、快速硬链工具',
 
-  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }]],
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
+    [
+      'script',
+      {
+        async: '',
+        defer: '',
+        'data-website-id': 'c24c5374-ed3c-4568-b89a-19c230fdb503',
+        src: 'https://umami.likun.me/umami.js'
+      }
+    ]
+  ],
 
   vue: {
     reactivityTransform: true
