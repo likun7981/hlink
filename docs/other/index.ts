@@ -15,4 +15,8 @@ export default [
     text: '常见问题',
     link: 'troubleshooting'
   }
+  {
+    text: '基于hlink整理脚本',
+    link: 'hlink_scripts'
+  }
 ]
