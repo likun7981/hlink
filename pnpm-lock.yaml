@@ -14,6 +14,7 @@ importers:
       eslint: ^8
       eslint-plugin-import: ^2.26.0
       eslint-plugin-node: ^11.1.0
+      eslint-plugin-promise: ^4.3.1
       husky: ^8.0.0
       np: ^7.6.1
       prettier: ^2.6.2
@@ -33,6 +34,7 @@ importers:
       eslint: 8.15.0
       eslint-plugin-import: 2.26.0_eor5fr4wgkua4fh2zz3r4cqkce
       eslint-plugin-node: 11.1.0_eslint@8.15.0
+      eslint-plugin-promise: 4.3.1
       husky: 8.0.1
       np: 7.6.1
       prettier: 2.6.2
@@ -44,7 +46,6 @@ importers:
   packages/hlink:
     specifiers:
       '@inquirer/confirm': 0.0.19-alpha.0
-      '@types/chalk': ^2.2.0
       '@types/update-notifier': ^5.1.0
       ansi-escapes: ^5.0.0
       chalk: ^5
@@ -65,8 +66,6 @@ importers:
       progress: 2.0.3
       update-notifier: 5.1.0
       wrap-ansi: 8.0.1
-    devDependencies:
-      '@types/chalk': 2.2.0
 
   packages/hlink-app:
     specifiers:
@@ -1141,16 +1140,6 @@ packages:
       '@types/keyv': 3.1.4
       '@types/node': 17.0.35
       '@types/responselike': 1.0.0
-    dev: true
-
-  /@types/chalk/2.2.0:
-    resolution:
-      {
-        integrity: sha512-1zzPV9FDe1I/WHhRkf9SNgqtRJWZqrBWgu7JGveuHmmyR9CnAPCie2N/x+iHrgnpYBIcCJWHBoMRv2TRWktsvw==,
-      }
-    deprecated: This is a stub types definition for chalk (https://github.com/chalk/chalk). chalk provides its own type definitions, so you don't need @types/chalk installed!
-    dependencies:
-      chalk: 5.0.1
     dev: true
 
   /@types/configstore/5.0.1:
