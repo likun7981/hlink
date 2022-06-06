@@ -1,9 +1,23 @@
 {
-  "extends": "standard-with-typescript",
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": ["import"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": ["./tsconfig.json"]
+    "sourceType": "module",
+    "ecmaVersion": 2021
+  },
+  "globals": {
+    "module": true
   },
   "rules": {
-    "@typescript-eslint/no-misused-promises": false
+    "node/no-missing-import": [0],
+    "no-process-exit": 0,
+    "node/no-unsupported-features/es-syntax": 0,
+    "node/no-unpublished-import": 0,
+    "@typescript-eslint/no-empty-function": 0
   }
 }
