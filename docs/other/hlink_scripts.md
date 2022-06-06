@@ -49,7 +49,7 @@ qbittorrent_main_history和transmission_main_history这两个参数都是属于�
 **没有用到的变量，请不要留空**
 
 ## 5.运行环境安装
-**注意群晖下面没办法跑改脚本，在docker容器里面运行正常**
+**注意群晖下面没办法跑该脚本，在docker容器里面运行正常**
 
 **以下docker版安装命令都是需要在容器环境里面输入，请不要在宿主机内输入**
 ### - docker版的qbittorrent里面安装hlink和jq
