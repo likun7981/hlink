@@ -26,7 +26,7 @@
 - docker版的qbittorrent进行下载 ***因此需要在docker的qbittorrent里面安装hlink和jq才能跑脚本***。
 > 推荐使用的该镜像[nevinee/qbittorrent](https://hub.docker.com/r/nevinee/qbittorrent)
 - docker版的transmission进行辅种
-- 群晖套件版EBMY
+- 群晖套件版EMBY
 
 ## 4.配置相关参数说明
 大部分需要使用者配置的参数都独立出各个脚本，汇总到config.yaml里面
