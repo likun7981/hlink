@@ -34,14 +34,17 @@ Emby_Apikey=a365099de3534d60921254b78db3b4b9
 api_key=48a50d0ba22416e805cd25c196a2f378
 
 ##进阶功能
-###qb删除脚本参数
+
+###qbittorrent_delete.sh脚本参数
 qbittorrent_url=192.168.1.196:9090
 ##main脚本运行历史，填的地址都是运行脚本后能访问到的地址
 qbittorrent_main_history=/data/diy/main_history.log
-###transmission脚本参数
+
+###transmission_add.sh和transmission_delete.sh脚本参数
 transmission_url=localhost:9090
 ##main脚本运行历史，填的地址都是运行脚本后能访问到的地址
 transmission_main_history=/mnt/脚本/main_history.log
+
 ##emby.delete.sh脚本参数
 ##emby.delete.sh脚本要删除的顶层目录
 emby_delete_volume=volume1|volume2|volume3
