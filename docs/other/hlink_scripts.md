@@ -11,6 +11,9 @@
 
 - 对接EMBY API，在删内容的同时，删除原种子，辅种和内容。做到一删则全删
 
+#### 脚本局限性
+- 只能删一整剧才能触发脚本删除
+
 ## 2.脚本执行过程
 
 基本功能：在qbittorrent完成任务时，启动脚本**main.sh**，自动对种子名称和种子内容进行处理，在对应的硬链接目录硬链接并进行改名整理，启动emby扫描刮削媒体库，最后再把运行历史写入到本地的历史纪录。
@@ -114,4 +117,9 @@ delete_scripts这个填的是你删除脚本在下载器容器里的路径
 - 配置好transmission的main.history.log挂载和填写好config.yaml里面transmission_add.sh和transmission_delete.sh脚本参数
 - 配置好transmission，如下图。在执行完校验任务之后，它会唤起transmission_add.sh将辅种的任务历史写入main.history.log里面，实现删辅种功能
 ![image](/docs/img/transmission_add.sh.png)
+
+所有高阶功能都配置完毕，高级功能实现依赖于main_history.log。辅种和删种的时候都需要访问到这个文件，并且要是同一个文件
+
+## BUG反馈
+所有脚本都带有日志生成，反馈bug时，建议带上日志
 
