@@ -3,7 +3,7 @@
 ##脚本所在路径
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo $DIR
-diylog="$DIR/diy.log"  ###改这里，改diy.sh的运行日志存放地方
+diylog="$DIR/diy.log"  
 
 set -x
 ####下载器传入的参数
