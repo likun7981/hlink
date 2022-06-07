@@ -7,8 +7,9 @@ diylog="$DIR/diy.log"  ###改这里，改diy.sh的运行日志存放地方
 
 set -x
 ####下载器传入的参数
-#获取种子名称对应QB的%N 
+#下面对应获取种子对应QB的%I
 torrent_hash="$1"
+#下面对应获取种子名称对应QB的%N 
 torrent_name="$2"
 folder_name="$2"
 #获取种子路径 对应QB的%F
