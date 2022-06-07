@@ -71,24 +71,47 @@ delete_scripts这个填的是你删除脚本在下载器容器里的路径
 
 **所有脚本都会在脚本所在生成运行日志，所有脚本都会在脚本所在查找config.yaml.所以只需要把脚本和config.yaml放在一起就行**
 
-**基本功能所使用到的脚本有：** ***diy.sh*** ***mian.sh***  ***config.yaml*** ***emby.sh***     config.yaml是相关使用参数存放
+**基本功能所使用到的脚本有：[diy.sh](/scripts/diy.sh) [mian.sh](/scripts/main.sh) [config.yaml](/scripts/config.yaml) [emby.sh](/scripts/emby.sh)     config.yaml是相关使用参数存放
 
-1. 如果使用的镜像是[nevinee/qbittorrent](https://hub.docker.com/r/nevinee/qbittorrent)，需要通过diy.sh来启动main.sh.不需要改动diy.sh,只需要改好config.yaml里面的参数，然后把所有的脚本和config.yaml都移动到/data/diy。然后再根据下图内容填好qbittorrent，则完成基本功能部署
+1. 如果使用的镜像是[nevinee/qbittorrent](https://hub.docker.com/r/nevinee/qbittorrent)，需要通过diy.sh来启动main.sh.不需要改动diy.sh,只需要改好config.yaml里面的参数，然后把所有涉及到脚本和config.yaml都移动到/data/diy。然后再根据下图内容填好qbittorrent，则完成基本功能部署
 ![image](/docs/img/qbittorrent.png)
-如果不是使用该镜像，那在安装完运行环境之后，根据diy的注解，改变diy.sh下载器传入参数，根据qbittorrent的说明来填写Torrent 完成时运行外部程序这个选项
+如果不是使用该镜像，那在安装完运行环境之后，根据diy的注解，改变[diy.sh](/scripts/diy.sh)下载器传入参数，根据qbittorrent的说明来填写Torrent 完成时运行外部程序这个选项
 
 ## 7.进阶功能部署
 
+
 **所有脚本都会在脚本所在生成运行日志，所有脚本都会在脚本所在查找config.yaml.所以只需要把脚本和config.yaml放在一起就行**
 
-**所有功能进阶都基于EMBY来实现，所以首先要安装emby对应的运行环境
+**所有功能进阶都基于EMBY来实现，并且需要在跑了我编写的脚本**
 
-1.EMBY运行环境安装
--在emby插件市场找到Emby Scripter-X并安装
--在emby控制台的侧边栏，高级，找到Scripter-X → Actions，再找到onMediaItemRemoved
--再按照下图填入，  **"%item.originaltitle%" "%item.library.name%" "%item.path%"**
--打上右上角的钩
+**进阶功能所使用到的脚本有：[transmission_add.sh](/scripts/transmission_add.sh) [qbittorrent_delete.sh](/scripts/qbittorrent_delete.sh) [transmission_delete.sh](/scripts/transmission_delete.sh) [emby_delete.sh](/scripts/emby_delete.sh) [config.yaml](/scripts/config.yaml)    config.yaml是相关使用参数存放
+
+### 1.EMBY运行环境配置
+
+- 下载[emby_delete.sh](/scripts/emby_delete.sh) [config.yaml](/scripts/config.yaml)，并改好config.yaml里面的emby.delete.sh脚本参数。放到emby能访问到的目录
+- 在emby插件市场找到Emby Scripter-X并安装
+- 在emby控制台的侧边栏，高级，找到Scripter-X → Actions，再找到onMediaItemRemoved
+- 再按照下图填入，  **"%item.originaltitle%" "%item.library.name%" "%item.path%"**
+- 打上右上角的钩
 ![image](/docs/img/emby.png)
 
+### 2.qbittorrent环境配置
 
+**以下涉及到的路径都是容器内路径**
+（我往往是在qbittorrent下载，在transmission辅种）
+
+如果使用的镜像是[nevinee/qbittorrent](https://hub.docker.com/r/nevinee/qbittorrent)，那么在下载完种子跑完脚本之后，会在/data/diy下面出现一个main_history.log。里面都是
+脚本运行过的历史。
+- 填好[config.yaml](/scripts/config.yaml)里面相对应的参数
+- 将[qbittorrent_delete.sh](/scripts/qbittorrent_delete.sh)放到/data/diy下面
+
+### 3.transmission环境配置
+
+该环境配置难点在于需要将mian.sh运行后的任务历史main_history.log挂载进transmission容器内部。
+举一个栗子，我的qbittorrent的mian.sh任务历史记录/data/diy/main_history.log,换成本地宿主机群晖的角度来看，就是在/volume2/docker/qbittorrent_追剧/data/diy/
+我需要把这个路径挂载到transmission的/mnt/脚本里面。所以我将宿主机的/volume2/docker/qbittorrent_追剧/data/diy/挂载到了transmission的/mnt/脚本。
+如下图(/docs/img/transmission_mount.png)
+- 配置好transmission的main.history.log挂载和填写好config.yaml里面transmission_add.sh和transmission_delete.sh脚本参数
+- 配置好transmission，如下图。在执行完校验任务之后，它会唤起transmission_add.sh将辅种的任务历史写入main.history.log里面，实现删辅种功能
+![image](/docs/img/transmission_add.sh.png)
 
