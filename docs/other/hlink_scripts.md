@@ -85,18 +85,29 @@ delete_scripts这个填的是你删除脚本在下载器容器里的路径
 
 **所有脚本都会在脚本所在生成运行日志，所有脚本都会在脚本所在查找config.yaml.所以只需要把脚本和config.yaml放在一起就行**
 
-**所有功能进阶都基于EMBY来实现，并且需要在跑了我编写的脚本**
+**所有功能进阶都基于在跑了我编写的脚本**
 
-**进阶功能所使用到的脚本有：[transmission_add.sh](/scripts/transmission_add.sh) [qbittorrent_delete.sh](/scripts/qbittorrent_delete.sh) [transmission_delete.sh](/scripts/transmission_delete.sh) [emby_delete.sh](/scripts/emby_delete.sh) [config.yaml](/scripts/config.yaml)    config.yaml是相关使用参数存放
+**进阶功能所使用到的脚本有：[transmission_add.sh](/scripts/transmission_add.sh) [qbittorrent_delete.sh](/scripts/qbittorrent_delete.sh) [transmission_delete.sh](/scripts/transmission_delete.sh) [emby_delete.sh](/scripts/emby_delete.sh) [awake_delete.sh](/scripts/awake_delete.sh) [config.yaml](/scripts/config.yaml)     config.yaml是相关使用参数存放
 
-### 1.EMBY运行环境配置
+### 唤起删除脚本的两种方法
+
+#### 1.1 EMBY唤起删除脚本运行环境配置
+
+**emby插件和edocker版emby运行环境都是大问题，我emby4.7.2没办法运行该插件，希望有人和我联系测试一下。所以通过emby来唤醒删除脚本的方法不一定能实现，建议转去直接唤起删除脚本遍历任务历史**
 
 - 下载[emby_delete.sh](/scripts/emby_delete.sh) [config.yaml](/scripts/config.yaml)，并改好config.yaml里面的emby.delete.sh脚本参数。放到emby能访问到的目录
 - 在emby插件市场找到Emby Scripter-X并安装
 - 在emby控制台的侧边栏，高级，找到Scripter-X → Actions，再找到onMediaItemRemoved
 - 再按照下图填入，  **"%item.originaltitle%" "%item.library.name%" "%item.path%"**
 - 打上右上角的钩
-![image](/docs/img/emby.png)
+![image](/docs/img/群晖唤起删除脚本.png)
+
+#### 1.2 使用群晖任务计划
+
+- 下载[awake_delete.sh](/scripts/awake_delete.sh) [config.yaml](/scripts/config.yaml)，并改好config.yaml里面的emby.delete.sh脚本参数。放到群晖能访问到的目录
+- 编写群晖任务计划
+ 如下图
+ ![image](/docs/img/emby.png)
 
 ### 2.qbittorrent环境配置
 
