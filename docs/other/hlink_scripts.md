@@ -100,14 +100,13 @@ delete_scripts这个填的是你删除脚本在下载器容器里的路径
 - 在emby控制台的侧边栏，高级，找到Scripter-X → Actions，再找到onMediaItemRemoved
 - 再按照下图填入，  **"%item.originaltitle%" "%item.library.name%" "%item.path%"**
 - 打上右上角的钩
-![image](/docs/img/群晖唤起删除脚本.png)
+ ![image](/docs/img/emby.png)
 
 #### 1.2 使用群晖任务计划
 
 - 下载[awake_delete.sh](/scripts/awake_delete.sh) [config.yaml](/scripts/config.yaml)，并改好config.yaml里面的emby.delete.sh脚本参数。放到群晖能访问到的目录
 - 编写群晖任务计划
- 如下图
- ![image](/docs/img/emby.png)
+ ![image](/docs/img/群晖唤起删除脚本.png)
 
 ### 2.qbittorrent环境配置
 
