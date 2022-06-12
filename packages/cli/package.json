@@ -1,0 +1,51 @@
+{
+  "name": "hlink",
+  "version": "1.0.0",
+  "description": "hlink",
+  "license": "MIT",
+  "repository": "likun7981/hlink",
+  "homepage": "https://hlink.likun.me",
+  "author": {
+    "name": "likun7981",
+    "email": "likun7981@gmail.com"
+  },
+  "bin": {
+    "hlink": "./lib/cli.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": "^14.13.1 || >=16.0.0"
+  },
+  "scripts": {
+    "test": "xo && ava",
+    "dev": "npm run clean && tsc && npm run env && tsc -w",
+    "clean": "rm -rf lib",
+    "cp": "cp src/hlink.config.tpl lib/hlink.config.tpl",
+    "build": "npm run clean && tsc && npm run cp",
+    "prepublishOnly": "npm run build",
+    "env": "rm /usr/local/bin/hlink && ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js",
+    "np": "np --no-cleanup --no-tests --no-yarn",
+    "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "cli",
+    "cli-app",
+    "unicorn",
+    "fun"
+  ],
+  "dependencies": {
+    "@inquirer/confirm": "0.0.19-alpha.0",
+    "@types/update-notifier": "^5.1.0",
+    "ansi-escapes": "^5.0.0",
+    "chalk": "^5",
+    "execa": "^6",
+    "fs-extra": "^10",
+    "meow": "^10.1.2",
+    "progress": "^2.0.3",
+    "update-notifier": "^5.1.0",
+    "wrap-ansi": "^8.0.1"
+  }
+}

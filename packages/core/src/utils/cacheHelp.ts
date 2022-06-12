@@ -1,5 +1,7 @@
-import { cacheRecord } from '../paths.js'
-import { makeOnly } from '../utils.js'
+import { makeOnly } from './index.js'
+import Config from './Config.js'
+
+export const cacheRecord = new Config<Array<string>>('cache-array.json', [])
 
 export function saveCache(sourceCached: string[]) {
   const savedPath: string[] = cacheRecord.read()

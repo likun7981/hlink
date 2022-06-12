@@ -13,7 +13,7 @@
   },
   "type": "module",
   "engines": {
-    "node": ">=14.16"
+    "node": "^14.13.1 || >=16.0.0"
   },
   "scripts": {
     "build": "pnpm -r --filter=./packages/* run build",
@@ -21,7 +21,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "prepare": "husky install",
-    "lint": "eslint --fix packages/**/*.{ts,tsx}"
+    "lint": "eslint --fix packages/**/*.{ts,tsx}",
+    "test": "vitest"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
@@ -30,7 +31,6 @@
     "@types/wrap-ansi": "^8.0.1",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "ava": "^4",
     "commitlint": "^17.0.2",
     "eslint": "^8",
     "eslint-plugin-import": "^2.26.0",
@@ -41,8 +41,8 @@
     "prettier": "^2.6.2",
     "typescript": "^4.6.4",
     "vitepress": "^0.22.4",
-    "vue": "^3.2.36",
-    "xo": "^0.24.0"
+    "vitest": "^0.14.2",
+    "vue": "^3.2.36"
   },
   "lint-staged": {
     "*": "prettier -wu",

@@ -1,5 +1,5 @@
 {
-  "name": "hlink",
+  "name": "@hlink/core",
   "version": "1.0.0",
   "description": "hlink",
   "license": "MIT",
@@ -14,10 +14,9 @@
   },
   "type": "module",
   "engines": {
-    "node": ">=14.16"
+    "node": "^14.13.1 || >=16.0.0"
   },
   "scripts": {
-    "test": "xo && ava",
     "dev": "npm run clean && tsc && npm run env && tsc -w",
     "clean": "rm -rf lib",
     "cp": "cp src/hlink.config.tpl lib/hlink.config.tpl",
