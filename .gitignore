@@ -1,7 +1,5 @@
 node_modules
-destDir**
 lib/
-destDir*
 .hlink
 
 /docs/.vitepress/dist

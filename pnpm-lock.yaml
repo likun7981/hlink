@@ -107,23 +107,27 @@ importers:
   packages/core:
     specifiers:
       '@inquirer/confirm': 0.0.19-alpha.0
+      '@types/micromatch': ^4.0.2
       '@types/update-notifier': ^5.1.0
       ansi-escapes: ^5.0.0
       chalk: ^5
       execa: ^6
       fs-extra: ^10
       meow: ^10.1.2
+      micromatch: ^4.0.5
       progress: ^2.0.3
       update-notifier: ^5.1.0
       wrap-ansi: ^8.0.1
     dependencies:
       '@inquirer/confirm': 0.0.19-alpha.0
+      '@types/micromatch': 4.0.2
       '@types/update-notifier': 5.1.0
       ansi-escapes: 5.0.0
       chalk: 5.0.1
       execa: 6.1.0
       fs-extra: 10.1.0
       meow: 10.1.2
+      micromatch: 4.0.5
       progress: 2.0.3
       update-notifier: 5.1.0
       wrap-ansi: 8.0.1
@@ -1295,6 +1299,13 @@ packages:
       '@types/node': 17.0.41
     dev: true
 
+  /@types/braces/3.0.1:
+    resolution:
+      {
+        integrity: sha512-+euflG6ygo4bn0JHtn4pYqcXwRtLvElQ7/nnjDu7iYG56H0+OhCd7d6Ug0IE3WcFpZozBKW2+80FUbv5QGk5AQ==,
+      }
+    dev: false
+
   /@types/cacheable-request/6.0.2:
     resolution:
       {
@@ -1480,6 +1491,15 @@ packages:
     dependencies:
       '@types/minimist-options': 4.0.1
     dev: true
+
+  /@types/micromatch/4.0.2:
+    resolution:
+      {
+        integrity: sha512-oqXqVb0ci19GtH0vOA/U2TmHTcRY9kuZl4mqUxe0QmJAlIW13kzhuK5pi1i9+ngav8FjpSb9FVS/GE00GLX1VA==,
+      }
+    dependencies:
+      '@types/braces': 3.0.1
+    dev: false
 
   /@types/mime/1.3.2:
     resolution:
@@ -2571,7 +2591,6 @@ packages:
     engines: { node: '>=8' }
     dependencies:
       fill-range: 7.0.1
-    dev: true
 
   /browserslist/4.20.3:
     resolution:
@@ -4380,7 +4399,6 @@ packages:
     engines: { node: '>=8' }
     dependencies:
       to-regex-range: 5.0.1
-    dev: true
 
   /find-up/2.1.0:
     resolution:
@@ -5297,7 +5315,6 @@ packages:
         integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==,
       }
     engines: { node: '>=0.12.0' }
-    dev: true
 
   /is-obj/2.0.0:
     resolution:
@@ -6090,7 +6107,6 @@ packages:
     dependencies:
       braces: 3.0.2
       picomatch: 2.3.1
-    dev: true
 
   /mime-db/1.52.0:
     resolution:
@@ -6931,7 +6947,6 @@ packages:
         integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==,
       }
     engines: { node: '>=8.6' }
-    dev: true
 
   /pkg-dir/4.2.0:
     resolution:
@@ -8640,7 +8655,6 @@ packages:
     engines: { node: '>=8.0' }
     dependencies:
       is-number: 7.0.0
-    dev: true
 
   /toggle-selection/1.0.6:
     resolution:

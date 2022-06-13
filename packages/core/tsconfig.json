@@ -1,7 +1,7 @@
 {
   "include": ["src"],
-  "exclude": ["test", "example"],
   "compilerOptions": {
+    "types": ["vitest/globals"],
     "module": "esnext",
     "strict": true,
     "noUnusedLocals": true,
@@ -9,7 +9,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "DOM"],
     "moduleResolution": "node",
     "outDir": "lib",
     "skipLibCheck": true,

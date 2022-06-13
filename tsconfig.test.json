@@ -1,6 +1,7 @@
 {
   "include": ["**/__tests__"],
   "compilerOptions": {
+    "types": ["vitest/globals"],
     "module": "esnext",
     "strict": true,
     "noUnusedLocals": true,

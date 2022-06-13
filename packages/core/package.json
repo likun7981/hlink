@@ -35,16 +35,15 @@
     "unicorn",
     "fun"
   ],
+  "devDependencies": {
+    "@types/micromatch": "^4.0.2",
+    "@types/update-notifier": "^5.1.0"
+  },
   "dependencies": {
     "@inquirer/confirm": "0.0.19-alpha.0",
-    "@types/update-notifier": "^5.1.0",
-    "ansi-escapes": "^5.0.0",
     "chalk": "^5",
     "execa": "^6",
     "fs-extra": "^10",
-    "meow": "^10.1.2",
-    "progress": "^2.0.3",
-    "update-notifier": "^5.1.0",
-    "wrap-ansi": "^8.0.1"
+    "micromatch": "^4.0.5"
   }
 }

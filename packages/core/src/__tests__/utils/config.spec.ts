@@ -15,7 +15,7 @@ vi.mock('fs-extra', () => ({
 describe('Config test', () => {
   let config: Config<any>
   beforeEach(() => {
-    config = new Config('/a', {}, '/save/dir')
+    config = new Config('a', {}, '/save/dir')
     return () => {
       // @ts-ignore
       fs.writeJSONSync.mockReset()

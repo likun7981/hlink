@@ -25,6 +25,7 @@
       {
         "allowModules": ["vite", "vitest"]
       }
-    ]
+    ],
+    "prefer-const": 0
   }
 }

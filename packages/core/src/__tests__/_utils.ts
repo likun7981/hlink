@@ -1,5 +1,7 @@
 import { vi } from 'vitest'
 import { getTag, LogLevel } from '../utils'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 type MockType<T extends Record<string, any>> = [
   variable: T,
@@ -11,7 +13,7 @@ export function mockGlobalVar(...args: MockType<any>[]) {
   const originalMethods = args.map((mock) => {
     const [obj, method] = mock
     const originalMethod = obj[method]
-    obj[method] = vi.fn(() => 0) as any
+    obj[method] = vi.fn(() => 0)
     return originalMethod
   })
   return {
@@ -42,3 +44,26 @@ export const wait = async (timer: number) => {
     setTimeout(() => resolve(1), timer)
   })
 }
+
+export const getMockDir = (cwdUrl: string, name = 'mock_dir') => {
+  const mockDir = path.join(path.dirname(fileURLToPath(cwdUrl)), name)
+  const originalJoin = path.join
+  return {
+    mockDir,
+    originalJoin,
+    mockJoin: () => {
+      const spy = vi.spyOn(path, 'join').mockImplementation((a, b) => {
+        // mock relative path
+        return originalJoin(
+          path.isAbsolute(a) ? path.relative(mockDir, a) : a,
+          b
+        )
+      })
+      return () => {
+        spy.mockRestore()
+      }
+    },
+  }
+}
+
+export const mockJoin = () => {}

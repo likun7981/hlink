@@ -1,6 +1,6 @@
 import path from 'path'
 import parseFilePath from './parseFilePath.js'
-import lsirf from './lsirf.js'
+import lsirf from './lsirfl.js'
 
 function parseLs(dir: string, ignoreError = false) {
   const str = lsirf(dir, ignoreError)
@@ -22,14 +22,31 @@ function parseLs(dir: string, ignoreError = false) {
       prevIsBlank = true
     } else {
       prevIsBlank = false
-      const [inode, fullPath] = parseFilePath(file, currentDir)
-      results.push({
-        inode,
-        fullPath,
-      })
+      file = file.trim() // 去掉收尾空格
+      const result = parseFilePath(file, currentDir)
+      if (result) {
+        const [inode, fullPath] = result
+        results.push({
+          inode,
+          fullPath,
+        })
+      }
     }
   })
   return results
+}
+
+export function getInodes(dest: string) {
+  const inodes: string[] = []
+  lsirf(dest, true)
+    .split('\n')
+    .forEach((file) => {
+      if (Boolean(file) && !file.endsWith('/') && !file.endsWith(':')) {
+        const [inode] = file.split(' ')
+        inodes.push(inode)
+      }
+    })
+  return inodes
 }
 
 export default parseLs

@@ -156,14 +156,14 @@ describe('utils test', () => {
     test('should exit and return undefined when not ignore error', async () => {
       // @ts-ignore
       fs.stat.mockRejectedValue(new Error('Async error'))
-      const checkResult = await checkPathExist('abc')
+      const checkResult = await checkPathExist('abc', false)
       expect(process.exit).toHaveBeenCalledWith(0)
-      expect(checkResult).toBeUndefined()
+      expect(checkResult).toBeFalsy()
     })
     test('should return false when ignore error', async () => {
       // @ts-ignore
       fs.stat.mockRejectedValue(new Error('Async error'))
-      const checkResult = await checkPathExist('abc', true)
+      const checkResult = await checkPathExist('abc')
       expect(process.exit).not.toBeCalled()
       expect(checkResult).toBeFalsy()
     })

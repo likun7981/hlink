@@ -43,7 +43,7 @@ export function makeOnly<T = any>(arr: T[]) {
   return Array.from(new Set(arr))
 }
 
-export async function checkPathExist(path: string, ignore = false) {
+export async function checkPathExist(path: string, ignore = true) {
   try {
     await stat(path)
     return true
