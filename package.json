@@ -13,7 +13,7 @@
   },
   "type": "module",
   "engines": {
-    "node": ">=14.16"
+    "node": ">=12"
   },
   "scripts": {
     "test": "xo && ava",
