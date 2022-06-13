@@ -20,7 +20,7 @@ vi.mock('../../core/lsirfl.js', () => ({
 }))
 
 describe('getRmFiles test', () => {
-  test.only('should be passed baseConfig', () => {
+  test('should be passed baseConfig', () => {
     expect(getRmFiles(baseOptions)).toMatchInlineSnapshot(`
       [
         "d1/d1.mkv",
@@ -29,7 +29,7 @@ describe('getRmFiles test', () => {
       ]
     `)
   })
-  test.only('should not filter cache without reverse', () => {
+  test('should not filter cache without reverse', () => {
     const spyCacheRed = vi
       .spyOn(cacheRecord, 'read')
       .mockImplementationOnce(() => {
@@ -44,7 +44,7 @@ describe('getRmFiles test', () => {
     `)
     spyCacheRed.mockRestore()
   })
-  test.only('should be passed with reverse', () => {
+  test('should be passed with reverse', () => {
     expect(
       getRmFiles({
         ...baseOptions,
@@ -60,7 +60,7 @@ describe('getRmFiles test', () => {
       ]
     `)
   })
-  test.only('should filter cache with reverse', () => {
+  test('should filter cache with reverse', () => {
     const spyCacheRed = vi
       .spyOn(cacheRecord, 'read')
       .mockImplementationOnce(() => {
@@ -80,7 +80,7 @@ describe('getRmFiles test', () => {
     `)
     spyCacheRed.mockRestore()
   })
-  test.only('should be passed with rmDir', () => {
+  test('should be passed with rmDir', () => {
     expect(
       getRmFiles({
         ...baseOptions,
@@ -92,7 +92,7 @@ describe('getRmFiles test', () => {
       ]
     `)
   })
-  test.only('should be passed with include', () => {
+  test('should be passed with include', () => {
     expect(
       getRmFiles({
         ...baseOptions,
@@ -104,7 +104,7 @@ describe('getRmFiles test', () => {
       ]
     `)
   })
-  test.only('should be passed with exclude', () => {
+  test('should be passed with exclude', () => {
     expect(
       getRmFiles({
         ...baseOptions,
@@ -117,7 +117,7 @@ describe('getRmFiles test', () => {
       ]
     `)
   })
-  test.only('should be passed with exclude and include', () => {
+  test('should be passed with exclude and include', () => {
     expect(
       getRmFiles({
         ...baseOptions,
