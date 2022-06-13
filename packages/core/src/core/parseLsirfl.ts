@@ -43,7 +43,9 @@ export function getInodes(dest: string) {
     .forEach((file) => {
       if (Boolean(file) && !file.endsWith('/') && !file.endsWith(':')) {
         const [inode] = file.split(' ')
-        inodes.push(inode)
+        if (inode) {
+          inodes.push(inode)
+        }
       }
     })
   return inodes

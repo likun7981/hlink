@@ -1,7 +1,6 @@
 {
   "include": ["src"],
   "compilerOptions": {
-    "types": ["vitest/globals"],
     "module": "esnext",
     "strict": true,
     "noUnusedLocals": true,

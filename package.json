@@ -2,27 +2,26 @@
   "name": "hlink-monorepo",
   "version": "1.0.0",
   "description": "hlink",
-  "license": "MIT",
   "repository": "likun7981/hlink",
+  "license": "MIT",
   "author": {
     "name": "likun7981",
     "email": "likun7981@gmail.com"
   },
-  "bin": {
-    "hlink": "./lib/cli.js"
-  },
   "type": "module",
-  "engines": {
-    "node": "^14.13.1 || >=16.0.0"
-  },
   "scripts": {
+    "app:dev": "pnpm -r --filter=./packages/app run dev",
     "build": "pnpm -r --filter=./packages/* run build",
-    "app:dev": "pnpm -r --filter=./packages/hlink-app run dev",
-    "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "prepare": "husky install",
+    "docs:dev": "vitepress dev docs",
     "lint": "eslint --fix packages/**/*.{ts,tsx}",
-    "test": "vitest"
+    "prepare": "husky install",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "lint-staged": {
+    "*": "prettier -wu",
+    "packages/**/*.{ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
@@ -41,11 +40,9 @@
     "prettier": "^2.6.2",
     "typescript": "^4.6.4",
     "vitepress": "^0.22.4",
-    "vitest": "^0.14.2",
-    "vue": "^3.2.36"
+    "vitest": "^0.14.2"
   },
-  "lint-staged": {
-    "*": "prettier -wu",
-    "packages/**/*.{ts,tsx}": "eslint --fix"
+  "engines": {
+    "node": "^14.13.1 || >=16.0.0"
   }
 }

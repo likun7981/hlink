@@ -1,69 +1,37 @@
-import { describe, test, vi, expect, beforeAll } from 'vitest'
+import { describe, test, vi, expect } from 'vitest'
 import parseLs, { getInodes } from '../../core/parseLsirfl'
-import { getMockDir } from '../_utils'
+import { strMapping } from '../_utils'
 
-const { mockDir, mockJoin } = getMockDir(import.meta.url)
+vi.mock('../../core/lsirfl.js', () => ({
+  default: () => strMapping.s2,
+}))
 
 describe('parseLsirfl test', () => {
-  beforeAll(() => {
-    return mockJoin()
-  })
-
   test('parse should be passed', () => {
-    expect(parseLs(mockDir)).toMatchInlineSnapshot(`
+    expect(parseLs('s1')).toMatchInlineSnapshot(`
       [
         {
-          "fullPath": "    Sandra - (I'll Never Be) Maria Magdalena 2016 576i DVD MPEG PCM-PTerMV.vbo",
-          "inode": "4433243",
+          "fullPath": "s1/s2a.mkv",
+          "inode": "4445154",
         },
         {
-          "fullPath": "  aaa",
-          "inode": "4414124",
+          "fullPath": "s1/s2b.mp4",
+          "inode": "4445155",
         },
         {
-          "fullPath": " aaa",
-          "inode": "4414124",
-        },
-        {
-          "fullPath": "a.js",
-          "inode": "4414122",
-        },
-        {
-          "fullPath": "aaa",
-          "inode": "4414124",
-        },
-        {
-          "fullPath": "b.mkv",
-          "inode": "4414124",
-        },
-        {
-          "fullPath": "index.js",
-          "inode": "4414117",
-        },
-        {
-          "fullPath": "dir1/c.mkv",
-          "inode": "4415047",
-        },
-        {
-          "fullPath": "dir1/dir2/d.mkv",
-          "inode": "4415720",
+          "fullPath": "s1/s2c.m3",
+          "inode": "4445153",
         },
       ]
     `)
   })
 
   test('getInodes should be passed', () => {
-    expect(getInodes(mockDir)).toMatchInlineSnapshot(`
+    expect(getInodes('s1')).toMatchInlineSnapshot(`
       [
-        "4433243",
-        "4414124",
-        "4414124",
-        "4414122",
-        "4414124",
-        "4414124",
-        "4414117",
-        "4415047",
-        "4415720",
+        "4445154",
+        "4445155",
+        "4445153",
       ]
     `)
   })

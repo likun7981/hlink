@@ -1,13 +1,10 @@
-import { describe, test } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 import getRmFiles from '../../prune/getRmFiles'
 import { cacheRecord } from '../../utils/cacheHelp'
-import { getMockDir } from '../_utils'
 
-const { mockDir, mockJoin, originalJoin } = getMockDir(import.meta.url)
-
-const source1 = originalJoin(mockDir, 'sourceDir1')
-const source2 = originalJoin(mockDir, 'sourceDir2')
-const dest1 = originalJoin(mockDir, 'destDir1')
+const source1 = 's1'
+const source2 = 's2'
+const dest1 = 'd1'
 
 const baseOptions = {
   sourceArr: [source1, source2],
@@ -16,16 +13,19 @@ const baseOptions = {
   exclude: [],
 }
 
+import { strMapping } from '../_utils'
+
+vi.mock('../../core/lsirfl.js', () => ({
+  default: (p: keyof typeof strMapping) => strMapping[p] || strMapping.s1,
+}))
+
 describe('getRmFiles test', () => {
-  beforeAll(() => {
-    return mockJoin()
-  })
   test.only('should be passed baseConfig', () => {
     expect(getRmFiles(baseOptions)).toMatchInlineSnapshot(`
       [
-        "destDir1/d1.mkv",
-        "destDir1/d2.mp4",
-        "destDir1/dir1/b.iso",
+        "d1/d1.mkv",
+        "d1/d2.mp4",
+        "d1/b.iso",
       ]
     `)
   })
@@ -33,13 +33,13 @@ describe('getRmFiles test', () => {
     const spyCacheRed = vi
       .spyOn(cacheRecord, 'read')
       .mockImplementationOnce(() => {
-        return ['destDir1/d1.mkv']
+        return ['d1/d1.mkv']
       })
     expect(getRmFiles(baseOptions)).toMatchInlineSnapshot(`
       [
-        "destDir1/d1.mkv",
-        "destDir1/d2.mp4",
-        "destDir1/dir1/b.iso",
+        "d1/d1.mkv",
+        "d1/d2.mp4",
+        "d1/b.iso",
       ]
     `)
     spyCacheRed.mockRestore()
@@ -54,9 +54,9 @@ describe('getRmFiles test', () => {
       })
     ).toMatchInlineSnapshot(`
       [
-        "sourceDir2/s2a.mkv",
-        "sourceDir2/s2b.mp4",
-        "sourceDir2/dir/s2c.m3",
+        "s2/s2a.mkv",
+        "s2/s2b.mp4",
+        "s2/s2c.m3",
       ]
     `)
   })
@@ -64,7 +64,7 @@ describe('getRmFiles test', () => {
     const spyCacheRed = vi
       .spyOn(cacheRecord, 'read')
       .mockImplementationOnce(() => {
-        return ['sourceDir2/s2a.mkv', 'sourceDir2/s2b.mp4']
+        return ['s2/s2a.mkv', 's2/s2b.mp4']
       })
     expect(
       getRmFiles({
@@ -75,7 +75,7 @@ describe('getRmFiles test', () => {
       })
     ).toMatchInlineSnapshot(`
       [
-        "sourceDir2/dir/s2c.m3",
+        "s2/s2c.m3",
       ]
     `)
     spyCacheRed.mockRestore()
@@ -88,7 +88,7 @@ describe('getRmFiles test', () => {
       })
     ).toMatchInlineSnapshot(`
       [
-        "destDir1/",
+        "d1/",
       ]
     `)
   })
@@ -100,7 +100,7 @@ describe('getRmFiles test', () => {
       })
     ).toMatchInlineSnapshot(`
       [
-        "destDir1/d1.mkv",
+        "d1/d1.mkv",
       ]
     `)
   })
@@ -112,8 +112,8 @@ describe('getRmFiles test', () => {
       })
     ).toMatchInlineSnapshot(`
       [
-        "destDir1/d2.mp4",
-        "destDir1/dir1/b.iso",
+        "d1/d2.mp4",
+        "d1/b.iso",
       ]
     `)
   })
@@ -126,7 +126,7 @@ describe('getRmFiles test', () => {
       })
     ).toMatchInlineSnapshot(`
       [
-        "destDir1/d2.mp4",
+        "d1/d2.mp4",
       ]
     `)
   })
