@@ -142,7 +142,7 @@ export const endLog = (
  * @param sourceFile 源文件的完整地址
  * @param source 源文件夹绝对路径
  * @param dest 目标文件夹绝对路径
- * @param saveMode 保存模式0  为保存源目录结构，1保存一级目录结构
+ * @param keepDirStruct 是否保持原有目录结构
  * @param mkdirIfSingle 是否为独立文件创建同名文件夹
  * @returns 处理后的真正保存硬链的目录地址
  */
@@ -150,7 +150,7 @@ export function getOriginalDestPath(
   sourceFile: string,
   source: string,
   dest: string,
-  saveMode: number,
+  keepDirStruct: boolean,
   mkdirIfSingle: boolean
 ) {
   const currentDir = path.dirname(sourceFile)
@@ -161,7 +161,10 @@ export function getOriginalDestPath(
   }
   return path.resolve(
     dest,
-    relativePath.split(path.sep).slice(-saveMode).join(path.sep)
+    relativePath
+      .split(path.sep)
+      .slice(Number(keepDirStruct) - 1)
+      .join(path.sep)
   )
 }
 

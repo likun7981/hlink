@@ -4,16 +4,12 @@ import confirm from '@inquirer/confirm'
 import { createTimeLog, log, rmFiles, warning } from '../utils/index.js'
 import defaultInclude from '../utils/defaultInclude.js'
 import deleteEmptyDir from './deleteEmptyDir.js'
-import getGlobs from './getGlobs.js'
+import getGlobs from '../utils/getGlobs'
 import getRmFiles from './getRmFiles.js'
 
 const timeLog = createTimeLog()
 
-export type TOptions = {
-  /**
-   * @description 原路径和目标路劲的映射关系
-   */
-  pathsMapping?: Record<string, string>
+export interface IOptions extends IHlink.Options {
   /**
    * @description 是否删除文件所在目录
    */
@@ -26,17 +22,9 @@ export type TOptions = {
    * @description 是否是反向检测
    */
   reverse?: boolean
-  /**
-   * @description 包含
-   */
-  include?: IHlink.Options['include']
-  /**
-   * @description 排除
-   */
-  exclude?: IHlink.Options['exclude']
 }
 
-async function prune(options: TOptions) {
+async function prune(options: IOptions) {
   const {
     exclude = {},
     withoutConfirm,
@@ -51,7 +39,7 @@ async function prune(options: TOptions) {
     !sourcePaths.length || !destPaths.length,
     '必须指定要检测的源目录和硬链目录集合'
   )
-  const includeGlobs = getGlobs(include, defaultInclude.split(','))
+  const includeGlobs = getGlobs(include, defaultInclude)
   const excludeGlobs = getGlobs(exclude)
   timeLog.start()
   const sourceArr = sourcePaths.map((s) => path.resolve(s))

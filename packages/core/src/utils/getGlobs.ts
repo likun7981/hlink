@@ -1,4 +1,10 @@
-const getGlobs = (options?: IHlink.Rule, defaultExts?: string[]) => {
+const getGlobs = (options?: IHlink.Rule | string[], defaultExts?: string[]) => {
+  if (Array.isArray(options)) {
+    options = {
+      globs: [],
+      exts: options,
+    }
+  }
   let { globs, exts } = options || {}
   exts = exts || defaultExts
   globs = globs || []

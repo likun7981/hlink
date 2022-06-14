@@ -107,12 +107,14 @@ importers:
       '@inquirer/confirm': 0.0.19-alpha.0
       '@types/micromatch': ^4.0.2
       '@types/update-notifier': ^5.1.0
+      ansi-escapes: ^5.0.0
       chalk: ^5
       execa: ^6
       fs-extra: ^10
       micromatch: ^4.0.5
     dependencies:
       '@inquirer/confirm': 0.0.19-alpha.0
+      ansi-escapes: 5.0.0
       chalk: 5.0.1
       execa: 6.1.0
       fs-extra: 10.1.0
