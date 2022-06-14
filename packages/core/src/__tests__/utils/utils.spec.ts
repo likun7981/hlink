@@ -25,46 +25,46 @@ describe('utils test', () => {
     expect(getDirBasePath('/a/b', '/a/b/c/d')).toEqual('b/c/d')
   })
   describe('`getOriginalDestPath` should be passed', () => {
-    test('with saveMode=0', () => {
+    test('with keepDirStruct=true', () => {
       expect(
         getOriginalDestPath(
           '/path/to/source/dir1/dir2/a',
           '/path/to/source',
           '/path/to/dest',
-          0,
+          true,
           true
         )
-      ).eq('/path/to/dest/dir1/dir2')
+      ).toEqual('/path/to/dest/dir1/dir2')
     })
-    test('with saveMode=1', () => {
+    test('with keepDirStruct=false', () => {
       expect(
         getOriginalDestPath(
           '/path/to/source/dir1/dir2/a',
           '/path/to/source',
           '/path/to/dest',
-          1,
+          false,
           true
         )
-      ).eq('/path/to/dest/dir2')
+      ).toEqual('/path/to/dest/dir2')
     })
-    test('with saveMode=1 and mkdirIfSingle=false', () => {
+    test('with keepDirStruct=false and mkdirIfSingle=false', () => {
       expect(
         getOriginalDestPath(
           '/path/to/source/a',
           '/path/to/source',
           '/path/to/dest',
-          1,
+          false,
           false
         )
       ).toMatchInlineSnapshot('"/path/to/dest"')
     })
-    test('with saveMode=1 and mkdirIfSingle=true', () => {
+    test('with keepDirStruct=false and mkdirIfSingle=true', () => {
       expect(
         getOriginalDestPath(
           '/path/to/source/a',
           '/path/to/source',
           '/path/to/dest',
-          1,
+          false,
           true
         )
       ).toMatchInlineSnapshot('"/path/to/dest/a"')

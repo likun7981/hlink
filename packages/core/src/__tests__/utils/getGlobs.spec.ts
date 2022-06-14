@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import getGlobs from '../../prune/getGlobs'
+import getGlobs from '../../utils/getGlobs'
 
 describe('getGlobs test', () => {
   test('should be an empty array', () => {
@@ -28,6 +28,7 @@ describe('getGlobs test', () => {
       ]
     `)
   })
+
   test('should be passed with globs and exts', () => {
     expect(
       getGlobs({
@@ -42,10 +43,20 @@ describe('getGlobs test', () => {
       ]
     `)
   })
+
   test('should be passed with defaultExts', () => {
     expect(getGlobs({}, ['ext1', 'ext2'])).toMatchInlineSnapshot(`
       [
         "**.ext1",
+        "**.ext2",
+      ]
+    `)
+  })
+
+  test('should be passed with exts array string', () => {
+    expect(getGlobs(['ext3', 'ext2'])).toMatchInlineSnapshot(`
+      [
+        "**.ext3",
         "**.ext2",
       ]
     `)
