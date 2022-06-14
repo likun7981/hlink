@@ -23,9 +23,6 @@ function parseFilePath(file: string, dir = '') {
   if (!allNumber.test(inode)) {
     return false
   }
-  if (!allNumber.test(inode)) {
-    return false
-  }
   return [inode, filepath]
 }
 
