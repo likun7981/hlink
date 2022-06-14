@@ -22,7 +22,6 @@ function parseLs(dir: string, ignoreError = false) {
       prevIsBlank = true
     } else {
       prevIsBlank = false
-      file = file.trim() // 去掉收尾空格
       const result = parseFilePath(file, currentDir)
       if (result) {
         const [inode, fullPath] = result
