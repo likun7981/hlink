@@ -1,6 +1,13 @@
 import chalk from 'chalk'
-import { saveCache } from '../utils/cacheHelp.js'
-import { getDirBasePath, getOriginalDestPath } from '../utils/index.js'
+import HLinkError from '../core/HlinkError.js'
+import path from 'node:path'
+import execAsyncByGroup from '../utils/execAsyncByGroup.js'
+import {
+  findParent,
+  getDirBasePath,
+  getOriginalDestPath,
+  log,
+} from '../utils/index.js'
 import getProgressBar from '../utils/progress.js'
 import analyse from './analyse.js'
 import { IOptions as IHlinkOptions } from './index.js'
@@ -24,6 +31,11 @@ async function hlink(options: IOptions) {
     include,
     exclude,
   } = options
+  const parent = findParent([source, dest])
+  const relativeSource = path.relative(parent, source)
+  const relativeDest = path.relative(parent, dest)
+  log.info('开始执行任务:', relativeSource, chalk.cyan('>'), relativeDest)
+  log.info('开始分析目录')
   const { waitLinkFiles } = analyse({
     source,
     dest,
@@ -35,54 +47,49 @@ async function hlink(options: IOptions) {
   let failCount = 0
   const failReasons: Record<string, string[]> = {}
   if (waitLinkFiles.length) {
-    const count = 21
-    let c = 0
     const bar = getProgressBar(waitLinkFiles.length)
-
-    for (let i = 0, len = waitLinkFiles.length / count; i < len; i++) {
-      const start = c * count
-      const end = (c + 1) * count
-      await Promise.all(
-        waitLinkFiles.slice(start, end).map(async (sourceFilePath) => {
-          const originalDestPath = getOriginalDestPath(
-            sourceFilePath,
-            source,
-            dest,
-            keepDirStruct,
-            mkdirIfSingle
-          )
-          const failure = await link(
-            sourceFilePath,
-            originalDestPath,
-            source,
-            dest
-          )
-          if (failure) {
-            failCount += 1
-            if (typeof failure === 'object') {
-              const { reason, filepath } = failure
-              if (failReasons[reason]) {
-                failReasons[reason].push(filepath)
+    await execAsyncByGroup({
+      groupSize: waitLinkFiles.length,
+      waitExecArray: waitLinkFiles,
+      callback: async (sourceFilePath) => {
+        const originalDestPath = getOriginalDestPath(
+          sourceFilePath,
+          source,
+          dest,
+          keepDirStruct,
+          mkdirIfSingle
+        )
+        try {
+          await link(sourceFilePath, originalDestPath, source, dest)
+          successCount += 1
+        } catch (e) {
+          failCount += 1
+          const error = e as HLinkError
+          if (error.isHlinkError) {
+            if (error.reason) {
+              if (failReasons[error.reason]) {
+                failReasons[error.reason].push(error.filepath)
               } else {
-                failReasons[reason] = [filepath]
+                failReasons[error.reason] = [error.filepath]
               }
             }
           } else {
-            successCount += 1
+            log.error('未知错误, 请完整截图咨询!')
+            log.error(e)
           }
-          bar.tick(1, {
-            file: chalk.gray(getDirBasePath(source, sourceFilePath)),
-          })
+        }
+        bar.tick(1, {
+          file: chalk.gray(getDirBasePath(source, sourceFilePath)),
         })
-      )
-      c += 1
-    }
-    return {
-      waitLinkFiles,
-      failCount,
-      successCount,
-      failReasons,
-    }
+      },
+    })
+  }
+  log.info(relativeSource, chalk.cyan('>'), relativeDest, '任务执行完毕!')
+  return {
+    waitLinkFiles,
+    failCount,
+    successCount,
+    failReasons,
   }
 }
 
