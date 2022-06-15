@@ -13,8 +13,7 @@ const file1 = path.join(mockDir, '/b/e/f1')
 
 describe('deleteEmptyDir test', () => {
   beforeEach(async () => {
-    await fs.ensureDir(dir1)
-    await fs.ensureDir(dir2)
+    await Promise.all([fs.ensureDir(dir1), fs.ensureDir(dir2)])
   })
   test('should be passed for single empty dir', async () => {
     await deleteEmptyDir(mockDir)
