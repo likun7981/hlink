@@ -2,9 +2,9 @@ import chalk from 'chalk'
 import { log } from '../utils/index.js'
 
 export enum ErrorCode {
-  FileExists,
-  CrossDeviceLink,
-  NotPermitted,
+  FileExists = 'FileExists',
+  CrossDeviceLink = 'CrossDeviceLink',
+  NotPermitted = 'NotPermitted',
 }
 
 const codeBehaviorMapping: Record<ErrorCode, () => false | string> = {

@@ -17,7 +17,7 @@ describe('lsirf tests', () => {
     vi.spyOn(execa, 'execaSync').mockImplementationOnce(() => {
       throw new Error('ls error')
     })
-    expect(execa.execaSync).toThrowError('ls error')
+    expect(() => lsirfl('path', false)).toThrowError('ls error')
   })
 
   test('should return empty string when ignore error', () => {

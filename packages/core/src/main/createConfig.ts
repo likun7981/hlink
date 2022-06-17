@@ -3,8 +3,10 @@ import chalk from 'chalk'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { checkPathExist, log, warning } from '../utils/index.js'
+import { configName } from '../utils/paths.js'
 
-export default async function createConfig(configPath: string) {
+export default async function createConfig(configDir: string) {
+  const configPath = path.join(configDir, configName)
   if (await checkPathExist(configPath)) {
     warning(true, `配置文件已存在 ${chalk.cyan(configPath)} 请勿重复创建`)
   }
