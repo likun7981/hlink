@@ -23,25 +23,25 @@ export default {
    */
   exclude: [],
   /**
-   * 是否保持原有目录结构
-   *
-   * 默认为 true
+   * 是否保持原有目录结构，为false时则只保存一级目录结构
+   * 可选值: true/false
    * 例子：
    *  - 源地址目录为：/a
    *  - 目标地址目录为: /d
    *  - 链接的文件地址为 /a/b/c/z/y/mv.mkv；
-   *  如果保持原有目录结构 生成的硬链地址为: /d/b/c/z/y/mv.mkv
-   *  如果不保持原有目录结构 生成的硬链地址为：/d/y/mv.mkv
+   *  如果设置为true  生成的硬链地址为: /d/b/c/z/y/mv.mkv
+   *  如果设置为false 生成的硬链地址为：/d/y/mv.mkv
    */
   keepDirStruct: true,
   /**
-   * 是否打开缓存，默认关闭
-   *
+   * 是否打开缓存，为true表示打开
+   * 可选值: true/false
    * 打开后，每次硬链后会把对应文件存入缓存，就算下次删除硬链，也不会进行硬链
    */
   openCache: false,
   /**
-   * 是否为独立文件创建同名文件夹，默认创建
+   * 是否为独立文件创建同名文件夹，为true表示创建
+   * 可选值: true/false
    */
   mkdirIfSingle: true,
 }

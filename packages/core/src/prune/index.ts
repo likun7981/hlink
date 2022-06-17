@@ -1,11 +1,12 @@
 import chalk from 'chalk'
 import path from 'path'
 import confirm from '@inquirer/confirm'
-import { createTimeLog, log, rmFiles, warning } from '../utils/index.js'
+import { createTimeLog, log, rmFiles } from '../utils/index.js'
 import defaultInclude from '../utils/defaultInclude.js'
 import deleteEmptyDir from './deleteEmptyDir.js'
 import getGlobs from '../utils/getGlobs'
 import getRmFiles from './getRmFiles.js'
+import formatConfig from '../utils/formatConfig.js'
 
 const timeLog = createTimeLog()
 
@@ -13,7 +14,7 @@ export interface IOptions extends IHlink.Options {
   /**
    * @description 是否删除文件所在目录
    */
-  rmDir?: boolean
+  deleteDir?: boolean
   /**
    * @description 删除时是否二次确认
    */
@@ -26,19 +27,15 @@ export interface IOptions extends IHlink.Options {
 
 async function prune(options: IOptions) {
   const {
-    exclude = {},
+    exclude = [],
     withoutConfirm,
-    include = {},
+    include = [],
     reverse = false,
     pathsMapping = {},
-    rmDir = false,
-  } = options
+    deleteDir = false,
+  } = await formatConfig(options)
   const sourcePaths = Object.keys(pathsMapping)
   const destPaths = Object.values(pathsMapping)
-  warning(
-    !sourcePaths.length || !destPaths.length,
-    '必须指定要检测的源目录和硬链目录集合'
-  )
   const includeGlobs = getGlobs(include, defaultInclude)
   const excludeGlobs = getGlobs(exclude)
   timeLog.start()
@@ -65,7 +62,7 @@ async function prune(options: IOptions) {
   )
   log.info(
     '删除模式:',
-    chalk.magenta(rmDir ? '删除硬链所在目录' : '仅仅删除硬链文件')
+    chalk.magenta(deleteDir ? '删除硬链所在目录' : '仅仅删除硬链文件')
   )
   log.info('包含的匹配规则', chalk.magenta(includeGlobs.join(',')))
   log.info('排除的匹配规则', chalk.magenta(excludeGlobs.join(',')))
@@ -75,7 +72,7 @@ async function prune(options: IOptions) {
     destArr,
     include: includeGlobs,
     exclude: excludeGlobs,
-    rmDir,
+    deleteDir,
     reverse,
   })
   log.info('分析完毕')

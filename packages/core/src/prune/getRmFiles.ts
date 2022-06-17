@@ -10,10 +10,10 @@ type TOptions = {
   destArr: string[]
   include: string[]
   exclude: string[]
-} & Pick<PruneOptions, 'rmDir' | 'reverse'>
+} & Pick<PruneOptions, 'deleteDir' | 'reverse'>
 
 const getRmFiles = (options: TOptions) => {
-  let { sourceArr, destArr, include, exclude, rmDir, reverse } = options
+  let { sourceArr, destArr, include, exclude, deleteDir, reverse } = options
   include = include.length ? include : ['**']
   if (reverse) {
     const tmp = sourceArr
@@ -43,7 +43,7 @@ const getRmFiles = (options: TOptions) => {
               return isSupported
             })
             .map((item) => {
-              return rmDir
+              return deleteDir
                 ? path.join(path.dirname(item.fullPath), '/')
                 : item.fullPath
             })
@@ -51,7 +51,7 @@ const getRmFiles = (options: TOptions) => {
       []
     )
   )
-  if (rmDir) {
+  if (deleteDir) {
     // 如果是删除目录，则直接过滤掉二级目录
     filesNeedDelete = filesNeedDelete.filter((p1) =>
       filesNeedDelete.every((p2) => !(p1.indexOf(p2) === 0 && p1 !== p2))

@@ -1,1 +1,1 @@
-export { TOptions as PruneOptions, default as prune } from './prune/index.js'
+export { IOptions as PruneOptions, default as prune } from './prune/index.js'

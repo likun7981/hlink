@@ -3,8 +3,6 @@ import { execa } from 'execa'
 import fs from 'fs-extra'
 import path from 'path'
 
-const { stat } = fs
-
 export type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'SUCCEED'
 
 const color: Record<LogLevel, ChalkInstance> = {
@@ -45,7 +43,7 @@ export function makeOnly<T = any>(arr: T[]) {
 
 export async function checkPathExist(path: string, ignore = true) {
   try {
-    await stat(path)
+    await fs.stat(path)
     return true
   } catch (e) {
     if (!ignore) {
@@ -202,6 +200,7 @@ export async function rmFiles(files: string[]) {
 export function findParent(_paths: string[]) {
   let paths = [..._paths]
   if (!paths.length) return ''
+  paths = paths.map((p) => (path.isAbsolute(p) ? p : path.resolve(p)))
   /**
    * 排序，把最短的路径排到最前面
    */
@@ -215,4 +214,18 @@ export function findParent(_paths: string[]) {
     dirname = path.join(path.dirname(dirname), '/')
   }
   return dirname
+}
+
+/**
+ *
+ * @param _paths 路径集合
+ * @returns 返回_paths的相对于公共父目录的路劲
+ *
+ * _paths = ['/a/c/d/e', '/a/b/c/d/e']
+ * result = ['c/d/e','b/c/d/e']
+ *
+ */
+export function findParentRelative(_paths: string[]) {
+  const parent = findParent(_paths)
+  return _paths.map((_path) => path.relative(parent, _path))
 }

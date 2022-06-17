@@ -1,4 +1,5 @@
 import defaultInclude from '../utils/defaultInclude.js'
+import formatConfig from '../utils/formatConfig.js'
 import getGlobs from '../utils/getGlobs.js'
 import createConfig from './createConfig.js'
 import hlink from './hlink.js'
@@ -18,7 +19,8 @@ export interface IOptions extends IHlink.Options {
   keepDirStruct?: boolean
 }
 
-function main(options: IOptions) {
+async function main(options: IOptions) {
+  const config = await formatConfig(options)
   const {
     include,
     exclude,
@@ -26,7 +28,7 @@ function main(options: IOptions) {
     mkdirIfSingle,
     keepDirStruct,
     pathsMapping,
-  } = options
+  } = config
   const sourcePaths = Object.keys(pathsMapping)
   const includeGlobs = getGlobs(include, defaultInclude)
   const excludeGlobs = getGlobs(exclude)

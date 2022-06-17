@@ -1,9 +1,8 @@
 import chalk from 'chalk'
 import HLinkError from '../core/HlinkError.js'
-import path from 'node:path'
 import execAsyncByGroup from '../utils/execAsyncByGroup.js'
 import {
-  findParent,
+  findParentRelative,
   getDirBasePath,
   getOriginalDestPath,
   log,
@@ -31,9 +30,7 @@ async function hlink(options: IOptions) {
     include,
     exclude,
   } = options
-  const parent = findParent([source, dest])
-  const relativeSource = path.relative(parent, source)
-  const relativeDest = path.relative(parent, dest)
+  const [relativeSource, relativeDest] = findParentRelative([source, dest])
   log.info('开始执行任务:', relativeSource, chalk.cyan('>'), relativeDest)
   log.info('开始分析目录')
   const { waitLinkFiles } = analyse({
@@ -66,16 +63,19 @@ async function hlink(options: IOptions) {
           failCount += 1
           const error = e as HLinkError
           if (error.isHlinkError) {
-            if (error.reason) {
+            if (error.reason && error.ignore) {
               if (failReasons[error.reason]) {
                 failReasons[error.reason].push(error.filepath)
               } else {
                 failReasons[error.reason] = [error.filepath]
               }
+            } else {
+              throw error
             }
           } else {
             log.error('未知错误, 请完整截图咨询!')
-            log.error(e)
+            log.error(error)
+            throw error
           }
         }
         bar.tick(1, {
