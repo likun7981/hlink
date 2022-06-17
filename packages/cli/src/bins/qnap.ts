@@ -1,9 +1,8 @@
 import chalk from 'chalk'
-import { log } from '../utils.js'
-import { hlinkHomeDir } from '../paths.js'
 import { execaSync } from 'execa'
 import path from 'path'
 import os from 'os'
+import { log, hlinkHomeDir } from '@hlink/core'
 
 export const backup = (_path: string) => {
   if (!_path) {

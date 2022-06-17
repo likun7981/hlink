@@ -1,9 +1,9 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import chalk from 'chalk'
 import { execaSync } from 'execa'
-import path from 'path'
-import { fileURLToPath } from 'url'
 import fs from 'fs-extra'
-import { log } from '../utils.js'
+import { log } from '@hlink/core'
 
 const currentDir = path.resolve(fileURLToPath(import.meta.url), '../..')
 const cli = process.env.NODE_ENV === 'development' ? 'cli-dev.js' : 'cli.js'

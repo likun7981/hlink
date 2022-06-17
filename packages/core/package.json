@@ -9,9 +9,10 @@
     "name": "likun7981",
     "email": "likun7981@gmail.com"
   },
-  "bin": {
-    "hlink": "./lib/cli.js"
-  },
+  "main": "./lib/index.js",
+  "module": "./lib/index.js",
+  "exports": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "type": "module",
   "engines": {
     "node": "^14.13.1 || >=16.0.0"
@@ -20,14 +21,15 @@
     "clean": "rm -rf lib",
     "cp": "cp src/main/hlink.config.tpl lib/main/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build && vitest run"
   },
   "files": [
     "lib"
   ],
   "keywords": [
     "hlink",
-    "hard-link"
+    "hard-link",
+    "core"
   ],
   "devDependencies": {
     "@types/micromatch": "^4.0.2",
@@ -39,6 +41,7 @@
     "chalk": "^5",
     "execa": "^6",
     "fs-extra": "^10",
-    "micromatch": "^4.0.5"
+    "micromatch": "^4.0.5",
+    "wrap-ansi": "^8.0.1"
   }
 }

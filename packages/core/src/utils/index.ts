@@ -113,15 +113,13 @@ export const startLog = (options: LogOptions) => {
 export const endLog = (
   successCount: number,
   failCount: number,
-  jumpCount: number,
   failFiles: Record<string, string[]>
 ) => {
-  const totalCount = successCount + failCount + jumpCount
+  const totalCount = successCount + failCount
   if (totalCount) {
     log.success('执行完毕!', '总计', chalk.magenta(totalCount), '条')
     log.info('  成功', chalk.green(successCount), '条')
     log.info('  失败', chalk.red(failCount), '条')
-    // jumpCount && log.info('  跳过', chalk.yellow(jumpCount), '条')
   }
   const failReasons = Object.keys(failFiles)
   if (failReasons.length) {

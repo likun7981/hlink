@@ -1,7 +1,7 @@
 import ansiEscapes from 'ansi-escapes'
 import chalk from 'chalk'
 import wrapAnsi from 'wrap-ansi'
-import { log } from './index'
+import { log } from './index.js'
 
 type TokenType = Record<string, any>
 type OptionsType = {
@@ -74,7 +74,7 @@ export class ProgressBar {
     this.curr = curr || 0
     this.total = total
     this.columns = (process.stderr.columns || 80) - 10
-    this.width = width || this.columns - 38 * 2
+    this.width = width || Math.round(this.columns * 0.3)
     this.clear = clear
     this.lines = fmt.split('\n').length
     this.chars = {

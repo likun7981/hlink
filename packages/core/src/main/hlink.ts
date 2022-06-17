@@ -31,7 +31,10 @@ async function hlink(options: IOptions) {
     exclude,
   } = options
   const [relativeSource, relativeDest] = findParentRelative([source, dest])
-  log.info('开始执行任务:', relativeSource, chalk.cyan('>'), relativeDest)
+  const taskName = chalk.gray(
+    [relativeSource, chalk.cyan('>'), relativeDest].join(' ')
+  )
+  log.info('开始执行任务:', taskName)
   log.info('开始分析目录')
   const { waitLinkFiles } = analyse({
     source,
@@ -46,7 +49,7 @@ async function hlink(options: IOptions) {
   if (waitLinkFiles.length) {
     const bar = getProgressBar(waitLinkFiles.length)
     await execAsyncByGroup({
-      groupSize: waitLinkFiles.length,
+      groupSize: Math.min(66, Math.ceil(waitLinkFiles.length / 10)),
       waitExecArray: waitLinkFiles,
       callback: async (sourceFilePath) => {
         const originalDestPath = getOriginalDestPath(
@@ -84,7 +87,8 @@ async function hlink(options: IOptions) {
       },
     })
   }
-  log.info(relativeSource, chalk.cyan('>'), relativeDest, '任务执行完毕!')
+  log.info(taskName, '任务执行完毕!')
+  console.log()
   return {
     waitLinkFiles,
     failCount,

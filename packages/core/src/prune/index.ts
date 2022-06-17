@@ -4,7 +4,7 @@ import confirm from '@inquirer/confirm'
 import { createTimeLog, log, rmFiles } from '../utils/index.js'
 import defaultInclude from '../utils/defaultInclude.js'
 import deleteEmptyDir from './deleteEmptyDir.js'
-import getGlobs from '../utils/getGlobs'
+import getGlobs from '../utils/getGlobs.js'
 import getRmFiles from './getRmFiles.js'
 import formatConfig from '../utils/formatConfig.js'
 

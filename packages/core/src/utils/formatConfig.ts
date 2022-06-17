@@ -15,11 +15,7 @@ async function formatConfig<T extends IHlink.Options>(config: T) {
   const sources = Object.keys(config.pathsMapping)
 
   const exists = await Promise.all(
-    sources.map(
-      async (src) =>
-        (await checkPathExist(src)) &&
-        (await checkPathExist(config.pathsMapping[src]))
-    )
+    sources.map(async (src) => await checkPathExist(src))
   )
 
   const sourcesAfterFilter = sources.filter((src, i) => {
@@ -35,7 +31,7 @@ async function formatConfig<T extends IHlink.Options>(config: T) {
     }
     const exist = exists[i]
     if (!exist) {
-      log.warn(join(paths), '路劲不存在，已过滤')
+      log.warn(join(paths), '源路劲不存在，已过滤')
     }
     return exist
   })

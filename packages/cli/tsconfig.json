@@ -3,6 +3,7 @@
   "include": ["src"],
   "exclude": ["src/__tests__"],
   "compilerOptions": {
-    "outDir": "lib"
+    "outDir": "lib",
+    "declaration": false
   }
 }
