@@ -1,4 +1,4 @@
-import { vi, describe, test, beforeEach, expect } from 'vitest'
+import { vi, describe, test, beforeEach, expect, afterAll } from 'vitest'
 import fs from 'fs-extra'
 import Config from '../../utils/Config'
 import { wait } from '../_utils'
@@ -14,6 +14,9 @@ vi.mock('fs-extra', () => ({
 
 describe('Config test', () => {
   let config: Config<any>
+  afterAll(() => {
+    vi.restoreAllMocks()
+  })
   beforeEach(() => {
     config = new Config('a', {}, '/save/dir')
     return () => {

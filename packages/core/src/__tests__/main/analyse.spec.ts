@@ -1,4 +1,12 @@
-import { describe, test, expect, vi, afterEach, beforeAll } from 'vitest'
+import {
+  describe,
+  test,
+  expect,
+  vi,
+  afterEach,
+  beforeAll,
+  beforeEach,
+} from 'vitest'
 import analyse from '../../main/analyse'
 import * as parse from '../../core/parseLsirfl'
 import { cacheRecord } from '../../utils/cacheHelp'
@@ -9,11 +17,11 @@ function mockParse(s: { fullPath: string; inode: string }[], d: string[]) {
 }
 
 describe('analyse test', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     vi.spyOn(console, 'log').mockImplementation(() => 0)
-  })
-  afterEach(() => {
-    vi.clearAllMocks()
+    return () => {
+      vi.restoreAllMocks()
+    }
   })
   test('should waitLink some files', () => {
     mockParse(

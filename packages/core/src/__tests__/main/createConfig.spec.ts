@@ -13,7 +13,7 @@ describe('createConfig test', () => {
   beforeAll(() => {
     vi.spyOn(console, 'log').mockImplementation(() => 0)
     return () => {
-      vi.clearAllMocks()
+      vi.restoreAllMocks()
     }
   })
   beforeEach(async () => {

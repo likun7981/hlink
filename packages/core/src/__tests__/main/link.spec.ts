@@ -19,13 +19,14 @@ vi.mock('execa', async () => {
   return { ...originalExeca }
 })
 
-describe('link test', () => {
+describe.only('link test', () => {
   beforeAll(() => {
-    vi.spyOn(console, 'log').mockImplementation(() => 0)
+    console.log = vi.fn()
     return () => {
-      vi.clearAllMocks()
+      vi.restoreAllMocks()
     }
   })
+
   beforeEach(async () => {
     await Promise.all([fs.ensureDir(sourceDir), fs.ensureDir(destDir)])
     await fs.writeJSON(sourceFile, {})
@@ -36,7 +37,7 @@ describe('link test', () => {
     }
   })
 
-  test('should be passed', async () => {
+  test.only('should be passed', async () => {
     await link(sourceFile, destDir, sourceDir, destDir)
     expect(await checkPathExist(destFile)).toEqual(true)
   })

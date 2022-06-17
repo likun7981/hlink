@@ -8,17 +8,12 @@ import {
   LogLevel,
   createTimeLog,
   checkPathExist,
+  findParentRelative,
 } from '../../utils'
 import { mockGlobalVar, consoleParams } from '../_utils'
 import { describe, test, expect, vi, beforeEach } from 'vitest'
 import chalk from 'chalk'
 import fs from 'fs-extra'
-
-vi.mock('fs-extra', () => ({
-  default: {
-    stat: vi.fn(),
-  },
-}))
 
 describe('utils test', () => {
   test('`getDirBasePath` should be passed', () => {
@@ -74,6 +69,22 @@ describe('utils test', () => {
   test('`findParent` should be passed', () => {
     expect(findParent(['/a/b/c/d', '/a/b/e/f/g'])).toEqual('/a/b/')
     expect(findParent(['/a/e/c/d', '/a/b/e/f/g'])).toEqual('/a/')
+  })
+  test('`findParentRelative` should be passed', () => {
+    expect(findParentRelative(['/a/b/c/d', '/a/b/e/f/g']))
+      .toMatchInlineSnapshot(`
+      [
+        "c/d",
+        "e/f/g",
+      ]
+    `)
+    expect(findParentRelative(['/a/e/c/d', '/a/b/e/f/g']))
+      .toMatchInlineSnapshot(`
+      [
+        "e/c/d",
+        "b/e/f/g",
+      ]
+    `)
   })
 
   test('`makeOnly` should be passed', () => {
@@ -138,31 +149,29 @@ describe('utils test', () => {
 
   describe('`checkPathExist` ', async () => {
     beforeEach(() => {
-      // @ts-ignore
-      const spyProcess = vi.spyOn(process, 'exit').mockImplementation(() => {})
-      // ignore console.log
+      process.exit = vi.fn()
       console.log = vi.fn()
       return () => {
-        spyProcess.mockRestore()
-        vi.resetAllMocks()
+        vi.restoreAllMocks()
       }
     })
     test('should return true when exist', async () => {
+      const fsSpyOn = vi
+        .spyOn(fs, 'stat')
+        .mockImplementation(async (): Promise<any> => {})
       const checkResult = await checkPathExist('abc')
-      expect(fs.stat).toHaveBeenCalledWith('abc')
+      expect(fsSpyOn).toHaveBeenCalledWith('abc')
       expect(checkResult).toEqual(true)
     })
 
     test('should exit and return undefined when not ignore error', async () => {
-      // @ts-ignore
-      fs.stat.mockRejectedValue(new Error('Async error'))
+      vi.spyOn(fs, 'stat').mockRejectedValue(new Error('Async error'))
       const checkResult = await checkPathExist('abc', false)
       expect(process.exit).toHaveBeenCalledWith(0)
       expect(checkResult).toBeFalsy()
     })
     test('should return false when ignore error', async () => {
-      // @ts-ignore
-      fs.stat.mockRejectedValue(new Error('Async error'))
+      vi.spyOn(fs, 'stat').mockRejectedValue(new Error('Async error'))
       const checkResult = await checkPathExist('abc')
       expect(process.exit).not.toBeCalled()
       expect(checkResult).toBeFalsy()

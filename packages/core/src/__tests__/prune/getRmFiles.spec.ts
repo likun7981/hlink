@@ -80,11 +80,11 @@ describe('getRmFiles test', () => {
     `)
     spyCacheRed.mockRestore()
   })
-  test('should be passed with rmDir', () => {
+  test('should be passed with deleteDir', () => {
     expect(
       getRmFiles({
         ...baseOptions,
-        rmDir: true,
+        deleteDir: true,
       })
     ).toMatchInlineSnapshot(`
       [

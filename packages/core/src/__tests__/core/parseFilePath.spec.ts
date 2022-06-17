@@ -49,7 +49,7 @@ describe('parseFilePath test', () => {
         "a.js@",
       ]
     `)
-    vi.clearAllMocks()
+    vi.restoreAllMocks()
   })
   test('should return false with an invalid inode', () => {
     expect(parseFilePath('a a.js@')).toBeFalsy()
