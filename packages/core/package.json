@@ -17,23 +17,17 @@
     "node": "^14.13.1 || >=16.0.0"
   },
   "scripts": {
-    "dev": "npm run clean && tsc && npm run env && tsc -w",
     "clean": "rm -rf lib",
-    "cp": "cp src/hlink.config.tpl lib/hlink.config.tpl",
+    "cp": "cp src/main/hlink.config.tpl lib/main/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
-    "prepublishOnly": "npm run build",
-    "env": "rm /usr/local/bin/hlink && ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js",
-    "np": "np --no-cleanup --no-tests --no-yarn",
-    "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn"
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "lib"
   ],
   "keywords": [
-    "cli",
-    "cli-app",
-    "unicorn",
-    "fun"
+    "hlink",
+    "hard-link"
   ],
   "devDependencies": {
     "@types/micromatch": "^4.0.2",
