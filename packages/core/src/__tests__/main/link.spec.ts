@@ -19,7 +19,7 @@ vi.mock('execa', async () => {
   return { ...originalExeca }
 })
 
-describe.only('link test', () => {
+describe('link test', () => {
   beforeAll(() => {
     console.log = vi.fn()
     return () => {
@@ -37,7 +37,7 @@ describe.only('link test', () => {
     }
   })
 
-  test.only('should be passed', async () => {
+  test('should be passed', async () => {
     await link(sourceFile, destDir, sourceDir, destDir)
     expect(await checkPathExist(destFile)).toEqual(true)
   })
