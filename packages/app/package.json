@@ -4,13 +4,16 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite && tsc",
+    "dev": "run-p dev:*",
+    "dev:app": "vite",
     "dev:server": "tsc -w --project ./server/tsconfig.json",
+    "dev:start": "nodemon ./dist/server/index.js",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "build:server": "tsc --project ./server/tsconfig.json"
   },
   "dependencies": {
+    "@hlink/core": "workspace:^1.0.0",
     "@koa/router": "^10.1.1",
     "antd": "^4.21.0",
     "koa": "^2.13.4",

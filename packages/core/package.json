@@ -19,12 +19,13 @@
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "cp": "cp src/main/hlink.config.tpl lib/main/hlink.config.tpl",
+    "cp": "cp src/config/hlink.config.tpl lib/config/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
     "prepublishOnly": "npm run build && vitest run"
   },
   "files": [
-    "lib"
+    "lib",
+    "types"
   ],
   "keywords": [
     "hlink",

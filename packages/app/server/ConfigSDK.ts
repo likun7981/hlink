@@ -1,12 +1,11 @@
 import os from 'os'
 import path from 'path'
+import { hlinkHomeDir } from '@hlink/core'
 import { TConfig } from '../types/shim'
-
-const defaultBaseDir = path.join(os.homedir(), '.hlink')
 
 class ConfigSDK {
   private baseDir: string
-  constructor(baseDir = defaultBaseDir) {
+  constructor(baseDir = hlinkHomeDir) {
     this.baseDir = path.join(baseDir, 'configs')
   }
 

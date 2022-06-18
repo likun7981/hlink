@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.node.json",
-  "include": ["src"],
+  "include": ["src", "types"],
   "exclude": ["src/__tests__"],
   "compilerOptions": {
     "outDir": "lib"

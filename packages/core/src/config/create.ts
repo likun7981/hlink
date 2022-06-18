@@ -1,9 +1,9 @@
 import { checkPathExist, log, warning } from '../utils/index.js'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { configName } from '../utils/paths.js'
 import chalk from 'chalk'
 import fs from 'fs-extra'
+import getDefaultStr from './getDefaultStr.js'
 
 async function create(configDir: string) {
   warning(!configDir, '必须指定配置文件')
@@ -13,12 +13,7 @@ async function create(configDir: string) {
   }
   try {
     await fs.ensureDir(path.dirname(configPath))
-    const content = await fs.readFile(
-      path.join(
-        path.dirname(fileURLToPath(import.meta.url)),
-        'hlink.config.tpl'
-      )
-    )
+    const content = await getDefaultStr()
     await fs.writeFile(configPath, content)
     log.success('配置文件创建成功, 路径为', chalk.cyan(configPath))
     console.log()
