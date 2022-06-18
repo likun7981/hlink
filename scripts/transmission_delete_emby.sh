@@ -5,11 +5,12 @@ echo $DIR
 config="$DIR/config.yaml"   ##config的位置
 log="$DIR/delete.log"  ##delete脚本运行历史
 delete_log="$DIR/delete_history.log"  ##delete脚本运行历史
-host="qbittorrent"  ##直接进行媒体库扫描
+host="qbittorrent"  
 main_history="$(grep '^transmission_main_history=' $config | cut -d= -f2-)"  ##main脚本运行历史
 your_category_movies="$(grep '^your_category_movies=' $config | cut -d= -f2-)"   ##把它当成电影进行硬链接的目录
-chat_ID=1055256987	#用户ID或频道、群ID
-TOKEN=5196391134:AAHVCEfVYmhq3XFJrg_rfM_zMI-AijmzsQo	#TG机器人token
+chat_ID="$(grep '^chat_ID=' $config | cut -d= -f2-)"  
+TOKEN="$(grep '^TOKEN=' $config | cut -d= -f2-)"   
+tg="$(grep '^tg=' $config | cut -d= -f2-)"
 IFS=$'\n'   #修改分隔符为换行符
 exec >$log 2>&1
 set -x
@@ -59,15 +60,17 @@ done
 fi
 done
 cat $delete_log
-
+if [ $tg == "true" ]; then
 while ((a > 0))	
 do
+    
 	result="$(curl -F chat_id=$chat_ID -F document=@"$delete_log" https://api.telegram.org/bot$TOKEN/sendDocument)"
 	if [[ $(echo $result | egrep -c "true") -eq 1 ]]; then
 	echo "成功发送消息"
 	a=0
 	fi
 done
+fi
 echo "结束任务"
 IFS="$OLDIFS"  #还原IFS变量
 set +x
