@@ -18,7 +18,6 @@ export type WaitLinks = {
 }
 
 async function analyse(config: IOptions) {
-  log.info('开始分析源目录..')
   const {
     include,
     exclude,
@@ -32,7 +31,7 @@ async function analyse(config: IOptions) {
   const taskName = chalk.gray(
     [relativeSource, chalk.cyan('>'), relativeDest].join(' ')
   )
-  log.info('开始执行分析任务:', taskName)
+  log.info('执行分析任务:', taskName)
   const parseResults = await parseLsirfl(source)
   const dstInodes = await getInodes(dest)
   const existFiles: string[] = []
@@ -64,6 +63,7 @@ async function analyse(config: IOptions) {
       })
     }
   })
+  log.success('分析任务执行完毕:', taskName)
   return {
     existFiles,
     waitLinkFiles,

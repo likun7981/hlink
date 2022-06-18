@@ -2,7 +2,7 @@
 
 // eslint-disable-next-line node/shebang
 import meow from 'meow'
-import { configPath, main } from '@hlink/core'
+import { configPath, config } from '@hlink/core'
 import path from 'node:path'
 import { restore, backup } from './bins/qnap.js'
 import doctor from './bins/doctor.js'
@@ -52,7 +52,7 @@ switch (_command) {
     break
   case 'gen':
   case 'g':
-    main.createConfig(path.resolve(inputs[0] || configPath))
+    config.create(path.resolve(inputs[0] || configPath))
     break
   case 'prune':
     prune({

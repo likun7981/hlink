@@ -1,10 +1,13 @@
 import chalk from 'chalk'
 import path from 'path'
 import confirm from '@inquirer/confirm'
-import { createTimeLog, log, rmFiles } from '../utils/index.js'
-import defaultInclude from '../utils/defaultInclude.js'
+import {
+  createTimeLog,
+  findParentRelative,
+  log,
+  rmFiles,
+} from '../utils/index.js'
 import deleteEmptyDir from './deleteEmptyDir.js'
-import getGlobs from '../utils/getGlobs.js'
 import getRmFiles from './getRmFiles.js'
 import formatConfig from '../config/format.js'
 
@@ -27,29 +30,28 @@ export interface IOptions extends IHlink.Options {
 
 async function prune(options: IOptions) {
   const {
-    exclude = [],
+    exclude,
     withoutConfirm,
-    include = [],
+    include,
     reverse = false,
     pathsMapping = {},
     deleteDir = false,
   } = await formatConfig(options)
   const sourcePaths = Object.keys(pathsMapping)
   const destPaths = Object.values(pathsMapping)
-  const includeGlobs = getGlobs(include, defaultInclude)
-  const excludeGlobs = getGlobs(exclude)
   timeLog.start()
   const sourceArr = sourcePaths.map((s) => path.resolve(s))
   const destArr = destPaths.map((d) => path.resolve(d))
+  const relativePaths = findParentRelative([...sourceArr, ...destArr])
   log.info('开始执行...')
-  log.info('指定的源目录有:')
-  sourceArr.forEach((s) => {
-    console.log('', chalk.gray(s))
+  log.info('源目录有:')
+  sourceArr.forEach((s, i) => {
+    console.log('', chalk.gray(relativePaths[i]))
   })
   console.log()
-  log.info('指定的硬链目录有:')
-  destArr.forEach((d) => {
-    console.log('', chalk.gray(d))
+  log.info('硬链目录有:')
+  destArr.forEach((d, i) => {
+    console.log('', chalk.gray(relativePaths.slice(sourceArr.length)[i]))
   })
   console.log()
   log.info(
@@ -64,14 +66,17 @@ async function prune(options: IOptions) {
     '删除模式:',
     chalk.magenta(deleteDir ? '删除硬链所在目录' : '仅仅删除硬链文件')
   )
-  log.info('包含的匹配规则', chalk.magenta(includeGlobs.join(',')))
-  log.info('排除的匹配规则', chalk.magenta(excludeGlobs.join(',')))
+  log.info('包含的匹配规则', chalk.magenta(include.join(',')))
+  log.info(
+    '排除的匹配规则',
+    chalk.magenta(exclude.length ? exclude.join(',') : '无')
+  )
   log.info('开始分析目录集合...')
   const pathsNeedDelete = await getRmFiles({
     sourceArr,
     destArr,
-    include: includeGlobs,
-    exclude: excludeGlobs,
+    include,
+    exclude,
     deleteDir,
     reverse,
   })

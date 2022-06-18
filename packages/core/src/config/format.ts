@@ -1,5 +1,7 @@
 import chalk from 'chalk'
 import path from 'node:path'
+import defaultInclude from '../utils/defaultInclude.js'
+import getGlobs from '../utils/getGlobs.js'
 import {
   checkPathExist,
   findParentRelative,
@@ -50,8 +52,13 @@ async function formatConfig<T extends IHlink.Options>(config: T) {
     },
     {}
   )
+  let includeGlobs = getGlobs(config.include, defaultInclude)
+  const excludeGlobs = getGlobs(config.exclude)
+  includeGlobs = includeGlobs.length ? includeGlobs : ['**']
   return {
     ...config,
+    include: includeGlobs,
+    exclude: excludeGlobs,
     pathsMapping,
   }
 }

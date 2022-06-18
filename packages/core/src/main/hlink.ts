@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import HLinkError from '../core/HlinkError.js'
 import execAsyncByGroup from '../utils/execAsyncByGroup.js'
-import { getDirBasePath, log, asyncMap } from '../utils/index.js'
+import { getDirBasePath, log, asyncMap, createTimeLog } from '../utils/index.js'
 import { cachePath } from '../utils/paths.js'
 import getProgressBar from '../utils/progress.js'
 import analyse, { WaitLinks } from './analyse.js'
@@ -12,7 +12,7 @@ export interface IOptions extends Omit<IHlinkOptions, 'include' | 'exclude'> {
   include: string[]
   exclude: string[]
 }
-
+const time = createTimeLog()
 async function hlink(options: IOptions) {
   const {
     pathsMapping,
@@ -29,7 +29,9 @@ async function hlink(options: IOptions) {
   const existFiles = []
   const cacheFiles = []
   const parseResults = []
-
+  time.start()
+  log.info('任务开始!')
+  log.info(`共计 ${chalk.magenta(sourcePaths.length)} 个分析任务`)
   ;(
     await asyncMap(sourcePaths, (source) => {
       return analyse({
@@ -50,7 +52,6 @@ async function hlink(options: IOptions) {
     parseResults.push(...item.parseResults)
   })
 
-  log.success('分析完毕!')
   log.info('共计', chalk.magenta(parseResults.length), '个文件')
   log.info('不满足配置的文件', chalk.yellow(excludeFiles.length), '个')
   log.info('已存在硬链的文件', chalk.yellow(existFiles.length), '个')
@@ -114,6 +115,7 @@ async function hlink(options: IOptions) {
       },
     })
   }
+  time.end()
   return {
     waitLinkFiles,
     failCount,

@@ -20,7 +20,9 @@ export default {
    *
    * 后缀不够用? 高阶用法: todo 待补充链接
    */
-  include: [],
+  include: {
+    globs: ['**'],
+  },
   /**
    * 需要排除的后缀，如果与include同时配置，则取两者的交集
    *

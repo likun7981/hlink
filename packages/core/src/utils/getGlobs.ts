@@ -6,10 +6,10 @@ const getGlobs = (options?: IHlink.Rule | string[], defaultExts?: string[]) => {
     }
   }
   let { globs, exts } = options || {}
-  exts = exts || defaultExts
+  exts = exts?.length ? exts : defaultExts
   globs = globs || []
   if (exts) {
-    globs = globs.concat(exts.map((ext) => `**.${ext.toLowerCase()}`))
+    globs = globs.concat(exts.map((ext) => `*.${ext.toLowerCase()}`))
   }
   return globs
 }

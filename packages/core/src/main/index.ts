@@ -1,7 +1,4 @@
-import defaultInclude from '../utils/defaultInclude.js'
 import formatConfig from '../config/format.js'
-import getGlobs from '../utils/getGlobs.js'
-import createConfig from '../config/create.js'
 import hlink from './hlink.js'
 
 export interface IOptions extends IHlink.Options {
@@ -20,28 +17,7 @@ export interface IOptions extends IHlink.Options {
 }
 
 async function main(options: IOptions) {
-  const config = await formatConfig(options)
-  const {
-    include,
-    exclude,
-    openCache,
-    mkdirIfSingle,
-    keepDirStruct,
-    pathsMapping,
-  } = config
-  let includeGlobs = getGlobs(include, defaultInclude)
-  const excludeGlobs = getGlobs(exclude)
-  includeGlobs = includeGlobs.length ? includeGlobs : ['**']
-  await hlink({
-    openCache,
-    mkdirIfSingle,
-    keepDirStruct,
-    include: includeGlobs,
-    exclude: excludeGlobs,
-    pathsMapping,
-  })
+  await hlink(await formatConfig(options))
 }
-
-main.createConfig = createConfig
 
 export default main
