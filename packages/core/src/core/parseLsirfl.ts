@@ -2,8 +2,8 @@ import path from 'path'
 import parseFilePath from './parseFilePath.js'
 import lsirf from './lsirfl.js'
 
-function parseLs(dir: string, ignoreError = false) {
-  const str = lsirf(dir, ignoreError)
+async function parseLs(dir: string, ignoreError = false) {
+  const str = await lsirf(dir, ignoreError)
   const files = str.split('\n').filter((a) => !a?.endsWith('/'))
   let currentDir = dir
   let prevIsBlank = true // 记录上一行是否是空行
@@ -35,18 +35,16 @@ function parseLs(dir: string, ignoreError = false) {
   return results
 }
 
-export function getInodes(dest: string) {
+export async function getInodes(dest: string) {
   const inodes: string[] = []
-  lsirf(dest, true)
-    .split('\n')
-    .forEach((file) => {
-      if (Boolean(file) && !file.endsWith('/') && !file.endsWith(':')) {
-        const [inode] = file.split(' ')
-        if (inode) {
-          inodes.push(inode)
-        }
+  ;(await lsirf(dest, true)).split('\n').forEach((file) => {
+    if (Boolean(file) && !file.endsWith('/') && !file.endsWith(':')) {
+      const [inode] = file.split(' ')
+      if (inode) {
+        inodes.push(inode)
       }
-    })
+    }
+  })
   return inodes
 }
 

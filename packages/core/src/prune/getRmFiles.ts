@@ -1,7 +1,7 @@
 import path from 'node:path'
 import parseLsirfl, { getInodes } from '../core/parseLsirfl.js'
 import { cacheRecord } from '../utils/cacheHelp.js'
-import { makeOnly } from '../utils/index.js'
+import { makeOnly, asyncMap } from '../utils/index.js'
 import supported from '../utils/supported.js'
 import { IOptions as PruneOptions } from './index'
 
@@ -12,7 +12,7 @@ type TOptions = {
   exclude: string[]
 } & Pick<PruneOptions, 'deleteDir' | 'reverse'>
 
-const getRmFiles = (options: TOptions) => {
+const getRmFiles = async (options: TOptions) => {
   let { sourceArr, destArr, include, exclude, deleteDir, reverse } = options
   include = include.length ? include : ['**']
   if (reverse) {
@@ -21,17 +21,17 @@ const getRmFiles = (options: TOptions) => {
     destArr = tmp
   }
   const inodes = makeOnly(
-    sourceArr.reduce<string[]>(
-      (result, source) => result.concat(getInodes(source)),
+    (await asyncMap(sourceArr, getInodes)).reduce<string[]>(
+      (result, inodes) => result.concat(inodes),
       []
     )
   )
   const cached = (reverse && cacheRecord.read()) || []
   let filesNeedDelete = makeOnly(
-    destArr.reduce<string[]>(
-      (result, dest) =>
+    (await asyncMap(destArr, (d) => parseLsirfl(d, true))).reduce<string[]>(
+      (result, parseItem) =>
         result.concat(
-          parseLsirfl(dest, true)
+          parseItem
             .filter((item) => {
               return !inodes.includes(item.inode)
             })

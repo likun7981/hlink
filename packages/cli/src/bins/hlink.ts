@@ -1,7 +1,6 @@
 import chalk from 'chalk'
-import { main, IOptions as IMainOptions } from '@hlink/core'
+import { main, IOptions as IMainOptions, config } from '@hlink/core'
 import { ICliOptions } from '../types'
-import getConfig from '../getConfig.js'
 
 const helpTxt = `
 QQ反馈群号：${chalk.cyanBright('807101297')}
@@ -39,9 +38,8 @@ async function hlink(options: IOptions) {
     console.log(helpTxt)
     return
   }
-  const config = await getConfig<IMainOptions>(configPath)
   main({
-    ...config,
+    ...(await config.get<IMainOptions>(configPath)),
     ...other,
   })
 }

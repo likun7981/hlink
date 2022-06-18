@@ -7,8 +7,8 @@ vi.mock('../../core/lsirfl.js', () => ({
 }))
 
 describe('parseLsirfl test', () => {
-  test('parse should be passed', () => {
-    expect(parseLs('s1')).toMatchInlineSnapshot(`
+  test('parse should be passed', async () => {
+    expect(await parseLs('s1')).toMatchInlineSnapshot(`
       [
         {
           "fullPath": "s1/s2a.mkv",
@@ -26,8 +26,8 @@ describe('parseLsirfl test', () => {
     `)
   })
 
-  test('getInodes should be passed', () => {
-    expect(getInodes('s1')).toMatchInlineSnapshot(`
+  test('getInodes should be passed', async () => {
+    expect(await getInodes('s1')).toMatchInlineSnapshot(`
       [
         "4445154",
         "4445155",

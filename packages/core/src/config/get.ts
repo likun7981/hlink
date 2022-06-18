@@ -1,12 +1,9 @@
-import {
-  checkPathExist,
-  warning,
-  configPath as defaultConfigPath,
-} from '@hlink/core'
-import path from 'path'
-import { pathToFileURL } from 'url'
+import { checkPathExist, warning } from '../utils/index.js'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
+import { configPath as defaultConfigPath } from '../utils/paths.js'
 
-async function getConfig<T>(configPath: string) {
+async function get<T>(configPath: string) {
   configPath = configPath || defaultConfigPath
   configPath = path.isAbsolute(configPath)
     ? configPath
@@ -16,4 +13,4 @@ async function getConfig<T>(configPath: string) {
   return config
 }
 
-export default getConfig
+export default get

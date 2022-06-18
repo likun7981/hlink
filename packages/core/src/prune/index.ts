@@ -6,7 +6,7 @@ import defaultInclude from '../utils/defaultInclude.js'
 import deleteEmptyDir from './deleteEmptyDir.js'
 import getGlobs from '../utils/getGlobs.js'
 import getRmFiles from './getRmFiles.js'
-import formatConfig from '../utils/formatConfig.js'
+import formatConfig from '../config/format.js'
 
 const timeLog = createTimeLog()
 
@@ -67,7 +67,7 @@ async function prune(options: IOptions) {
   log.info('包含的匹配规则', chalk.magenta(includeGlobs.join(',')))
   log.info('排除的匹配规则', chalk.magenta(excludeGlobs.join(',')))
   log.info('开始分析目录集合...')
-  const pathsNeedDelete = getRmFiles({
+  const pathsNeedDelete = await getRmFiles({
     sourceArr,
     destArr,
     include: includeGlobs,

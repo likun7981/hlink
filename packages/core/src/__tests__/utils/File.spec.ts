@@ -1,6 +1,6 @@
 import { vi, describe, test, beforeEach, expect, afterAll } from 'vitest'
 import fs from 'fs-extra'
-import Config from '../../utils/Config'
+import File from '../../utils/File'
 import { wait } from '../_utils'
 
 vi.mock('fs-extra', () => ({
@@ -12,13 +12,13 @@ vi.mock('fs-extra', () => ({
   },
 }))
 
-describe('Config test', () => {
-  let config: Config<any>
+describe('File test', () => {
+  let config: File<any>
   afterAll(() => {
     vi.restoreAllMocks()
   })
   beforeEach(() => {
-    config = new Config('a', {}, '/save/dir')
+    config = new File('a', {}, '/save/dir')
     return () => {
       // @ts-ignore
       fs.writeJSONSync.mockReset()

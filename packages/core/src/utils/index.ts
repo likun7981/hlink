@@ -227,3 +227,10 @@ export function findParentRelative(_paths: string[]) {
   const parent = findParent(_paths)
   return _paths.map((_path) => path.relative(parent, _path))
 }
+
+export async function asyncMap<N, T>(
+  arr: T[],
+  callback: (p: T) => Promise<N>
+): Promise<N[]> {
+  return Promise.all(arr.map(callback))
+}

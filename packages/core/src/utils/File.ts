@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import { hlinkHomeDir } from './paths.js'
 
-class Config<T extends Array<any> | Record<string, any>> {
+class File<T extends Array<any> | Record<string, any>> {
   private jsonPath: string
   private backupPath: string
   private saveDir: string
@@ -87,4 +87,4 @@ class Config<T extends Array<any> | Record<string, any>> {
   }
 }
 
-export default Config
+export default File

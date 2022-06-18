@@ -20,8 +20,8 @@ vi.mock('../../core/lsirfl.js', () => ({
 }))
 
 describe('getRmFiles test', () => {
-  test('should be passed baseConfig', () => {
-    expect(getRmFiles(baseOptions)).toMatchInlineSnapshot(`
+  test('should be passed baseConfig', async () => {
+    expect(await getRmFiles(baseOptions)).toMatchInlineSnapshot(`
       [
         "d1/d1.mkv",
         "d1/d2.mp4",
@@ -29,13 +29,13 @@ describe('getRmFiles test', () => {
       ]
     `)
   })
-  test('should not filter cache without reverse', () => {
+  test('should not filter cache without reverse', async () => {
     const spyCacheRed = vi
       .spyOn(cacheRecord, 'read')
       .mockImplementationOnce(() => {
         return ['d1/d1.mkv']
       })
-    expect(getRmFiles(baseOptions)).toMatchInlineSnapshot(`
+    expect(await getRmFiles(baseOptions)).toMatchInlineSnapshot(`
       [
         "d1/d1.mkv",
         "d1/d2.mp4",
@@ -44,9 +44,9 @@ describe('getRmFiles test', () => {
     `)
     spyCacheRed.mockRestore()
   })
-  test('should be passed with reverse', () => {
+  test('should be passed with reverse', async () => {
     expect(
-      getRmFiles({
+      await getRmFiles({
         ...baseOptions,
         reverse: true,
         sourceArr: [source2],
@@ -60,14 +60,14 @@ describe('getRmFiles test', () => {
       ]
     `)
   })
-  test('should filter cache with reverse', () => {
+  test('should filter cache with reverse', async () => {
     const spyCacheRed = vi
       .spyOn(cacheRecord, 'read')
       .mockImplementationOnce(() => {
         return ['s2/s2a.mkv', 's2/s2b.mp4']
       })
     expect(
-      getRmFiles({
+      await getRmFiles({
         ...baseOptions,
         reverse: true,
         sourceArr: [source2],
@@ -80,9 +80,9 @@ describe('getRmFiles test', () => {
     `)
     spyCacheRed.mockRestore()
   })
-  test('should be passed with deleteDir', () => {
+  test('should be passed with deleteDir', async () => {
     expect(
-      getRmFiles({
+      await getRmFiles({
         ...baseOptions,
         deleteDir: true,
       })
@@ -92,9 +92,9 @@ describe('getRmFiles test', () => {
       ]
     `)
   })
-  test('should be passed with include', () => {
+  test('should be passed with include', async () => {
     expect(
-      getRmFiles({
+      await getRmFiles({
         ...baseOptions,
         include: ['**.mkv'],
       })
@@ -104,9 +104,9 @@ describe('getRmFiles test', () => {
       ]
     `)
   })
-  test('should be passed with exclude', () => {
+  test('should be passed with exclude', async () => {
     expect(
-      getRmFiles({
+      await getRmFiles({
         ...baseOptions,
         exclude: ['**.mkv'],
       })
@@ -117,9 +117,9 @@ describe('getRmFiles test', () => {
       ]
     `)
   })
-  test('should be passed with exclude and include', () => {
+  test('should be passed with exclude and include', async () => {
     expect(
-      getRmFiles({
+      await getRmFiles({
         ...baseOptions,
         exclude: ['**.mkv'],
         include: ['**.mkv', '**.mp4'],

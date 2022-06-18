@@ -1,7 +1,7 @@
 import { describe, test, expect, vi, beforeEach, beforeAll } from 'vitest'
 import fs from 'fs-extra'
-import createConfig from '../../main/createConfig'
 import path from 'node:path'
+import create from '../../config/create'
 import { getMockDir } from '../_utils'
 import { checkPathExist } from '../../utils'
 
@@ -9,9 +9,9 @@ const { mockDir } = getMockDir(import.meta.url, 'mock_dir')
 
 const configPath = path.join(mockDir, 'hlink.config.mjs')
 
-describe('createConfig test', () => {
+describe('create test', () => {
   beforeAll(() => {
-    vi.spyOn(console, 'log').mockImplementation(() => 0)
+    // vi.spyOn(console, 'log').mockImplementation(() => 0)
     return () => {
       vi.restoreAllMocks()
     }
@@ -25,7 +25,7 @@ describe('createConfig test', () => {
     }
   })
   test('should create succeed', async () => {
-    await createConfig(mockDir)
+    await create(mockDir)
     expect(await checkPathExist(configPath)).toEqual(true)
   })
 })

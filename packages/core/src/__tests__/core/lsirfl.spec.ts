@@ -3,27 +3,29 @@ import * as execa from 'execa'
 import lsirfl from '../../core/lsirfl'
 
 vi.mock('execa', () => ({
-  execaSync: vi.fn(() => ({})),
+  execa: vi.fn(() => ({})),
 }))
 
 describe('lsirf tests', () => {
-  test('should be passed', () => {
-    lsirfl('path')
-    expect(execa.execaSync).toHaveBeenCalledOnce()
-    expect(execa.execaSync).toHaveBeenCalledWith('ls', ['-iRFL', 'path'])
+  test('should be passed', async () => {
+    await lsirfl('path')
+    expect(execa.execa).toHaveBeenCalledOnce()
+    expect(execa.execa).toHaveBeenCalledWith('ls', ['-iRFL', 'path'])
   })
 
-  test('should throw error when not ignore error', () => {
-    vi.spyOn(execa, 'execaSync').mockImplementationOnce(() => {
+  test('should throw error when not ignore error', async () => {
+    vi.spyOn(execa, 'execa').mockImplementationOnce(() => {
       throw new Error('ls error')
     })
-    expect(() => lsirfl('path', false)).toThrowError('ls error')
+    expect(async () => await lsirfl('path', false)).rejects.toThrowError(
+      'ls error'
+    )
   })
 
-  test('should return empty string when ignore error', () => {
-    vi.spyOn(execa, 'execaSync').mockImplementationOnce(() => {
+  test('should return empty string when ignore error', async () => {
+    vi.spyOn(execa, 'execa').mockImplementationOnce(() => {
       throw new Error('ls error')
     })
-    expect(lsirfl('path', true)).toEqual('')
+    expect(await lsirfl('path', true)).toEqual('')
   })
 })

@@ -1,6 +1,11 @@
 import chalk from 'chalk'
 import path from 'node:path'
-import { checkPathExist, findParentRelative, log, warning } from './index.js'
+import {
+  checkPathExist,
+  findParentRelative,
+  log,
+  warning,
+} from '../utils/index.js'
 
 function join(arr: string[]) {
   return chalk.gray(arr.join(` ${chalk.cyan('>')} `))

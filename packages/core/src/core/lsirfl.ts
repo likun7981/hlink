@@ -1,8 +1,8 @@
-import { execaSync } from 'execa'
+import { execa } from 'execa'
 
-function lsirf(path: string, ignoreError = false): string {
+async function lsirf(path: string, ignoreError = false): Promise<string> {
   try {
-    return execaSync('ls', ['-iRFL', path]).stdout
+    return (await execa('ls', ['-iRFL', path])).stdout
   } catch (e) {
     if (!ignoreError) {
       throw e

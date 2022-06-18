@@ -1,6 +1,6 @@
 import { IPruneOptions, prune as hlinkPrune } from '@hlink/core'
 import chalk from 'chalk'
-import getConfig from '../getConfig.js'
+import { config } from '@hlink/core'
 import { ICliOptions } from '../types'
 
 const helpTxt = `
@@ -45,9 +45,9 @@ async function prune(options: IOptions) {
     console.log(helpTxt)
     return
   }
-  const config = await getConfig<IPruneOptions>(configPath)
+  const configResult = await config.get<IPruneOptions>(configPath)
   hlinkPrune({
-    ...config,
+    ...configResult,
     ...other,
   })
 }

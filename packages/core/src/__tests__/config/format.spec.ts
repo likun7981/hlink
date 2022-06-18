@@ -1,7 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest'
 import path from 'node:path'
 import fs from 'fs-extra'
-import formatConfig from '../../utils/formatConfig'
+import formatConfig from '../../config/format'
 import { getMockDir } from '../_utils'
 
 const { mockDir } = getMockDir(import.meta.url, 'mock_dir')
@@ -9,7 +9,7 @@ const { mockDir } = getMockDir(import.meta.url, 'mock_dir')
 const sourceDir = path.join(mockDir, 'source')
 const destDir = path.join(mockDir, 'dest')
 
-describe('formatConfig test', () => {
+describe('format test', () => {
   beforeEach(async () => {
     await Promise.all([fs.ensureDir(sourceDir), fs.ensureDir(destDir)])
     console.log = vi.fn()
