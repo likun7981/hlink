@@ -29,9 +29,9 @@ your_category_zhcn=华语剧
 your_Category=Vertex
 ####Emby参数填充##
 Emby=192.168.1.196:8096
-Emby_Apikey=a365099de3534d60921254b78db3b4b9
+Emby_Apikey=11
 ###tmdb参数填充
-api_key=48a50d0ba22416e805cd25c196a2f378
+api_key=111
 
 ##进阶功能
 
@@ -44,6 +44,12 @@ qbittorrent_main_history=/data/diy/main_history.log
 transmission_url=localhost:9090
 ##main脚本运行历史，填的地址都是运行脚本后能访问到的地址
 transmission_main_history=/mnt/脚本/main_history.log
+
+##相关tg通知参数
+#用户ID或频道、群ID
+chat_ID=111
+#TG机器人token
+TOKEN=1111
 
 ##emby.delete.sh脚本参数
 ##emby.delete.sh脚本要删除的顶层目录
