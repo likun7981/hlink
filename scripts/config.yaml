@@ -46,6 +46,8 @@ transmission_url=localhost:9090
 transmission_main_history=/mnt/脚本/main_history.log
 
 ##相关tg通知参数
+#是否启用tg通知
+tg=true
 #用户ID或频道、群ID
 chat_ID=111
 #TG机器人token
