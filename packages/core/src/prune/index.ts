@@ -39,18 +39,17 @@ async function prune(options: IOptions) {
   } = await formatConfig(options)
   const sourcePaths = Object.keys(pathsMapping)
   const destPaths = Object.values(pathsMapping)
-  timeLog.start()
   const sourceArr = sourcePaths.map((s) => path.resolve(s))
   const destArr = destPaths.map((d) => path.resolve(d))
   const relativePaths = findParentRelative([...sourceArr, ...destArr])
   log.info('开始执行...')
   log.info('源目录有:')
-  sourceArr.forEach((s, i) => {
+  sourceArr.forEach((_s, i) => {
     console.log('', chalk.gray(relativePaths[i]))
   })
   console.log()
   log.info('硬链目录有:')
-  destArr.forEach((d, i) => {
+  destArr.forEach((_d, i) => {
     console.log('', chalk.gray(relativePaths.slice(sourceArr.length)[i]))
   })
   console.log()
@@ -81,6 +80,7 @@ async function prune(options: IOptions) {
     reverse,
   })
   log.info('分析完毕')
+  timeLog.start()
   if (pathsNeedDelete.length) {
     log.info(
       `共计找到 ${chalk.cyan(pathsNeedDelete.length)} 个路径需要删除，列表如下`
@@ -96,6 +96,7 @@ async function prune(options: IOptions) {
         default: false,
       })
     }
+    timeLog.start()
     if (answer) {
       await rmFiles(pathsNeedDelete)
       await deleteEmptyDir(pathsNeedDelete)

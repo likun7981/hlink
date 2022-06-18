@@ -1,4 +1,7 @@
 const getGlobs = (options?: IHlink.Rule | string[], defaultExts?: string[]) => {
+  if (typeof options === 'string') {
+    return [options]
+  }
   if (Array.isArray(options)) {
     options = {
       globs: [],

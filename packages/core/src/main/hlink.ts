@@ -1,7 +1,13 @@
 import chalk from 'chalk'
 import HLinkError from '../core/HlinkError.js'
 import execAsyncByGroup from '../utils/execAsyncByGroup.js'
-import { getDirBasePath, log, asyncMap, createTimeLog } from '../utils/index.js'
+import {
+  getDirBasePath,
+  log,
+  asyncMap,
+  createTimeLog,
+  endLog,
+} from '../utils/index.js'
 import { cachePath } from '../utils/paths.js'
 import getProgressBar from '../utils/progress.js'
 import analyse, { WaitLinks } from './analyse.js'
@@ -22,6 +28,19 @@ async function hlink(options: IOptions) {
     include,
     exclude,
   } = options
+  log.info('当前配置如下')
+  log.info(
+    '包含规则:',
+    chalk.magenta(include.join(',') === '**' ? '所有文件' : include.join(','))
+  )
+  log.info(
+    '排查规则:',
+    chalk.magenta(exclude.length ? exclude.join(',') : '无')
+  )
+  log.info('缓存:', chalk.magenta(openCache ? '已打开' : '已关闭'))
+  log.info('保持原有目录结构:', chalk.magenta(keepDirStruct ? '是' : '否'))
+  log.info('为独立文件创建文件夹:', chalk.magenta(mkdirIfSingle ? '是' : '否'))
+  console.log()
   const sourcePaths = Object.keys(pathsMapping)
 
   const waitLinkFiles: WaitLinks[] = []
@@ -115,6 +134,7 @@ async function hlink(options: IOptions) {
       },
     })
   }
+  endLog(successCount, failCount, failReasons)
   time.end()
   return {
     waitLinkFiles,
