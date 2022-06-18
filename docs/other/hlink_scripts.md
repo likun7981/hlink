@@ -1,6 +1,7 @@
 # 基于Hlink的脚本
 
 **因为使用该脚本合集导致的数据损害和不见，本人概不负责**
+**只能对那些符合命名规则的资源进行整理，动漫不在该脚本适配范围**
 
 ## 1.功能如下
 #### 基本功能
@@ -91,7 +92,7 @@ delete_scripts这个填的是你删除脚本在下载器容器里的路径
 
 **进阶功能所使用到的脚本有：[transmission_add.sh](/scripts/transmission_add.sh) [qbittorrent_delete.sh](/scripts/qbittorrent_delete.sh) [transmission_delete.sh](/scripts/transmission_delete.sh) [transmission_delete_emby.sh](/scripts/transmission_delete_emby.sh)  [emby_delete.sh](/scripts/emby_delete.sh) [awake_delete.sh](/scripts/awake_delete.sh) [config.yaml](/scripts/config.yaml)     config.yaml是相关使用参数存放  
 
-** [transmission_delete_emby.sh](/scripts/transmission_delete_emby.sh)是与emby联动的transmission的删种脚本，[transmission_delete.sh](/scripts/transmission_delete.sh)是遍历删种脚本
+** [transmission_delete_emby.sh](/scripts/transmission_delete_emby.sh)是与emby联动的transmission的删种脚本，[transmission_delete.sh](/scripts/transmission_delete.sh)是遍历删种脚本 （如果使用transmission_delete_emby.sh，必须要填入tg参数）
 
 ### 唤起删除脚本的两种方法
 
