@@ -12,8 +12,8 @@ describe('getGlobs test', () => {
       })
     ).toMatchInlineSnapshot(`
       [
-        "**.mkv",
-        "**.mp4",
+        "*.mkv",
+        "*.mp4",
       ]
     `)
   })
@@ -38,8 +38,8 @@ describe('getGlobs test', () => {
     ).toMatchInlineSnapshot(`
       [
         "**/a/**",
-        "**.mkv",
-        "**.mp4",
+        "*.mkv",
+        "*.mp4",
       ]
     `)
   })
@@ -47,8 +47,8 @@ describe('getGlobs test', () => {
   test('should be passed with defaultExts', () => {
     expect(getGlobs({}, ['ext1', 'ext2'])).toMatchInlineSnapshot(`
       [
-        "**.ext1",
-        "**.ext2",
+        "*.ext1",
+        "*.ext2",
       ]
     `)
   })
@@ -56,8 +56,16 @@ describe('getGlobs test', () => {
   test('should be passed with exts array string', () => {
     expect(getGlobs(['ext3', 'ext2'])).toMatchInlineSnapshot(`
       [
-        "**.ext3",
-        "**.ext2",
+        "*.ext3",
+        "*.ext2",
+      ]
+    `)
+  })
+
+  test('should be passed with string', () => {
+    expect(getGlobs('**')).toMatchInlineSnapshot(`
+      [
+        "**",
       ]
     `)
   })

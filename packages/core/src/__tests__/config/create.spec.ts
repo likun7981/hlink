@@ -11,21 +11,17 @@ const configPath = path.join(mockDir, 'hlink.config.mjs')
 
 describe('create test', () => {
   beforeAll(() => {
-    // vi.spyOn(console, 'log').mockImplementation(() => 0)
+    vi.spyOn(console, 'log').mockImplementation(() => 0)
     return () => {
       vi.restoreAllMocks()
     }
   })
-  beforeEach(async () => {
-    await fs.ensureDir(mockDir)
-    return async () => {
-      await fs.rm(mockDir, {
-        recursive: true,
-      })
-    }
-  })
   test('should create succeed', async () => {
+    await fs.ensureDir(mockDir)
     await create(mockDir)
     expect(await checkPathExist(configPath)).toEqual(true)
+    await fs.rm(mockDir, {
+      recursive: true,
+    })
   })
 })

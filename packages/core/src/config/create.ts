@@ -6,6 +6,7 @@ import chalk from 'chalk'
 import fs from 'fs-extra'
 
 async function create(configDir: string) {
+  warning(!configDir, '必须指定配置文件')
   const configPath = path.join(configDir, configName)
   if (await checkPathExist(configPath)) {
     warning(true, `配置文件已存在 ${chalk.cyan(configPath)} 请勿重复创建`)

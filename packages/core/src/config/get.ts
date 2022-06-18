@@ -1,10 +1,9 @@
 import { checkPathExist, warning } from '../utils/index.js'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { configPath as defaultConfigPath } from '../utils/paths.js'
 
 async function get<T>(configPath: string) {
-  configPath = configPath || defaultConfigPath
+  warning(!!configPath, '必须指定配置文件')
   configPath = path.isAbsolute(configPath)
     ? configPath
     : path.join(process.cwd(), configPath)
