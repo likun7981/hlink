@@ -9,8 +9,10 @@ export function getInodes(dest: string) {
     .split('\n')
     .forEach(file => {
       if (Boolean(file) && !file.endsWith('/') && !file.endsWith(':')) {
-        const [inode] = parseFilePath(file)
-        inodes.push(inode)
+        const result = parseFilePath(file)
+        if(result) {
+          inodes.push(result[0])
+        }
       }
     })
   return inodes

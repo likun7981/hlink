@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs-extra'
 
 const endsWithes = ['*', '@'];
+const allNumber = /^[0-9]+$/
 /**
  * @description 解析出inode及绝对路径
  * @param file inode+filepath
@@ -20,6 +21,9 @@ function parseFilePath(file: string, dir: string = '') {
         filepath = filepath.slice(0, filepath.lastIndexOf(endWith))
       }
     })
+  }
+  if (!allNumber.test(inode)) {
+    return false
   }
   return [inode, filepath]
 }

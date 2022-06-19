@@ -22,11 +22,14 @@ function parseLs(dir: string, ignoreError = false) {
       prevIsBlank = true
     } else {
       prevIsBlank = false
-      const [inode, fullPath] = parseFilePath(file, currentDir)
-      results.push({
-        inode,
-        fullPath,
-      })
+      const result = parseFilePath(file, currentDir)
+      if(result) {
+        const [inode, fullPath] = result
+        results.push({
+          inode,
+          fullPath,
+        })
+      }
     }
   })
   return results;
