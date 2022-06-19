@@ -10,6 +10,14 @@ export default defineConfig({
   build: {
     outDir: '../dist/client',
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9090',
+        changeOrigin: true,
+      },
+    },
+  },
   plugins: [
     Unocss({
       presets: [presetUno(), presetAttributify()],

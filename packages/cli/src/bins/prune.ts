@@ -45,7 +45,7 @@ async function prune(options: IOptions) {
     console.log(helpTxt)
     return
   }
-  const configResult = await config.get<IPruneOptions>(configPath)
+  const configResult = await config.get(configPath)
   hlinkPrune({
     ...configResult,
     ...other,

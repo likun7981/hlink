@@ -29,11 +29,9 @@ export const log = {
   },
 }
 
-export function warning(warning: boolean, ...message: Array<any>) {
+export function warning(warning: boolean, ...message: Array<string>) {
   if (warning) {
-    log.warn(...message)
-    console.log()
-    process.exit(0)
+    throw new Error(message.join(' '))
   }
 }
 

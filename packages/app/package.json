@@ -7,7 +7,7 @@
     "dev": "run-p dev:*",
     "dev:app": "vite",
     "dev:server": "tsc -w --project ./server/tsconfig.json",
-    "dev:start": "nodemon ./dist/server/index.js",
+    "dev:start": "NODE_ENV=development nodemon -i ./configs ./dist/server/index.js",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "build:server": "tsc --project ./server/tsconfig.json"
@@ -15,11 +15,17 @@
   "dependencies": {
     "@hlink/core": "workspace:^1.0.0",
     "@koa/router": "^10.1.1",
+    "@types/koa__router": "^8.0.11",
     "antd": "^4.21.0",
+    "chalk": "^5",
+    "fs-extra": "^10",
     "koa": "^2.13.4",
+    "koa-body": "^5.0.0",
     "monaco-editor": "^0.33.0",
+    "query-string": "^7.1.1",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "swr": "^1.3.0"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",

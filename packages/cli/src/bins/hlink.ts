@@ -39,7 +39,7 @@ async function hlink(options: IOptions) {
     return
   }
   main({
-    ...(await config.get<IMainOptions>(configPath)),
+    ...(await config.get(configPath)),
     ...other,
   })
 }

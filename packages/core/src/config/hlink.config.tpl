@@ -4,12 +4,13 @@ export default {
    * 源路劲与目标路劲的映射关系
    * 例子:
    *  pathsMapping: {
-   *     源路劲1:目标路劲1
-   *     源路劲2:目标路劲2
-   *     源路劲3:目标路劲3
+   *     '/path/to/exampleSource': '/path/to/exampleDest',
+   *     '/path/to/exampleSource2': '/path/to/exampleDest2'
    *  }
    */
-  pathsMapping: {},
+  pathsMapping: {
+
+  },
   /**
    * 需要包含的后缀，如果与exclude同时配置，则取两者的交集
    *

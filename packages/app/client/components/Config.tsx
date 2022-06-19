@@ -1,7 +1,8 @@
 import { Button, Drawer, Form, Input, message, Space } from 'antd'
-import { useEffect, useState } from 'react'
-import Editor, { defaultConfig } from './Editor'
+import { Suspense, useEffect, useState } from 'react'
+import Editor from './Editor'
 import { TConfig } from '../../types/shim'
+import defaultConfig from '../kit/defaultConfig'
 
 type TProps = {
   visible: boolean
@@ -85,7 +86,7 @@ function Config(props: TProps) {
           <div className="mb-2">
             <Button
               onClick={() => {
-                form.setFieldsValue({ detail: defaultConfig })
+                form.setFieldsValue({ detail: defaultConfig.get() })
                 setKey(Date.now())
               }}
             >

@@ -6,7 +6,7 @@ async function getDefaultStr() {
   const content = await fs.readFile(
     path.join(path.dirname(fileURLToPath(import.meta.url)), 'hlink.config.tpl')
   )
-  return content
+  return content.toString()
 }
 
 export default getDefaultStr

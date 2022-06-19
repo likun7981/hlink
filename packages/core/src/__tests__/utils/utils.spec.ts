@@ -95,14 +95,11 @@ describe('utils test', () => {
   })
 
   test('`warning` should be passed', () => {
-    const mock = mockGlobalVar([process, 'exit'], [console, 'log'])
-    warning(true, 'showMethod')
-    expect(console.log).toHaveBeenCalledTimes(2)
-    expect(process.exit).toBeCalledWith(0)
+    const mock = mockGlobalVar([console, 'log'])
+    warning(false, 'showMethod')
+    expect(console.log).toHaveBeenCalledTimes(0)
     mock.reset()
-    warning(false, 'not called')
-    expect(console.log).not.toHaveBeenCalled()
-    expect(process.exit).not.toHaveBeenCalled()
+    expect(() => warning(true, 'not called')).toThrowError('not called')
     mock.clear()
   })
 

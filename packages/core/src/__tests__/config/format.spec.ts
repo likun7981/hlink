@@ -21,25 +21,19 @@ describe('format test', () => {
       vi.restoreAllMocks()
     }
   })
-  test('should exit when not pathsMapping', async () => {
-    const exitSpyOn = vi.spyOn(process, 'exit').mockImplementation(vi.fn())
-    await formatConfig({ pathsMapping: {} })
-    expect(exitSpyOn).toHaveBeenCalled()
-  })
-  test('should exit when relative path', async () => {
-    const exitSpyOn = vi.spyOn(process, 'exit').mockImplementation(vi.fn())
-    await formatConfig({ pathsMapping: { './a': '/b' } })
-    expect(exitSpyOn).toHaveBeenCalled()
-  })
-  test('should exit when path not exist', async () => {
-    const exitSpyOn = vi.spyOn(process, 'exit').mockImplementation(vi.fn())
-    await formatConfig({ pathsMapping: { '/a': '/b' } })
-    expect(exitSpyOn).toHaveBeenCalled()
-  })
-  test('should exit when same source and dest', async () => {
-    const exitSpyOn = vi.spyOn(process, 'exit').mockImplementation(vi.fn())
-    await formatConfig({ pathsMapping: { '/b': '/b' } })
-    expect(exitSpyOn).toHaveBeenCalled()
+  test('should exit when no one source and dest', async () => {
+    expect(formatConfig({ pathsMapping: { '/b': '/b' } })).rejects.toThrowError(
+      '过滤后，没有一个路劲满足要求'
+    )
+    expect(formatConfig({ pathsMapping: { '/a': '/b' } })).rejects.toThrowError(
+      '过滤后，没有一个路劲满足要求'
+    )
+    expect(
+      formatConfig({ pathsMapping: { './a': '/b' } })
+    ).rejects.toThrowError('过滤后，没有一个路劲满足要求')
+    expect(formatConfig({ pathsMapping: {} })).rejects.toThrowError(
+      '至少配置一个路劲'
+    )
   })
   test('should get right result', async () => {
     vi.spyOn(process, 'exit').mockImplementation(vi.fn())
