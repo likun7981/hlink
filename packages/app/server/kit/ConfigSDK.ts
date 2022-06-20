@@ -38,9 +38,13 @@ class ConfigSDK {
     if (!(await checkPathExist(this.getConfigPath(prevName, preDescription)))) {
       throw new Error(`配置 ${prevName} 不存在`)
     }
-    const newPath = this.getConfigPath(c.name, c.description)
-    await fs.rename(this.getConfigPath(prevName, preDescription), newPath)
-    return config.update(newPath, c.detail)
+    let configPath = this.getConfigPath(prevName, preDescription)
+    if (c.name !== prevName || c.description !== preDescription) {
+      const oldPath = configPath
+      configPath = this.getConfigPath(c.name, c.description)
+      await fs.rename(oldPath, configPath)
+    }
+    return config.update(configPath, c.detail)
   }
 
   remove(name: string, description?: string) {

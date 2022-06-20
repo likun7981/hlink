@@ -4,6 +4,8 @@ export type TConfig = {
   detail: string
 }
 
+export type TListItem = Omit<TConfig, 'detail'>
+
 export type TTask = {
   name: string
   description?: string
