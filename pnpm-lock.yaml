@@ -47,6 +47,7 @@ importers:
 
   packages/app:
     specifiers:
+      '@ant-design/icons': ^4.7.0
       '@hlink/core': workspace:^1.0.0
       '@koa/router': ^10.1.1
       '@types/koa': ^2.13.4
@@ -72,6 +73,7 @@ importers:
       unocss: ^0.38.1
       vite: ^2.9.9
     dependencies:
+      '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
       '@hlink/core': link:../core
       '@koa/router': 10.1.1
       '@types/koa__router': 8.0.11

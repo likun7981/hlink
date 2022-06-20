@@ -6,6 +6,7 @@ import useSWR from 'swr'
 import fetch from './kit/fetch'
 import { TConfig } from '../types/shim'
 import defaultConfig from './kit/defaultConfig'
+import './index.css'
 
 const { Header, Footer, Content } = Layout
 

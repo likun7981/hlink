@@ -21,8 +21,8 @@ function Config(props: TProps) {
   return (
     <Drawer
       title={data ? '编辑配置' : '创建一个新配置'}
-      width={720}
       onClose={onClose}
+      width="100vw"
       visible={visible}
       extra={
         <Space>

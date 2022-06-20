@@ -1,8 +1,13 @@
-import { Avatar, Button, List, message, Skeleton } from 'antd'
+import { Avatar, Button, List, message, Skeleton, Tooltip } from 'antd'
 import { TConfig, TListItem } from '../../types/shim'
 import { useEffect, useState } from 'react'
 import Config from './Config.js'
 import { configService } from '../service/index.js'
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlayCircleOutlined,
+} from '@ant-design/icons'
 
 const Item = List.Item
 
@@ -21,14 +26,14 @@ function ConfigList() {
   const listResult = configService.useList()
 
   useEffect(() => {
-    if (!addOrEditResult.isValidating && addOrEditResult.data) {
+    if (addOrEditResult.data) {
       listResult.mutate()
       setVisible(false)
       setConfig(undefined)
     }
-  }, [addOrEditResult.isValidating, addOrEditResult.data])
+  }, [addOrEditResult.data])
   useEffect(() => {
-    if (!detailResult.isValidating && detailResult.data) {
+    if (detailResult.data) {
       if (getParam) {
         const edit: TConfig = {
           detail: detailResult.data,
@@ -37,10 +42,10 @@ function ConfigList() {
         }
         setVisible(true)
         setEdit(edit)
+        setGetParam(undefined)
       }
-      setGetParam(undefined)
     }
-  }, [detailResult.isValidating, detailResult.data])
+  }, [detailResult.data])
 
   return (
     <>
@@ -64,15 +69,36 @@ function ConfigList() {
         renderItem={(item) => (
           <Item
             actions={[
-              <Button
-                type="link"
-                onClick={() => {
-                  setGetParam(item)
-                }}
-              >
-                编辑
-              </Button>,
-              <Button type="link">删除</Button>,
+              <Tooltip title="以该配置执行硬链任务">
+                <Button
+                  type="link"
+                  shape="circle"
+                  // @ts-ignore
+                  icon={<PlayCircleOutlined />}
+                />
+              </Tooltip>,
+              <Tooltip title="编辑">
+                <Button
+                  type="link"
+                  onClick={() => {
+                    setGetParam(item)
+                  }}
+                  shape="circle"
+                  // @ts-ignore
+                  icon={<EditOutlined />}
+                />
+              </Tooltip>,
+              <Tooltip title="删除">
+                <Button
+                  type="link"
+                  onClick={() => {
+                    console.log('删除')
+                  }}
+                  shape="circle"
+                  // @ts-ignore
+                  icon={<DeleteOutlined />}
+                />
+              </Tooltip>,
             ]}
           >
             <Item.Meta

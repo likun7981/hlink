@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.ant-form .ant-form-item .ant-form-item-control,
+.ant-form .ant-form-item .ant-form-item-label {
+  flex-basis: auto !important;
+}
+
+.ant-drawer-content-wrapper {
+  max-width: 736px !important;
+}
