@@ -35,7 +35,7 @@
 大部分需要使用者配置的参数都独立出各个脚本，汇总到config.yaml里面
 
 
-![image](/docs/img/config.yaml.png)
+![image](/docs/public/config.yaml.png)
 
 说明几个参数
 your_path这个参数填入的是你的顶层目录
@@ -80,7 +80,7 @@ delete_scripts这个填的是你删除脚本在下载器容器里的路径
 **基本功能所使用到的脚本有：[diy.sh](/scripts/diy.sh) [mian.sh](/scripts/main.sh) [config.yaml](/scripts/config.yaml) [emby.sh](/scripts/emby.sh)     config.yaml是相关使用参数存放
 
 1. 如果使用的镜像是[nevinee/qbittorrent](https://hub.docker.com/r/nevinee/qbittorrent)，需要通过diy.sh来启动main.sh.不需要改动diy.sh,只需要改好config.yaml里面的参数，然后把所有涉及到脚本和config.yaml都移动到/data/diy。然后再根据下图内容填好qbittorrent，则完成基本功能部署
-![image](/docs/img/qbittorrent.png)
+![image](/docs/public/qbittorrent.png)
 如果不是使用该镜像，那在安装完运行环境之后，根据diy的注解，改变[diy.sh](/scripts/diy.sh)下载器传入参数，根据qbittorrent的说明来填写Torrent 完成时运行外部程序这个选项
 
 ## 7.进阶功能部署
@@ -109,13 +109,13 @@ delete_scripts这个填的是你删除脚本在下载器容器里的路径
 - 在emby控制台的侧边栏，高级，找到Scripter-X → Actions，再找到onMediaItemRemoved
 - 再按照下图填入，  **"%item.path%"**
 - 打上右上角的钩
- ![image](/docs/img/emby_docker.png)
+ ![image](/docs/public/emby_docker.png)
 
 #### 1.2 使用群晖任务计划直接唤起删除脚本遍历任务历史
 
 - 下载[awake_delete.sh](/scripts/awake_delete.sh) [config.yaml](/scripts/config.yaml)，并改好config.yaml里面的emby.delete.sh脚本参数。两个一起放到群晖能访问到的目录
 - 编写群晖任务计划
- ![image](/docs/img/群晖唤起删除脚本.png)
+ ![image](/docs/public/群晖唤起删除脚本.png)
 
 ### 2.qbittorrent环境配置
 
@@ -132,10 +132,10 @@ delete_scripts这个填的是你删除脚本在下载器容器里的路径
 该环境配置难点在于需要将mian.sh运行后的任务历史main_history.log挂载进transmission容器内部。
 举一个栗子，我的qbittorrent的mian.sh任务历史记录/data/diy/main_history.log,换成本地宿主机群晖的角度来看，就是在/volume2/docker/qbittorrent_追剧/data/diy/
 我需要把这个路径挂载到transmission的/mnt/脚本里面。所以我将宿主机的/volume2/docker/qbittorrent_追剧/data/diy/挂载到了transmission的/mnt/脚本。
-如下图(/docs/img/transmission_mount.png)
+如下图(/docs/public/transmission_mount.png)
 - 配置好transmission的main.history.log挂载和填写好config.yaml里面transmission_add.sh和transmission_delete.sh脚本参数
 - 配置好transmission，如下图。在执行完校验任务之后，它会唤起transmission_add.sh将辅种的任务历史写入main.history.log里面，实现删辅种功能
-![image](/docs/img/transmission_add.sh.png)
+![image](/docs/public/transmission_add.sh.png)
 
 所有高阶功能都配置完毕，高级功能实现依赖于main_history.log。辅种和删种的时候都需要访问到这个文件，并且要是同一个文件
 
