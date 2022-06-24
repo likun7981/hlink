@@ -8,6 +8,7 @@ export type TListItem = Omit<TConfig, 'detail'>
 
 export type TTask = {
   name: string
-  description?: string
-  configName: string
+  type: 'main' | 'prune'
+  config: string
+  reverse?: boolean
 }

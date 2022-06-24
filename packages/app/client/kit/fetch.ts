@@ -20,7 +20,7 @@ const fetch = allowMethods.reduce((result, method) => {
         'content-type': 'application/json',
       },
     }
-    if (method === 'get' && params) {
+    if ((method === 'get' || method === 'delete') && params) {
       url += `?${queryString.stringify(params)}`
     } else {
       fetchOption.body = JSON.stringify(params)

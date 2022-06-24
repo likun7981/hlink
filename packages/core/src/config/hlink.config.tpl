@@ -8,9 +8,7 @@ export default {
    *     '/path/to/exampleSource2': '/path/to/exampleDest2'
    *  }
    */
-  pathsMapping: {
-
-  },
+  pathsMapping: {},
   /**
    * 需要包含的后缀，如果与exclude同时配置，则取两者的交集
    *
@@ -24,6 +22,7 @@ export default {
    */
   exclude: [],
   /**
+   * @scope 该配置项 hlink 专用
    * 是否保持原有目录结构，为false时则只保存一级目录结构
    * 可选值: true/false
    * 例子：
@@ -35,14 +34,22 @@ export default {
    */
   keepDirStruct: true,
   /**
+   * @scope 该配置项 hlink 专用
    * 是否打开缓存，为true表示打开
    * 可选值: true/false
    * 打开后，每次硬链后会把对应文件存入缓存，就算下次删除硬链，也不会进行硬链
    */
   openCache: false,
   /**
+   * @scope 该配置项 hlink 专用
    * 是否为独立文件创建同名文件夹，为true表示创建
    * 可选值: true/false
    */
   mkdirIfSingle: true,
+  /**
+   * @scope 该配置项为 hlink prune 命令专用
+   * 是否删除文件及所在目录，为false只会删除文件
+   * 可选值: true/false
+   */
+  deleteDir: false
 }

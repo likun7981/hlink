@@ -1,7 +1,7 @@
 import { message } from 'antd'
 import useSWR from 'swr'
 import fetch from '../kit/fetch'
-import { TListItem, TConfig } from '../../types/shim'
+import { TTask } from '../../types/shim'
 import { useState } from 'react'
 import { isFunction } from '../kit'
 
@@ -11,31 +11,30 @@ type CallbackOption<T> = {
 }
 
 export function useAddOrEdit(options?: CallbackOption<boolean>) {
-  const [currentConfig, setEdit] = useState<TListItem>()
-  const [newConfig, addOrUpdateConfig] = useState<TConfig>()
+  const [currentTask, setEdit] = useState<string>()
+  const [newTask, addOrUpdateTask] = useState<TTask>()
   const addOrEditResult = useSWR(
-    () => (newConfig ? ['/api/config', currentConfig] : null),
+    () => (newTask ? ['/api/task', currentTask] : null),
     (url) => {
-      const method = currentConfig ? fetch.put : fetch.post
-      const params = currentConfig
+      const method = currentTask ? fetch.put : fetch.post
+      const params = currentTask
         ? {
-            preName: currentConfig.name,
-            preDescription: currentConfig.description,
-            ...newConfig,
+            preName: currentTask,
+            ...newTask,
           }
-        : newConfig
+        : newTask
       return method<boolean>(url, params)
     },
     {
       onError(e) {
         message.error(e.message)
-        addOrUpdateConfig(undefined)
+        addOrUpdateTask(undefined)
         if (isFunction(options?.onError)) {
           options?.onError(e)
         }
       },
       onSuccess(data) {
-        addOrUpdateConfig(undefined)
+        addOrUpdateTask(undefined)
         if (isFunction(options?.onSuccess)) {
           options?.onSuccess(data)
         }
@@ -43,26 +42,26 @@ export function useAddOrEdit(options?: CallbackOption<boolean>) {
     }
   )
   return {
-    addOrUpdateConfig: (newConfig: TConfig, currentConfig?: TListItem) => {
-      setEdit(currentConfig)
-      addOrUpdateConfig(newConfig)
+    addOrUpdateTask: (newTask: TTask, currentTask?: string) => {
+      setEdit(currentTask)
+      addOrUpdateTask(newTask)
     },
     ...addOrEditResult,
   }
 }
 
 export function useList() {
-  return useSWR('/api/config/list', (url) => fetch.get<TListItem[]>(url), {
+  return useSWR('/api/task/list', (url) => fetch.get<TTask[]>(url), {
     suspense: true,
   })
 }
 
-export function useGet(options?: CallbackOption<TConfig>) {
-  const [item, getItem] = useState<TListItem>()
+export function useGet(options?: CallbackOption<TTask>) {
+  const [name, getItem] = useState<string>()
   const result = useSWR(
-    item ? '/api/config' : null,
+    name ? '/api/task' : null,
     (url) => {
-      return fetch.get<string>(url, { ...item })
+      return fetch.get<TTask>(url, { name })
     },
     {
       onError(e) {
@@ -75,13 +74,7 @@ export function useGet(options?: CallbackOption<TConfig>) {
       onSuccess(data) {
         getItem(undefined)
         if (isFunction(options?.onSuccess)) {
-          if (item) {
-            options?.onSuccess({
-              detail: data,
-              name: item?.name,
-              description: item?.description,
-            })
-          }
+          options?.onSuccess(data)
         }
       },
     }
@@ -93,9 +86,9 @@ export function useGet(options?: CallbackOption<TConfig>) {
 }
 
 export function useDelete(options?: CallbackOption<boolean>) {
-  const [name, rmItem] = useState<TListItem>()
+  const [name, rmItem] = useState<string>()
   const result = useSWR(
-    name ? '/api/config' : null,
+    name ? '/api/task' : null,
     (url) => {
       return fetch.delete<boolean>(url, { name })
     },

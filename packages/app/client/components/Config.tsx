@@ -79,7 +79,16 @@ function Config(props: TProps) {
           <Input />
         </Form.Item>
 
-        <Form.Item label="中文名称" name="description">
+        <Form.Item
+          rules={[
+            {
+              pattern: /^[\u4e00-\u9fa5\w]+$/,
+              message: '文件名只能包含中文/数字/字母/下划线',
+            },
+          ]}
+          label="描述"
+          name="description"
+        >
           <Input />
         </Form.Item>
         {data ? (

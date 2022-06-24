@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from 'react'
-import { Layout, Button, message } from 'antd'
+import { Layout, Button, message, Row, Col, Space } from 'antd'
 import Config from './components/Config'
 import ConfigList from './components/ConfigList'
 import useSWR from 'swr'
@@ -7,6 +7,7 @@ import fetch from './kit/fetch'
 import { TConfig } from '../types/shim'
 import defaultConfig from './kit/defaultConfig'
 import './index.css'
+import TaskList from './components/TaskList'
 
 const { Header, Footer, Content } = Layout
 
@@ -32,14 +33,21 @@ function App() {
           hlink
         </a>
       </Header>
-      <Content className="flex justify-center">
-        <div className="w-80% m-2">
-          <Suspense fallback={<>加载中...</>}>
-            <ConfigList />
-          </Suspense>
-        </div>
+      <Content className="flex justify-center overflow-auto">
+        <Row className="w-80% m-2" gutter={[6, 6]}>
+          <Col span={24}>
+            <Suspense fallback={<>加载中...</>}>
+              <TaskList />
+            </Suspense>
+          </Col>
+          <Col span={24}>
+            <Suspense fallback={<>加载中...</>}>
+              <ConfigList />
+            </Suspense>
+          </Col>
+        </Row>
       </Content>
-      <Footer className="text-center">
+      <Footer className="text-center border-t border-#eee">
         MIT Licensed | Copyright © 2019-present likun & hlink Contributors
       </Footer>
     </Layout>

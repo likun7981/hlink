@@ -23,7 +23,10 @@ class ConfigSDK {
     return path.join(this.baseDir, `${this.getConfigId(name, description)}.mjs`)
   }
 
-  add(c: TConfig) {
+  async add(c: TConfig) {
+    if (await this.exist(c.name)) {
+      throw new Error(`配置 ${c.name} 已存在`)
+    }
     return config.create(
       this.baseDir,
       this.getConfigId(c.name, c.description),
@@ -61,6 +64,11 @@ class ConfigSDK {
 
   default() {
     return config.getDefaultStr()
+  }
+
+  async exist(name: string) {
+    const files = await this.getList()
+    return files.find((file) => file.indexOf(`${name}-`) === 0)
   }
 
   async getList() {

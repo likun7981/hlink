@@ -42,4 +42,13 @@ router.put('/', koaBody(), async (ctx) => {
   ctx.body = true
 })
 
+router.delete('/', koaBody(), async (ctx) => {
+  const { name, description } = ctx.request.query as {
+    name: string
+    description: string
+  }
+  await config.remove(name, description)
+  ctx.body = true
+})
+
 export default router.routes()

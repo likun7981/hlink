@@ -21,6 +21,7 @@ export default defineConfig({
   plugins: [
     Unocss({
       presets: [presetUno(), presetAttributify()],
+      configFile: false,
     }),
     react({
       babel: {
