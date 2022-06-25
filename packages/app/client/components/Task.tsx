@@ -24,7 +24,7 @@ function Task(props: TProps) {
   const [form] = Form.useForm<TTask>()
   const listResult = configService.useList()
   const data = edit || { reverse: false, type: 'main' }
-  const showReverse = Form.useWatch('type', form) !== 'main'
+  const showReverse = Form.useWatch('type', form) === 'prune'
   return (
     <Drawer
       title={edit ? '编辑任务' : '创建一个新任务'}
@@ -83,9 +83,9 @@ function Task(props: TProps) {
           name="type"
           rules={[{ required: true, message: '必须选择任务类型' }]}
         >
-          <Select placeholder="请选择配置文件" loading={!listResult.data}>
+          <Select placeholder="请选择类型">
             <Option key="main">硬链(hlink)</Option>
-            <Option key="prune">修剪(hlink prune)</Option>
+            <Option key="prune">同步(hlink prune)</Option>
           </Select>
         </Form.Item>
         <Form.Item

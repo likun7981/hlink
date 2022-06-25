@@ -5,25 +5,21 @@ import { TConfig } from '../../types/shim'
 import defaultConfig from '../kit/defaultConfig'
 
 type TProps = {
-  visible: boolean
   onClose: () => void
   onSubmit: (data: TConfig) => void
   data?: TConfig
 }
 
 function Config(props: TProps) {
-  const { visible, onClose, onSubmit, data } = props
+  const { onClose, onSubmit, data } = props
   const [form] = Form.useForm<TConfig>()
   const [key, setKey] = useState(Date.now())
-  if (!visible) {
-    return null
-  }
   return (
     <Drawer
       title={data ? '编辑配置' : '创建一个新配置'}
       onClose={onClose}
       width="100vw"
-      visible={visible}
+      visible
       extra={
         <Space>
           <Button onClick={onClose}>关闭</Button>
@@ -66,7 +62,9 @@ function Config(props: TProps) {
         form={form}
         className="flex flex-col h-100%"
       >
-        <Form.Item hidden name="configPath"></Form.Item>
+        <Form.Item hidden name="configPath">
+          <Input />
+        </Form.Item>
         <Form.Item
           label="名称"
           name="name"

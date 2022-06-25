@@ -159,6 +159,7 @@ function TaskList() {
         <Task
           edit={edit}
           onClose={() => {
+            setEdit(undefined)
             setVisible(false)
           }}
           onSubmit={(v) => {

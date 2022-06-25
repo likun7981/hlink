@@ -5,11 +5,12 @@ import defaultConfig from '../kit/defaultConfig'
 type TProps = {
   value?: string
   onChange?: (v?: string) => void
+  className?: string
 }
 
 function Editor(props: TProps) {
-  const { value, onChange, ...otherProps } = props
-  const monacoEl = useRef(null)
+  const { value, onChange, className, ...otherProps } = props
+  const monacoEl = useRef<HTMLDivElement>(null)
   let editor: monaco.editor.IStandaloneCodeEditor | null = null
   useEffect(() => {
     if (monacoEl.current) {
@@ -36,7 +37,13 @@ function Editor(props: TProps) {
     }
   }, [value])
 
-  return <div ref={monacoEl} {...otherProps} className="h-100%"></div>
+  return (
+    <div
+      ref={monacoEl}
+      {...otherProps}
+      className={`h-100% ${className || ''}`}
+    ></div>
+  )
 }
 
 export default Editor

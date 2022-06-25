@@ -91,13 +91,13 @@ function ConfigList() {
 
       {visible && (
         <Config
-          visible
           onClose={() => {
             setVisible(false)
+            setEdit(undefined)
           }}
           data={edit}
           onSubmit={(v) => {
-            optConfig.addOrUpdateConfig(v, edit && edit.name)
+            optConfig.addOrUpdateConfig(v, edit?.name)
           }}
         />
       )}
