@@ -95,8 +95,8 @@ function Task(props: TProps) {
         >
           <Select placeholder="请选择配置文件" loading={!listResult.data}>
             {listResult.data?.map((config) => (
-              <Option key={`${config.name}-${config.description}`}>
-                {config.description}
+              <Option key={config.name}>
+                {config.name}({config.description})
               </Option>
             ))}
           </Select>

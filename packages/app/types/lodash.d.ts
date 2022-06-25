@@ -17,43 +17,43 @@ type MergeId<T> = T & { id?: string }
 declare module 'lodash' {
   interface LoDashStatic {
     id: string
-    getById<T>(array: Array<T>, id: string): CollectionChain<T>
-    createId(): string
-    upsert<T>(array: Array<T>, doc: MergeId<T>): CollectionChain<T>
-    insert<T>(array: Array<T>, doc: T): CollectionChain<T>
-    updateById<T>(
+    getById: <T>(array: Array<T>, id: string) => ObjectChain<T>
+    createId: <T>(array: Array<T>, doc: T) => StringChain
+    insert: <T>(array: Array<T>, doc: T) => ObjectChain<T>
+    updateById: <T>(
       array: Array<T>,
       id: string,
       attrs: Part<T>
-    ): CollectionChain<T>
-    updateWhere<T>(
+    ) => ObjectChain<T>
+    updateWhere: <T>(
       array: Array<T>,
       predicate: ListIterateeCustom<T, boolean>,
       attrs: Part<T>
-    ): CollectionChain<T[]>
-    replaceById<T>(
+    ) => CollectionChain<T[]>
+    upsert: <T>(array: Array<T>, doc: MergeId<T>) => ObjectChain<T>
+    removeById: <T>(
       array: Array<T>,
       id: string,
       attrs: Part<T>
-    ): CollectionChain<T>
-    removeById<T>(array: Array<T>, id: string): CollectionChain<T>
-    removeWhere<T>(
+    ) => ObjectChain<T>
+    replaceById: <T>(array: Array<T>, id: string) => ObjectChain<T>
+    removeWhere: <T>(
       array: Array<T>,
       predicate: ListIterateeCustom<T, boolean>
-    ): CollectionChain<T[]>
+    ) => CollectionChain<T[]>
   }
   interface CollectionChain<T> {
-    getById(id: string): CollectionChain<T>
-    createId(): string
-    upsert(doc: MergeId<T>): CollectionChain<T>
-    insert(doc: T): CollectionChain<T>
-    updateById(id: string, attrs: Part<T>): CollectionChain<T>
+    getById(id: string): ObjectChain<T>
+    createId<T>(doc: T): StringChain
+    upsert(doc: MergeId<T>): ObjectChain<T>
+    insert(doc: T): ObjectChain<T>
+    updateById(id: string, attrs: Part<T>): ObjectChain<T>
     updateWhere(
       predicate: ListIterateeCustom<T, boolean>,
       attrs: Part<T>
     ): CollectionChain<T[]>
-    replaceById(id: string, attrs: Part<T>): CollectionChain<T>
-    removeById(id: string): CollectionChain<T>
+    replaceById(id: string, attrs: Part<T>): ObjectChain<T>
+    removeById(id: string): ObjectChain<T>
     removeWhere(predicate: ListIterateeCustom<T, boolean>): CollectionChain<T[]>
   }
 }

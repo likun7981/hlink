@@ -12,42 +12,35 @@ router.get('/default', async (ctx) => {
 })
 
 router.get('/list', async (ctx) => {
-  const files = await config.getList()
-  const list = files.map((file) => {
-    const [name, description] = file.split('.')[0].split('-')
-    return {
-      name,
-      description,
-    }
-  })
+  const list = await config.getList()
   ctx.body = list
 })
 
 router.get('/', koaBody(), async (ctx) => {
-  const { name, description } = ctx.request.query as {
+  const { name } = ctx.request.query as {
     name: string
     description: string
   }
-  ctx.body = await config.get(name, description)
+  ctx.body = await config.get(name)
 })
 
 router.post('/', koaBody(), async (ctx) => {
-  config.add(ctx.request.body)
+  await config.add(ctx.request.body)
   ctx.body = true
 })
 
 router.put('/', koaBody(), async (ctx) => {
-  const { preName, preDescription, ...newConfig } = ctx.request.body
-  await config.update(preName, preDescription, newConfig)
+  const { preName, ...newConfig } = ctx.request.body
+  await config.update(preName, newConfig)
   ctx.body = true
 })
 
 router.delete('/', koaBody(), async (ctx) => {
-  const { name, description } = ctx.request.query as {
+  const { name } = ctx.request.query as {
     name: string
     description: string
   }
-  await config.remove(name, description)
+  await config.remove(name)
   ctx.body = true
 })
 

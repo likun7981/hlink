@@ -1,7 +1,7 @@
 import { message } from 'antd'
 import useSWR from 'swr'
 import fetch from '../kit/fetch'
-import { TListItem, TConfig } from '../../types/shim'
+import { TConfig } from '../../types/shim'
 import { useState } from 'react'
 import { isFunction } from '../kit'
 
@@ -11,16 +11,15 @@ type CallbackOption<T> = {
 }
 
 export function useAddOrEdit(options?: CallbackOption<boolean>) {
-  const [currentConfig, setEdit] = useState<TListItem>()
+  const [currentConfigName, setEdit] = useState<string>()
   const [newConfig, addOrUpdateConfig] = useState<TConfig>()
   const addOrEditResult = useSWR(
-    () => (newConfig ? ['/api/config', currentConfig] : null),
+    () => (newConfig ? ['/api/config', currentConfigName] : null),
     (url) => {
-      const method = currentConfig ? fetch.put : fetch.post
-      const params = currentConfig
+      const method = currentConfigName ? fetch.put : fetch.post
+      const params = currentConfigName
         ? {
-            preName: currentConfig.name,
-            preDescription: currentConfig.description,
+            preName: currentConfigName,
             ...newConfig,
           }
         : newConfig
@@ -43,8 +42,8 @@ export function useAddOrEdit(options?: CallbackOption<boolean>) {
     }
   )
   return {
-    addOrUpdateConfig: (newConfig: TConfig, currentConfig?: TListItem) => {
-      setEdit(currentConfig)
+    addOrUpdateConfig: (newConfig: TConfig, currentConfigName?: string) => {
+      setEdit(currentConfigName)
       addOrUpdateConfig(newConfig)
     },
     ...addOrEditResult,
@@ -52,17 +51,17 @@ export function useAddOrEdit(options?: CallbackOption<boolean>) {
 }
 
 export function useList() {
-  return useSWR('/api/config/list', (url) => fetch.get<TListItem[]>(url), {
+  return useSWR('/api/config/list', (url) => fetch.get<TConfig[]>(url), {
     suspense: true,
   })
 }
 
 export function useGet(options?: CallbackOption<TConfig>) {
-  const [item, getItem] = useState<TListItem>()
+  const [item, getItem] = useState<string>()
   const result = useSWR(
     item ? '/api/config' : null,
     (url) => {
-      return fetch.get<string>(url, { ...item })
+      return fetch.get<TConfig>(url, { name: item })
     },
     {
       onError(e) {
@@ -76,11 +75,7 @@ export function useGet(options?: CallbackOption<TConfig>) {
         getItem(undefined)
         if (isFunction(options?.onSuccess)) {
           if (item) {
-            options?.onSuccess({
-              detail: data,
-              name: item?.name,
-              description: item?.description,
-            })
+            options?.onSuccess(data)
           }
         }
       },
@@ -93,7 +88,7 @@ export function useGet(options?: CallbackOption<TConfig>) {
 }
 
 export function useDelete(options?: CallbackOption<boolean>) {
-  const [name, rmItem] = useState<TListItem>()
+  const [name, rmItem] = useState<string>()
   const result = useSWR(
     name ? '/api/config' : null,
     (url) => {

@@ -1,10 +1,9 @@
 export type TConfig = {
   name: string
   description?: string
-  detail: string
+  detail?: string
+  configPath: string
 }
-
-export type TListItem = Omit<TConfig, 'detail'>
 
 export type TTask = {
   name: string

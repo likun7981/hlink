@@ -1,5 +1,5 @@
 import { Button, Drawer, Form, Input, message, Space } from 'antd'
-import { Suspense, useEffect, useState } from 'react'
+import { useState } from 'react'
 import Editor from './Editor'
 import { TConfig } from '../../types/shim'
 import defaultConfig from '../kit/defaultConfig'
@@ -42,14 +42,12 @@ function Config(props: TProps) {
         layout="vertical"
         name="basic"
         autoComplete="off"
-        initialValues={{
-          name: data?.name,
-          description: data?.description,
-          detail: data?.detail,
-        }}
+        initialValues={data}
         onFinish={(value) => {
           try {
-            eval(`var $$hlink=${value.detail.replace(/(export|default)/g, '')}`)
+            eval(
+              `var $$hlink=${value?.detail?.replace(/(export|default)/g, '')}`
+            )
           } catch (e) {
             const error = e as Error
             message.error('配置文件有错误' + error.message)
@@ -68,15 +66,16 @@ function Config(props: TProps) {
         form={form}
         className="flex flex-col h-100%"
       >
+        <Form.Item hidden name="configPath"></Form.Item>
         <Form.Item
-          label="配置文件名"
+          label="名称"
           name="name"
           rules={[
-            { required: true, message: '必须填写配置文件名' },
+            { required: true, message: '必须填写名称' },
             { pattern: /^\w+$/, message: '文件名只能包含数字/字母/下划线' },
           ]}
         >
-          <Input />
+          <Input disabled={!!data} placeholder="请输入名称" />
         </Form.Item>
 
         <Form.Item
@@ -89,7 +88,7 @@ function Config(props: TProps) {
           label="描述"
           name="description"
         >
-          <Input />
+          <Input placeholder="请输入描述" />
         </Form.Item>
         {data ? (
           <div className="mb-2">

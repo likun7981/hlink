@@ -1,5 +1,4 @@
 import Router from '@koa/router'
-import path from 'node:path'
 import TaskSDK from '../kit/TaskSDK.js'
 import koaBody from 'koa-body'
 
@@ -9,14 +8,7 @@ const router = new Router({
 })
 
 router.get('/list', async (ctx) => {
-  const files = await task.getList()
-  const list = await Promise.all(
-    files.map(async (name) => {
-      const t = await task.get(path.basename(name))
-      return t
-    })
-  )
-  ctx.body = list
+  ctx.body = await task.getList()
 })
 
 router.get('/', koaBody(), async (ctx) => {

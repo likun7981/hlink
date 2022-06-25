@@ -1,65 +1,92 @@
 import path from 'node:path'
 import fs from 'fs-extra'
-import { hlinkHomeDir, config, checkPathExist } from '@hlink/core'
+import { hlinkHomeDir, config } from '@hlink/core'
 import { TConfig } from '../../types/shim'
+import BaseSDK from './BaseSDK.js'
 
-class ConfigSDK {
+class ConfigSDK extends BaseSDK<'configs'> {
   private baseDir: string
   constructor(baseDir = hlinkHomeDir) {
+    super('configs')
     if (process.env.NODE_ENV === 'development') {
       baseDir = process.cwd()
     }
     this.baseDir = path.join(baseDir, 'configs')
   }
 
-  private getConfigId(name: string, description?: string) {
-    if (!name) {
-      throw new Error('必须指定名称')
+  getConfig(c: TConfig) {
+    return {
+      name: c.name,
+      description: c.description,
+      configPath: path.join(
+        this.baseDir,
+        `${this.db.createId('').value()}.mjs`
+      ),
     }
-    return `${name}-${description || name}`
-  }
-
-  private getConfigPath(name: string, description?: string) {
-    return path.join(this.baseDir, `${this.getConfigId(name, description)}.mjs`)
   }
 
   async add(c: TConfig) {
     if (await this.exist(c.name)) {
       throw new Error(`配置 ${c.name} 已存在`)
     }
-    return config.create(
-      this.baseDir,
-      this.getConfigId(c.name, c.description),
-      c.detail
-    )
+    const item = this.db.insert(this.getConfig(c)).value()
+    await this.write()
+    await config.create(this.baseDir, path.basename(item.configPath), c.detail)
+    return true
   }
 
-  async update(prevName: string, preDescription: string, c: TConfig) {
-    if (!prevName) {
-      throw new Error('必须指定修改前的文件名称')
-    }
-    if (!(await checkPathExist(this.getConfigPath(prevName, preDescription)))) {
+  async update(prevName: string, c: TConfig) {
+    if (!(await this.exist(prevName))) {
       throw new Error(`配置 ${prevName} 不存在`)
     }
-    let configPath = this.getConfigPath(prevName, preDescription)
-    if (c.name !== prevName || c.description !== preDescription) {
-      const oldPath = configPath
-      configPath = this.getConfigPath(c.name, c.description)
-      await fs.rename(oldPath, configPath)
+    let currentPath = this.db.getById(prevName).value().configPath
+    const updateItem: TConfig = {
+      configPath: currentPath,
+      name: c.name,
+      description: c.description,
     }
-    return config.update(configPath, c.detail)
+    if (prevName !== c.name) {
+      if (await this.exist(c.name)) {
+        throw new Error(`配置 ${c.name} 已存在`)
+      }
+      this.db.removeById(prevName).value()
+      this.db.insert(updateItem).value()
+    } else {
+      this.db.upsert(updateItem).value()
+    }
+    await this.write()
+    if (c.detail) {
+      await config.update(currentPath, c.detail)
+    }
+    return true
   }
 
-  remove(name: string, description?: string) {
-    return fs.rm(this.getConfigPath(name, description))
+  async remove(name: string) {
+    if (!(await this.exist(name))) {
+      throw new Error(`配置 ${name} 不存在`)
+    }
+    const removeItem = this.db.removeById(name).value()
+    await this.write()
+    await fs.rm(removeItem.configPath)
+    return true
   }
 
-  async get(name: string, description?: string) {
-    return (await fs.readFile(this.getConfigPath(name, description))).toString()
+  async get(name: string): Promise<TConfig> {
+    if (!(await this.exist(name))) {
+      throw new Error(`配置 ${name} 不存在`)
+    }
+    const obj = this.db.getById(name).value()
+    return {
+      ...obj,
+      detail: (await fs.readFile(obj.configPath)).toString(),
+    }
   }
 
-  async getOpt(name: string, description?: string) {
-    return config.get(this.getConfigPath(name, description))
+  async getOpt(name: string) {
+    if (!(await this.exist(name))) {
+      throw new Error(`配置 ${name} 不存在`)
+    }
+    return config.get(this.db.getById(name).value().configPath)
   }
 
   default() {
@@ -67,12 +94,14 @@ class ConfigSDK {
   }
 
   async exist(name: string) {
-    const files = await this.getList()
-    return files.find((file) => file.indexOf(`${name}-`) === 0)
+    if (!name) {
+      throw new Error('必须指定配置名称')
+    }
+    return !!(await this.db.getById(name).value())
   }
 
   async getList() {
-    const list = fs.readdir(this.baseDir)
+    const list = this.db.value()
     return list
   }
 }

@@ -54,7 +54,7 @@ function ConfigList() {
                 <Button
                   type="link"
                   onClick={() => {
-                    config.getItem(item)
+                    config.getItem(item.name)
                   }}
                   shape="circle"
                   // @ts-ignore
@@ -65,7 +65,7 @@ function ConfigList() {
               <Popconfirm
                 title="确认删除此配置文件?"
                 onConfirm={() => {
-                  deleteConfig.rmItem(item)
+                  deleteConfig.rmItem(item.name)
                 }}
                 okText="是"
                 cancelText="否"
@@ -97,13 +97,7 @@ function ConfigList() {
           }}
           data={edit}
           onSubmit={(v) => {
-            optConfig.addOrUpdateConfig(
-              v,
-              edit && {
-                name: edit?.name,
-                description: edit?.description,
-              }
-            )
+            optConfig.addOrUpdateConfig(v, edit && edit.name)
           }}
         />
       )}

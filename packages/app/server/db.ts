@@ -10,7 +10,7 @@ lodash.mixin(lodashId)
 let baseDir = hlinkHomeDir
 baseDir = process.cwd()
 
-type TDBType = { configs: TConfig[]; tasks: TTask[] }
+export type TDBType = { configs: TConfig[]; tasks: TTask[] }
 
 class LowWithLodash<T> extends Low<T> {
   chain: lodash.ExpChain<this['data']> = lodash.chain(this).get('data')
@@ -26,7 +26,5 @@ const db = new LowWithLodash<TDBType>(adapter)
 await db.read()
 
 db.data ||= { configs: [], tasks: [] }
-
-await db.write()
 
 export default db

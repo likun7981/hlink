@@ -7,7 +7,7 @@ import getDefaultStr from './getDefaultStr.js'
 
 async function create(configDir: string, name?: string, detail?: string) {
   warning(!configDir, '必须指定配置文件')
-  const configPath = path.join(configDir, name ? `${name}.mjs` : configName)
+  const configPath = path.join(configDir, name ? name : configName)
   if (await checkPathExist(configPath)) {
     warning(true, `配置文件已存在 ${chalk.cyan(configPath)} 请勿重复创建`)
   }

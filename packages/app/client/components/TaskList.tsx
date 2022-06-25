@@ -79,14 +79,8 @@ function TaskList() {
                 : item.reverse
                 ? '反向同步'
                 : '正向同步'
-            const color =
-              item.type === 'main'
-                ? '#08b'
-                : item.reverse
-                ? '反向同步'
-                : '#d4237a'
+            const color = item.type === 'main' ? '#08b' : '#d4237a'
 
-            const [configName, configDescription] = item.config.split('-')
             return (
               <Col
                 span={24}
@@ -149,11 +143,7 @@ function TaskList() {
                         <>
                           配置文件:
                           <div>
-                            <b>{configName}.mjs</b>
-                          </div>
-                          配置名称:
-                          <div>
-                            <b>{configDescription}</b>
+                            <b>{item.config}</b>
                           </div>
                         </>
                       }
