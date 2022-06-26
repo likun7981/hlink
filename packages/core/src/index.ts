@@ -1,8 +1,14 @@
-export { IOptions as IPruneOptions, default as prune } from './prune/index.js'
+import { IHlink } from './IHlink.js'
 
-export { IOptions as IOptions, default as main } from './main/index.js'
+import { IOptions as IPruneOptions, default as prune } from './prune/index.js'
+
+import { IOptions, default as main } from './main/index.js'
 
 export { default as config } from './config/index.js'
 
 export * from './utils/index.js'
 export * from './utils/paths.js'
+
+export { IPruneOptions, IOptions, prune, main }
+
+export type TAllConfig = IPruneOptions & IOptions & IHlink.Options

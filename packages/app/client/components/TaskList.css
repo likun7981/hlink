@@ -1,0 +1,13 @@
+.hlink-hover .hlink-mask {
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  left: -1px;
+  top: -1px;
+  opacity: 0.4;
+}
+
+.hlink-hover .hlink-play {
+  display: block;
+  opacity: 1;
+  transition: opacity 0.3s;
+}

@@ -10,6 +10,7 @@ import {
 import deleteEmptyDir from './deleteEmptyDir.js'
 import getRmFiles from './getRmFiles.js'
 import formatConfig from '../config/format.js'
+import { IHlink } from '../IHlink.js'
 
 const timeLog = createTimeLog()
 

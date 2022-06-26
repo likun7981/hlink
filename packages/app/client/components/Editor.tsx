@@ -1,15 +1,16 @@
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
-import { useEffect, useLayoutEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import defaultConfig from '../kit/defaultConfig'
 
 type TProps = {
   value?: string
   onChange?: (v?: string) => void
   className?: string
+  readOnly?: boolean
 }
 
 function Editor(props: TProps) {
-  const { value, onChange, className, ...otherProps } = props
+  const { value, onChange, className, readOnly = false, ...otherProps } = props
   const monacoEl = useRef<HTMLDivElement>(null)
   let editor: monaco.editor.IStandaloneCodeEditor | null = null
   useEffect(() => {
@@ -18,6 +19,8 @@ function Editor(props: TProps) {
         theme: 'vs-dark',
         value: value || defaultConfig.get(),
         language: 'typescript',
+        readOnly,
+        lineNumbers: 'off',
       })
       onChange && onChange(value || defaultConfig.get())
       editor.onDidChangeModelContent(() => {
@@ -30,12 +33,6 @@ function Editor(props: TProps) {
       editor?.dispose()
     }
   }, [])
-
-  useLayoutEffect(() => {
-    if (editor) {
-      editor.setValue(value || '')
-    }
-  }, [value])
 
   return (
     <div

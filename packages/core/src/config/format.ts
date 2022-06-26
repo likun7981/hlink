@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import path from 'node:path'
+import { IHlink } from '../IHlink.js'
 import defaultInclude from '../utils/defaultInclude.js'
 import getGlobs from '../utils/getGlobs.js'
 import {

@@ -19,9 +19,15 @@ router.get('/list', async (ctx) => {
 router.get('/', koaBody(), async (ctx) => {
   const { name } = ctx.request.query as {
     name: string
-    description: string
   }
   ctx.body = await config.get(name)
+})
+
+router.get('/detail', koaBody(), async (ctx) => {
+  const { name } = ctx.request.query as {
+    name: string
+  }
+  ctx.body = await config.getOpt(name)
 })
 
 router.post('/', koaBody(), async (ctx) => {

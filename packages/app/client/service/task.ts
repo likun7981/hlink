@@ -66,7 +66,6 @@ export function useGet(options?: CallbackOption<TTask>) {
     {
       onError(e) {
         message.error(e.message)
-        getItem(undefined)
         if (isFunction(options?.onError)) {
           options?.onError(e)
         }

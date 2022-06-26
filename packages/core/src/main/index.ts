@@ -1,3 +1,4 @@
+import { IHlink } from '../IHlink.js'
 import formatConfig from '../config/format.js'
 import hlink from './hlink.js'
 

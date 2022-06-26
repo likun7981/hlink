@@ -1,16 +1,16 @@
 {
   "configs": [
     {
-      "configPath": "/Users/likun/Code/my-github/hlink/packages/app/configs/f32cbe38-9195-493a-9a65-bbf7b58677a3.mjs",
-      "name": "name",
-      "description": "面搜狐"
+      "configPath": "/Users/likun/Code/my-github/hlink/packages/app/configs/8ce01367-6e5f-4b91-a3da-2ed2ae35121c.mjs",
+      "name": "name2",
+      "description": "asd"
     }
   ],
   "tasks": [
     {
       "name": "任务1",
       "type": "prune",
-      "config": "name1",
+      "config": "name2",
       "reverse": true
     }
   ]

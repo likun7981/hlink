@@ -104,7 +104,6 @@ function Config(props: TProps) {
           noStyle
           label="配置详情"
           name="detail"
-          className="flex-1"
           rules={[{ required: true, message: '必须填写配置详情' }]}
         >
           <Editor key={key} />

@@ -1,15 +1,20 @@
-import { Button, Card, List, Popconfirm, Tooltip } from 'antd'
-import { TConfig } from '../../types/shim'
+import { Button, Card, List, Popconfirm } from 'antd'
 import { useState } from 'react'
 import Config from './Config.js'
 import { configService } from '../service/index.js'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import {
+  DeleteOutlined,
+  EditOutlined,
+  FullscreenOutlined,
+} from '@ant-design/icons'
+import ConfigDetail from './ConfigDetail'
+import Tooltip from './Tooltip'
 
 const Item = List.Item
 
 function ConfigList() {
   const [visible, setVisible] = useState(false)
-  const [edit, setEdit] = useState<TConfig>()
+  const [showConfigName, setShowConfigName] = useState<string>()
   const listResult = configService.useList()
   const optConfig = configService.useAddOrEdit({
     onSuccess() {
@@ -18,8 +23,7 @@ function ConfigList() {
     },
   })
   const config = configService.useGet({
-    onSuccess(data) {
-      setEdit(data)
+    onSuccess() {
       setVisible(true)
     },
   })
@@ -61,24 +65,33 @@ function ConfigList() {
                   icon={<EditOutlined />}
                 />
               </Tooltip>,
-
-              <Popconfirm
-                title="确认删除此配置文件?"
-                onConfirm={() => {
-                  deleteConfig.rmItem(item.name)
-                }}
-                okText="是"
-                cancelText="否"
-              >
-                <Tooltip title="删除">
+              <Tooltip title="删除">
+                <Popconfirm
+                  title="确认删除此配置文件?"
+                  onConfirm={() => {
+                    deleteConfig.rmItem(item.name)
+                  }}
+                  okText="是"
+                  cancelText="否"
+                >
                   <Button
                     type="link"
                     shape="circle"
                     // @ts-ignore
                     icon={<DeleteOutlined />}
                   />
-                </Tooltip>
-              </Popconfirm>,
+                </Popconfirm>
+              </Tooltip>,
+              <Tooltip title="配置详情">
+                <Button
+                  type="link"
+                  onClick={() => {
+                    setShowConfigName(item.name)
+                  }}
+                  // @ts-ignore
+                  icon={<FullscreenOutlined key="detail" />}
+                />
+              </Tooltip>,
             ]}
           >
             <Item.Meta
@@ -93,14 +106,18 @@ function ConfigList() {
         <Config
           onClose={() => {
             setVisible(false)
-            setEdit(undefined)
+            config.getItem(undefined)
           }}
-          data={edit}
+          data={config.data}
           onSubmit={(v) => {
-            optConfig.addOrUpdateConfig(v, edit?.name)
+            optConfig.addOrUpdateConfig(v, config.data?.name)
           }}
         />
       )}
+      <ConfigDetail
+        name={showConfigName}
+        onClose={() => setShowConfigName(undefined)}
+      />
     </>
   )
 }

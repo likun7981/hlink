@@ -1,37 +1,36 @@
 import {
   DeleteOutlined,
   EditOutlined,
-  EllipsisOutlined,
   FullscreenOutlined,
-  LinkOutlined,
-  SettingOutlined,
+  PlayCircleOutlined,
 } from '@ant-design/icons'
+import './TaskList.css'
 import LinkSvg from '../icons/link.svg'
 import SyncSvg from '../icons/sync.svg'
+import cls from 'classnames'
 import {
   Avatar,
   Badge,
   Button,
   Card,
   Col,
-  List,
   message,
   Popconfirm,
   Row,
-  Skeleton,
-  Tooltip,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { TTask } from '../../types/shim'
 import { configService, taskService } from '../service'
 import Task from './Task'
+import ConfigDetail from './ConfigDetail'
+import { isMobile } from '../kit'
+import Tooltip from './Tooltip'
 
 const Meta = Card.Meta
 
-const Item = List.Item
 function TaskList() {
   const [visible, setVisible] = useState(false)
-  const [edit, setEdit] = useState<TTask>()
+  const [showPlayIndex, setShowPlayIndex] = useState(-1)
+  const [showConfigName, setShowConfigName] = useState<string>()
   const list = taskService.useList()
   const configList = configService.useList()
   const optTask = taskService.useAddOrEdit({
@@ -41,9 +40,8 @@ function TaskList() {
     },
   })
   const task = taskService.useGet({
-    onSuccess(data) {
+    onSuccess() {
       setVisible(true)
-      setEdit(data)
     },
   })
   const deleteResult = taskService.useDelete({
@@ -51,6 +49,17 @@ function TaskList() {
       list.mutate()
     },
   })
+  useEffect(() => {
+    let timeout: number
+    if (showPlayIndex !== -1 && isMobile()) {
+      timeout = window.setTimeout(() => {
+        setShowPlayIndex(-1)
+      }, 2000)
+    }
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [showPlayIndex])
   return (
     <>
       <Card
@@ -72,7 +81,7 @@ function TaskList() {
         }
       >
         <Row gutter={[20, 6]}>
-          {list.data?.map((item) => {
+          {list.data?.map((item, i) => {
             const text =
               item.type === 'main'
                 ? '硬链'
@@ -91,24 +100,16 @@ function TaskList() {
               >
                 <Badge.Ribbon text={text} color={color}>
                   <Card
+                    hoverable={!isMobile()}
+                    onMouseLeave={() => {
+                      if (!isMobile()) {
+                        setShowPlayIndex(-1)
+                      }
+                    }}
+                    className={cls({
+                      'hlink-hover': i === showPlayIndex,
+                    })}
                     actions={[
-                      <Popconfirm
-                        title="确认删除此任务?"
-                        onConfirm={() => {
-                          deleteResult.rmItem(item.name)
-                        }}
-                        okText="是"
-                        cancelText="否"
-                      >
-                        <Tooltip title="删除">
-                          <Button
-                            type="link"
-                            shape="circle"
-                            // @ts-ignore
-                            icon={<DeleteOutlined />}
-                          />
-                        </Tooltip>
-                      </Popconfirm>,
                       <Tooltip title="编辑">
                         <Button
                           type="link"
@@ -120,11 +121,28 @@ function TaskList() {
                           icon={<EditOutlined key="edit" />}
                         />
                       </Tooltip>,
+                      <Tooltip title="删除">
+                        <Popconfirm
+                          title="确认删除此任务?"
+                          onConfirm={() => {
+                            deleteResult.rmItem(item.name)
+                          }}
+                          okText="是"
+                          cancelText="否"
+                        >
+                          <Button
+                            type="link"
+                            shape="circle"
+                            // @ts-ignore
+                            icon={<DeleteOutlined />}
+                          />
+                        </Popconfirm>
+                      </Tooltip>,
                       <Tooltip title="配置详情">
                         <Button
                           type="link"
                           onClick={() => {
-                            console.log('detail')
+                            setShowConfigName(item.config)
                           }}
                           // @ts-ignore
                           icon={<FullscreenOutlined key="detail" />}
@@ -132,21 +150,40 @@ function TaskList() {
                       </Tooltip>,
                     ]}
                   >
-                    <Meta
-                      avatar={
-                        <Avatar
-                          src={item.type === 'main' ? LinkSvg : SyncSvg}
-                        />
-                      }
-                      title={item.name}
-                      description={
-                        <>
-                          配置文件:
-                          <div>
-                            <b>{item.config}</b>
-                          </div>
-                        </>
-                      }
+                    <div
+                      onClick={() => {
+                        setShowPlayIndex(i)
+                      }}
+                      onMouseOver={() => {
+                        if (!isMobile()) {
+                          setShowPlayIndex(i)
+                        }
+                      }}
+                    >
+                      <Meta
+                        avatar={
+                          <Avatar
+                            src={item.type === 'main' ? LinkSvg : SyncSvg}
+                          />
+                        }
+                        title={item.name}
+                        description={
+                          <>
+                            配置文件:
+                            <div>
+                              <b>{item.config}</b>
+                            </div>
+                          </>
+                        }
+                      />
+                    </div>
+                    <div className="bg-black op-0 absolute z-24 hlink-mask"></div>
+                    <PlayCircleOutlined
+                      onClick={() => {
+                        console.log(1)
+                      }}
+                      className="hidden text-5xl absolute left-50% top-50% op-0 -ml-6 -mt-6 z-25 hlink-play"
+                      color="white"
                     />
                   </Card>
                 </Badge.Ribbon>
@@ -157,16 +194,20 @@ function TaskList() {
       </Card>
       {visible && (
         <Task
-          edit={edit}
+          edit={task.data}
           onClose={() => {
-            setEdit(undefined)
+            task.getItem(undefined)
             setVisible(false)
           }}
           onSubmit={(v) => {
-            optTask.addOrUpdateTask(v, edit?.name)
+            optTask.addOrUpdateTask(v, task.data?.name)
           }}
         />
       )}
+      <ConfigDetail
+        name={showConfigName}
+        onClose={() => setShowConfigName(undefined)}
+      />
     </>
   )
 }

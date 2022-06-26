@@ -1,3 +1,5 @@
+import { IHlink } from '../IHlink.js'
+
 const getGlobs = (options?: IHlink.Rule | string[], defaultExts?: string[]) => {
   if (typeof options === 'string') {
     return [options]

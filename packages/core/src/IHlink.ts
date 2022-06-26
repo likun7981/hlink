@@ -1,9 +1,9 @@
-declare namespace IHlink {
-  type Rule = {
+export namespace IHlink {
+  export type Rule = {
     exts?: Array<string>
     globs?: Array<string>
   }
-  interface Options {
+  export interface Options {
     /**
      * @description 原路径和目标路劲的映射关系
      */
