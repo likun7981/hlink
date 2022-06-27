@@ -112,3 +112,31 @@ export function useDelete(options?: CallbackOption<boolean>) {
     ...result,
   }
 }
+
+export function useCheckConfig(options?: CallbackOption<TTask>) {
+  const [name, check] = useState<string>()
+  const result = useSWR(
+    name ? '/api/task/check_config' : null,
+    (url) => {
+      return fetch.get<TTask>(url, { name })
+    },
+    {
+      onError(e) {
+        check(undefined)
+        message.error(e.message)
+        if (isFunction(options?.onError)) {
+          options?.onError(e)
+        }
+      },
+      onSuccess(data) {
+        if (isFunction(options?.onSuccess)) {
+          options?.onSuccess(data)
+        }
+      },
+    }
+  )
+  return {
+    check,
+    ...result,
+  }
+}

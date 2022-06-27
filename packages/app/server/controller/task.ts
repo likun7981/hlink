@@ -45,6 +45,14 @@ router.delete('/', koaBody(), async (ctx) => {
   ctx.body = true
 })
 
+router.get('/check_config', async (ctx) => {
+  const { name } = ctx.request.query as {
+    name: string
+  }
+  await task.getConfig(name)
+  ctx.body = true
+})
+
 router.get('/run', sse(), async (ctx) => {
   const { name } = ctx.request.query as {
     name: string
