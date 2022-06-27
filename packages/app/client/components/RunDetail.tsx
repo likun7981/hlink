@@ -10,11 +10,11 @@ import { taskService } from '../service'
 ansiHtml.setColors({
   red: 'ca372d',
   green: '4c7b3a',
-  yellow: 'd4d697',
+  yellow: 'c6c964',
   blue: '4387cf',
   magenta: 'b86cb4',
   cyan: '71d2c4',
-  white: 'ced4cc',
+  white: 'c3cac1',
   gray: '9a9b99',
 })
 type IProps = {

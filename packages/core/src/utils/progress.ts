@@ -224,7 +224,7 @@ export class SimpleProgressBar {
     log.info('如果你看到这个消息，说明你的bash不支持格式化输入')
     this.total = total
     this.current = 0
-    this.stepCount = Math.max(Math.ceil(this.total / 10), 10)
+    this.stepCount = Math.min(Math.max(Math.ceil(this.total / 10), 10), 199)
   }
   tick = (count: number) => {
     this.current += count

@@ -9,7 +9,7 @@ export type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'SUCCEED'
 
 const color: Record<LogLevel, ChalkInstance> = {
   INFO: chalk.black.bgBlue,
-  WARN: chalk.black.bgHex('#faad14'),
+  WARN: chalk.black.bgYellow,
   ERROR: chalk.black.bgRedBright,
   SUCCEED: chalk.black.bgGreen,
 }
