@@ -1,7 +1,9 @@
-import chalk, { ChalkInstance } from 'chalk'
+import { ChalkInstance, Chalk } from 'chalk'
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import path from 'path'
+
+export const chalk = new Chalk({ level: 3 })
 
 export type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'SUCCEED'
 
@@ -12,7 +14,7 @@ const color: Record<LogLevel, ChalkInstance> = {
   SUCCEED: chalk.black.bgGreen,
 }
 
-export const getTag = (type: LogLevel) => color[type](` ${type} `)
+export const getTag = (type: LogLevel) => color[type](chalk.white(` ${type} `))
 
 export const log = {
   info: function (...args: any[]) {

@@ -1,4 +1,3 @@
-import chalk from 'chalk'
 import HLinkError from '../core/HlinkError.js'
 import execAsyncByGroup from '../utils/execAsyncByGroup.js'
 import {
@@ -7,6 +6,7 @@ import {
   asyncMap,
   createTimeLog,
   endLog,
+  chalk,
 } from '../utils/index.js'
 import { cachePath } from '../utils/paths.js'
 import getProgressBar from '../utils/progress.js'

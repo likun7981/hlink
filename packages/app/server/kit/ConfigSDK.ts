@@ -106,4 +106,6 @@ class ConfigSDK extends BaseSDK<'configs'> {
   }
 }
 
-export default ConfigSDK
+export default new ConfigSDK()
+
+export { ConfigSDK }

@@ -65,13 +65,13 @@ export function useGet(options?: CallbackOption<TTask>) {
     },
     {
       onError(e) {
+        getItem(undefined)
         message.error(e.message)
         if (isFunction(options?.onError)) {
           options?.onError(e)
         }
       },
       onSuccess(data) {
-        getItem(undefined)
         if (isFunction(options?.onSuccess)) {
           options?.onSuccess(data)
         }

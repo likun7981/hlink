@@ -24,6 +24,7 @@ import Task from './Task'
 import ConfigDetail from './ConfigDetail'
 import { isMobile } from '../kit'
 import Tooltip from './Tooltip'
+import RunDetail from './RunDetail'
 
 const Meta = Card.Meta
 
@@ -31,6 +32,7 @@ function TaskList() {
   const [visible, setVisible] = useState(false)
   const [showPlayIndex, setShowPlayIndex] = useState(-1)
   const [showConfigName, setShowConfigName] = useState<string>()
+  const [runTaskName, setRunTaskName] = useState<string>()
   const list = taskService.useList()
   const configList = configService.useList()
   const optTask = taskService.useAddOrEdit({
@@ -123,6 +125,7 @@ function TaskList() {
                       </Tooltip>,
                       <Tooltip title="删除">
                         <Popconfirm
+                          placement="right"
                           title="确认删除此任务?"
                           onConfirm={() => {
                             deleteResult.rmItem(item.name)
@@ -180,7 +183,7 @@ function TaskList() {
                     <div className="bg-black op-0 absolute z-24 hlink-mask"></div>
                     <PlayCircleOutlined
                       onClick={() => {
-                        console.log(1)
+                        setRunTaskName(item.name)
                       }}
                       className="hidden text-5xl absolute left-50% top-50% op-0 -ml-6 -mt-6 z-25 hlink-play"
                       color="white"
@@ -207,6 +210,12 @@ function TaskList() {
       <ConfigDetail
         name={showConfigName}
         onClose={() => setShowConfigName(undefined)}
+      />
+      <RunDetail
+        name={runTaskName}
+        onClose={() => {
+          setRunTaskName(undefined)
+        }}
       />
     </>
   )

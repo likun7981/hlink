@@ -1,8 +1,7 @@
 import { ExecaSyncError, execa } from 'execa'
 import path from 'path'
-import { getDirBasePath } from '../utils/index.js'
+import { chalk, getDirBasePath } from '../utils/index.js'
 import fs from 'fs-extra'
-import chalk from 'chalk'
 import HLinkError, { ErrorCode } from '../core/HlinkError.js'
 
 const errorSuggestion: Record<string, ErrorCode> = {

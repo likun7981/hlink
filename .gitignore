@@ -15,6 +15,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 dist
+/distxx
 dist-ssr
 *.local
 

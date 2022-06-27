@@ -67,7 +67,8 @@ function ConfigList() {
               </Tooltip>,
               <Tooltip title="删除">
                 <Popconfirm
-                  title="确认删除此配置文件?"
+                  placement="bottom"
+                  title="确认删除此配置?"
                   onConfirm={() => {
                     deleteConfig.rmItem(item.name)
                   }}

@@ -16,7 +16,7 @@ function Config(props: TProps) {
   const [key, setKey] = useState(Date.now())
   return (
     <Drawer
-      title={data ? '编辑配置' : '创建一个新配置'}
+      title={data ? `编辑 ${data.name} 配置` : '创建一个新配置'}
       onClose={onClose}
       width="100vw"
       visible
@@ -66,6 +66,7 @@ function Config(props: TProps) {
           <Input />
         </Form.Item>
         <Form.Item
+          hidden={!!data}
           label="名称"
           name="name"
           rules={[

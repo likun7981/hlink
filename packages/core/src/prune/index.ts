@@ -1,7 +1,7 @@
-import chalk from 'chalk'
 import path from 'path'
 import confirm from '@inquirer/confirm'
 import {
+  chalk,
   createTimeLog,
   findParentRelative,
   log,

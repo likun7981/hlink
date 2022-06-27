@@ -1,7 +1,6 @@
 import ansiEscapes from 'ansi-escapes'
-import chalk from 'chalk'
 import wrapAnsi from 'wrap-ansi'
-import { log } from './index.js'
+import { chalk, log } from './index.js'
 
 type TokenType = Record<string, any>
 type OptionsType = {
@@ -220,14 +219,18 @@ export class ProgressBar {
 export class SimpleProgressBar {
   private total: number
   private current: number
+  private stepCount: number
   constructor(total: number) {
     log.info('如果你看到这个消息，说明你的bash不支持格式化输入')
     this.total = total
     this.current = 0
+    this.stepCount = Math.max(Math.ceil(this.total / 10), 10)
   }
   tick = (count: number) => {
     this.current += count
-    log.info(`执行中，当前进度${this.current}/${this.total}`)
+    if (this.current % this.stepCount === 0 || this.total - this.current < 10) {
+      log.info(`执行中，当前进度${this.current}/${this.total}`)
+    }
   }
 }
 

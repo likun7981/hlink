@@ -1,9 +1,21 @@
 {
   "configs": [
     {
-      "configPath": "/Users/likun/Code/my-github/hlink/packages/app/configs/8ce01367-6e5f-4b91-a3da-2ed2ae35121c.mjs",
+      "configPath": "/Users/likun/Code/my-github/hlink/packages/app/configs/82f8f75a-3de9-4a37-a02c-c35a0a9093dc.mjs",
       "name": "name2",
-      "description": "asd"
+      "description": "描述"
+    },
+    {
+      "name": "dsfsdf",
+      "configPath": "/Users/likun/Code/my-github/hlink/packages/app/configs/deafdb06-1bcc-4198-8099-db28cdfa929e.mjs"
+    },
+    {
+      "name": "dfgdfgdfg",
+      "configPath": "/Users/likun/Code/my-github/hlink/packages/app/configs/313b58f4-7476-4675-9dfd-462e69ac81c2.mjs"
+    },
+    {
+      "name": "fdgdfg",
+      "configPath": "/Users/likun/Code/my-github/hlink/packages/app/configs/a106c541-338f-4155-8a9c-6810a7316a0c.mjs"
     }
   ],
   "tasks": [
@@ -12,6 +24,17 @@
       "type": "prune",
       "config": "name2",
       "reverse": true
+    },
+    {
+      "name": "12546",
+      "type": "prune",
+      "config": "dsfsdf",
+      "reverse": false
+    },
+    {
+      "name": "4876",
+      "type": "main",
+      "config": "fdgdfg"
     }
   ]
 }

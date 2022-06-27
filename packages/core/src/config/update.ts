@@ -1,5 +1,4 @@
-import { checkPathExist, log, warning } from '../utils/index.js'
-import chalk from 'chalk'
+import { chalk, checkPathExist, log, warning } from '../utils/index.js'
 import fs from 'fs-extra'
 
 async function update(configPath: string, detail: string) {

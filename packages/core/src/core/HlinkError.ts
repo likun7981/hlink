@@ -1,5 +1,4 @@
-import chalk from 'chalk'
-import { log } from '../utils/index.js'
+import { chalk, log } from '../utils/index.js'
 
 export enum ErrorCode {
   FileExists = 'FileExists',

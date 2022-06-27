@@ -1,8 +1,7 @@
 import Router from '@koa/router'
-import ConfigSDK from '../kit/ConfigSDK.js'
+import config from '../kit/ConfigSDK.js'
 import koaBody from 'koa-body'
 
-const config = new ConfigSDK()
 const router = new Router({
   prefix: '/config',
 })

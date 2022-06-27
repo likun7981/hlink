@@ -1,7 +1,11 @@
-import chalk from 'chalk'
 import { cacheRecord } from '../utils/cacheHelp.js'
 import parseLsirfl, { getInodes } from '../core/parseLsirfl.js'
-import { findParentRelative, getOriginalDestPath, log } from '../utils/index.js'
+import {
+  chalk,
+  findParentRelative,
+  getOriginalDestPath,
+  log,
+} from '../utils/index.js'
 import { IOptions as IHlinkOptions } from './hlink.js'
 import supported from '../utils/supported.js'
 
@@ -28,9 +32,11 @@ async function analyse(config: IOptions) {
     mkdirIfSingle = true,
   } = config
   const [relativeSource, relativeDest] = findParentRelative([source, dest])
-  const taskName = chalk.gray(
-    [relativeSource, chalk.cyan('>'), relativeDest].join(' ')
-  )
+  const taskName = [
+    chalk.gray(relativeSource),
+    chalk.cyan('>'),
+    chalk.gray(relativeDest),
+  ].join(' ')
   log.info('执行分析任务:', taskName)
   const parseResults = await parseLsirfl(source)
   const dstInodes = await getInodes(dest)
