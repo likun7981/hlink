@@ -9,10 +9,10 @@ import {
   createTimeLog,
   checkPathExist,
   findParentRelative,
+  chalk,
 } from '../../utils'
 import { mockGlobalVar, consoleParams } from '../_utils'
 import { describe, test, expect, vi, beforeEach } from 'vitest'
-import chalk from 'chalk'
 import fs from 'fs-extra'
 
 describe('utils test', () => {
