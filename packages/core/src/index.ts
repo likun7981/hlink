@@ -6,6 +6,8 @@ import { IOptions, default as main } from './main/index.js'
 
 export { default as config } from './config/index.js'
 
+export { default as getPruneFiles } from './prune/getRmFiles.js'
+
 export * from './utils/index.js'
 export * from './utils/paths.js'
 

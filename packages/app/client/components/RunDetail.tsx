@@ -1,11 +1,17 @@
 import { Button, message, Modal } from 'antd'
 import confirm from 'antd/lib/modal/confirm'
 import React, { useEffect, useRef, useState } from 'react'
-import watchOutput, { statusCopywrite } from '../kit/runTask'
+import runTask, {
+  getCancelText,
+  getModalType,
+  getOkText,
+  getStatusCopywrite,
+} from '../kit/runTask'
 // @ts-ignore
 import ansiHtml from 'ansi-html'
 import './RunDetail.css'
 import { taskService } from '../service'
+import fetch from '../kit/fetch'
 
 ansiHtml.setColors({
   red: 'ca372d',
@@ -30,8 +36,8 @@ function RunDetail(props: IProps) {
     onSuccess() {
       let modal: ReturnType<typeof confirm>
       if (name) {
-        watchOutput(name, {
-          onMessage(data, status) {
+        runTask(name, {
+          onMessage(data, status, type) {
             logRef.current = logRef.current.concat(data)
             setTimeout(() => {
               if (containerRef.current) {
@@ -41,11 +47,12 @@ function RunDetail(props: IProps) {
                 })
               }
             }, 10)
+
             modal.update({
               title: (
                 <>
                   任务 <span className="color-#08b">{name}</span>{' '}
-                  {statusCopywrite[status]}
+                  {getStatusCopywrite(status, type)}
                 </>
               ),
               content: (
@@ -63,7 +70,11 @@ function RunDetail(props: IProps) {
               okButtonProps: {
                 loading: status === 'ongoing',
               },
-              okText: status === 'ongoing' ? '执行中' : '知道了',
+              okText: getOkText(status, type),
+              cancelButtonProps: {
+                disabled: status !== 'ongoing',
+              },
+              type: getModalType(status, type),
             })
           },
           onError() {
@@ -72,7 +83,8 @@ function RunDetail(props: IProps) {
           },
           onOpen() {
             task.check(undefined)
-            modal = Modal.info({
+            modal = Modal.confirm({
+              type: 'info',
               title: (
                 <>
                   任务 <span className="color-#08b">{name}</span> 执行中
@@ -83,6 +95,23 @@ function RunDetail(props: IProps) {
                 logRef.current = []
                 onClose()
               },
+              onCancel() {
+                return new Promise((resolve, reject) => {
+                  fetch
+                    .get<boolean>('/api/task/cancel', { name })
+                    .then((result) => {
+                      if (result) {
+                        reject()
+                        message.success('取消成功')
+                      }
+                    })
+                    .catch((e) => {
+                      reject()
+                      message.error(e.message)
+                    })
+                })
+              },
+              cancelText: '取消',
               width: '80vw',
             })
           },

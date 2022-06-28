@@ -186,7 +186,7 @@ function TaskList() {
                         setRunTaskName(item.name)
                       }}
                       className="hidden text-5xl absolute left-50% top-50% op-0 -ml-6 -mt-6 z-25 hlink-play"
-                      color="white"
+                      color="#ddd"
                     />
                   </Card>
                 </Badge.Ribbon>

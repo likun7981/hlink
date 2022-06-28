@@ -28,6 +28,7 @@
     ],
     "prefer-const": 0,
     "@typescript-eslint/no-namespace": "off",
-    "@typescript-eslint/ban-types": "off"
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 }

@@ -2,7 +2,7 @@ import { PassThrough } from 'node:stream'
 import { Middleware } from '../kit/base.js'
 
 function sse(paths?: string[]): Middleware {
-  return function sse(ctx, next) {
+  return async function sse(ctx, next) {
     if (paths && !paths.includes(ctx.path)) {
       return next()
     }
@@ -13,11 +13,10 @@ function sse(paths?: string[]): Middleware {
     ctx.set({
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
-      // "Connection": "keep-alive",
+      Connection: 'keep-alive',
     })
-    ctx.status = 200
     const stream = new PassThrough()
-    ctx.json = function (obj: Record<string, string>, type?: string) {
+    ctx.send = function (obj: Record<string, string>, type?: string) {
       stream.write('id: ' + message_count + '\n')
       if ('string' === typeof type) {
         stream.write('event: ' + type + '\n')
@@ -25,11 +24,12 @@ function sse(paths?: string[]): Middleware {
       stream.write('data: ' + JSON.stringify(obj) + '\n\n')
       message_count += 1
     }
-    ctx.body = stream
-    ctx.jsonEnd = function () {
+    ctx.sendEnd = function () {
       stream.destroy()
     }
-    next()
+    await next()
+    ctx.status = 200
+    ctx.body = stream
   }
 }
 

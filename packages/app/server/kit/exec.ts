@@ -15,27 +15,44 @@ export type ReturnType<T extends 'main' | 'prune'> = {
   config: OptionsType[T]
 }
 
-async function start<T extends 'main' | 'prune'>(
+function start<T extends 'main' | 'prune'>(
   command: T,
   options: OptionsType[T],
-  log: (data: string, type: 'succeed' | 'failed') => void
+  log?: (data: string, type: 'succeed' | 'failed') => void
 ) {
   const monitor = execa('node', [
     path.join(__dirname, './nodeExec.js'),
     command,
     JSON.stringify(options),
   ])
-  monitor.stdout?.on('data', (e) => {
-    const str = e.toString()
-    if (str) {
-      log(str.split('\n').filter(Boolean).join('\n'), 'succeed')
-    }
-  })
-  monitor.stderr?.on('data', (e) => {
-    const str = e.toString()
-    log(str, 'failed')
-  })
-  return monitor
+  if (log) {
+    monitor.stdout?.on('data', (e) => {
+      const str = e.toString()
+      if (str) {
+        log(str.split('\n').filter(Boolean).join('\n'), 'succeed')
+      }
+    })
+    monitor.stderr?.on('data', (e) => {
+      const str = e.toString()
+      log(str, 'failed')
+    })
+  }
+  return {
+    kill: () => monitor.kill('SIGILL'),
+    handleLog: (log: (data: string, type: 'succeed' | 'failed') => void) => {
+      monitor.stdout?.on('data', (e) => {
+        const str = e.toString()
+        if (str) {
+          log(str.split('\n').filter(Boolean).join('\n'), 'succeed')
+        }
+      })
+      monitor.stderr?.on('data', (e) => {
+        const str = e.toString()
+        log(str, 'failed')
+      })
+    },
+    original: monitor,
+  }
 }
 
 export default start
