@@ -1,64 +1,41 @@
-import { ModalFuncProps } from 'antd/lib/modal'
+import { TSendData, TTaskStatus, TTaskType } from '../../types/shim'
 import { isFunction } from './index'
 
-export type TStatusType = 'succeed' | 'failed' | 'ongoing'
-
-const statusCopywrite: Record<TStatusType, string> = {
+const statusCopywrite: Record<TTaskStatus, string> = {
   succeed: '完成',
   failed: '出错',
   ongoing: '中...',
 }
 
-const actions: Record<TCommand, string> = {
+const actions: Record<TTaskType, string> = {
   main: '执行',
   prune: '分析',
 }
 
-export type TCommand = 'main' | 'prune'
-
 type TOptions = {
-  onMessage?: (data: string, status: TStatusType, type: TCommand) => void
+  onMessage?: (data: TSendData) => void
   onError?: (e: any) => void
   onOpen?: (e: any) => void
 }
 
-export function getStatusCopywrite(status: TStatusType, type: TCommand) {
+export function getStatusCopywrite(status: TTaskStatus, type: TTaskType) {
   const actionText = actions[type]
   const statusText = statusCopywrite[status]
   return actionText + statusText
 }
 
-export function getOkText(status: TStatusType, type: TCommand) {
+export function getOkText(
+  status: TTaskStatus,
+  type: TTaskType,
+  confirm?: boolean
+) {
   if (status === 'ongoing') {
     return getStatusCopywrite(status, type)
   }
-  if (type === 'prune') {
+  if (type === 'prune' && confirm) {
     return '确认'
   }
   return '知道了'
-}
-
-export function getCancelText(status: TStatusType, type: TCommand) {
-  if (status === 'ongoing') {
-    return undefined
-  }
-  if (type === 'prune') {
-    return '取消'
-  }
-  return undefined
-}
-
-export function getModalType(
-  status: TStatusType,
-  type: TCommand
-): ModalFuncProps['type'] {
-  if (status === 'ongoing') {
-    return 'info'
-  }
-  if (type === 'prune') {
-    return 'confirm'
-  }
-  return 'info'
 }
 
 function runTask(name: string, options: TOptions) {
@@ -66,13 +43,9 @@ function runTask(name: string, options: TOptions) {
   if (window.EventSource) {
     const watched = new window.EventSource(`/api/task/run?name=${name}`)
     watched.onmessage = (event) => {
-      const result = JSON.parse(event.data) as {
-        output: string
-        status: TStatusType
-        type: TCommand
-      }
+      const result = JSON.parse(event.data) as TSendData
       if (onMessage) {
-        onMessage(result.output, result.status, result.type)
+        onMessage(result)
         if (result.status !== 'ongoing') {
           watched.close()
         }

@@ -29,7 +29,7 @@ export interface IOptions extends IHlink.Options {
   reverse?: boolean
 }
 
-async function prune(options: IOptions) {
+async function prune(options: IOptions, rm = true) {
   const {
     exclude,
     withoutConfirm,
@@ -72,6 +72,7 @@ async function prune(options: IOptions) {
     chalk.magenta(exclude.length ? exclude.join(',') : '无')
   )
   log.info('开始分析目录集合...')
+  timeLog.start()
   const pathsNeedDelete = await getRmFiles({
     sourceArr,
     destArr,
@@ -81,34 +82,35 @@ async function prune(options: IOptions) {
     reverse,
   })
   log.info('分析完毕')
-  timeLog.start()
   if (pathsNeedDelete.length) {
-    log.info(
-      `共计找到 ${chalk.cyan(pathsNeedDelete.length)} 个路径需要删除，列表如下`
-    )
     pathsNeedDelete.forEach((file) => {
       console.log('', chalk.gray(file))
     })
-    console.log()
-    let answer = true
-    if (!withoutConfirm && process.stdout.isTTY) {
-      answer = await confirm({
-        message: '确认是否继续？删除后无法恢复',
-        default: false,
-      })
+    log.info(`找到 ${chalk.cyan(pathsNeedDelete.length)} 个路径需要删除~`)
+    if (rm) {
+      console.log()
+      let answer = true
+      if (!withoutConfirm && process.stdout.isTTY) {
+        answer = await confirm({
+          message: '确认是否继续？删除后无法恢复',
+          default: false,
+        })
+      }
+      timeLog.start()
+      if (answer) {
+        await rmFiles(pathsNeedDelete)
+        await deleteEmptyDir(pathsNeedDelete)
+        log.success('删除完成')
+      } else {
+        log.info('已终止任务')
+      }
     }
-    timeLog.start()
-    if (answer) {
-      await rmFiles(pathsNeedDelete)
-      await deleteEmptyDir(pathsNeedDelete)
-      log.success('删除完成')
-    } else {
-      log.info('已终止任务')
-    }
-  } else {
-    log.info('没有找到需要修剪的硬链，你的目录保持很干净')
+    timeLog.end()
+    return pathsNeedDelete
   }
   timeLog.end()
+  log.info('没有找到需要修剪的硬链，你的目录保持很干净')
+  return []
 }
 
 export default prune

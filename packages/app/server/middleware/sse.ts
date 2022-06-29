@@ -16,12 +16,9 @@ function sse(paths?: string[]): Middleware {
       Connection: 'keep-alive',
     })
     const stream = new PassThrough()
-    ctx.send = function (obj: Record<string, string>, type?: string) {
+    ctx.send = function (sendData) {
       stream.write('id: ' + message_count + '\n')
-      if ('string' === typeof type) {
-        stream.write('event: ' + type + '\n')
-      }
-      stream.write('data: ' + JSON.stringify(obj) + '\n\n')
+      stream.write('data: ' + JSON.stringify(sendData) + '\n\n')
       message_count += 1
     }
     ctx.sendEnd = function () {

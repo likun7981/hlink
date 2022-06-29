@@ -20,11 +20,10 @@ function start<T extends 'main' | 'prune'>(
   options: OptionsType[T],
   log?: (data: string, type: 'succeed' | 'failed') => void
 ) {
-  const monitor = execa('node', [
-    path.join(__dirname, './nodeExec.js'),
-    command,
-    JSON.stringify(options),
-  ])
+  const execPath = path.join(__dirname, './nodeExec.js')
+  const monitor = execa('node', [execPath, command, JSON.stringify(options)], {
+    stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
+  })
   if (log) {
     monitor.stdout?.on('data', (e) => {
       const str = e.toString()

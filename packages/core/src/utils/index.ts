@@ -10,24 +10,39 @@ export type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'SUCCEED'
 const color: Record<LogLevel, ChalkInstance> = {
   INFO: chalk.black.bgBlue,
   WARN: chalk.black.bgYellow,
-  ERROR: chalk.black.bgRedBright,
+  ERROR: chalk.black.bgRed,
   SUCCEED: chalk.black.bgGreen,
 }
 
 export const getTag = (type: LogLevel) => color[type](chalk.white(` ${type} `))
 
+export const logWrapper = {
+  info: function (...args: string[]) {
+    return `${getTag('INFO')} ${args.join(' ')}`
+  },
+  warn: function (...args: string[]) {
+    return `${getTag('WARN')} ${args.join(' ')}`
+  },
+  error: function (...args: string[]) {
+    return `${getTag('ERROR')} ${args.join(' ')}`
+  },
+  success: function (...args: string[]) {
+    return `${getTag('SUCCEED')} ${args.join(' ')}`
+  },
+}
+
 export const log = {
   info: function (...args: any[]) {
-    console.log(getTag('INFO'), ...args)
+    console.log(logWrapper.info(...args))
   },
   warn: function (...args: any[]) {
-    console.log(getTag('WARN'), ...args)
+    console.log(logWrapper.warn(...args))
   },
   error: function (...args: any[]) {
-    console.log(getTag('ERROR'), ...args)
+    console.log(logWrapper.error(...args))
   },
   success: function (...args: any[]) {
-    console.log(getTag('SUCCEED'), ...args)
+    console.log(logWrapper.success(...args))
   },
 }
 

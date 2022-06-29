@@ -140,3 +140,11 @@ export function useCheckConfig(options?: CallbackOption<TTask>) {
     ...result,
   }
 }
+
+export function cancel(name: string) {
+  return fetch.get<boolean>('/api/task/cancel', { name })
+}
+
+export function makeDeleteFile(name: string, cancel?: boolean) {
+  return fetch.delete<boolean>('/api/task/files', { name, cancel })
+}
