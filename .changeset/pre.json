@@ -2,9 +2,9 @@
   "mode": "pre",
   "tag": "next",
   "initialVersions": {
-    "@hlink/app": "1.0.0",
-    "hlink": "1.0.0",
-    "@hlink/core": "1.0.0"
+    "@hlink/app": "2.0.0",
+    "hlink": "2.0.0",
+    "@hlink/core": "2.0.0"
   },
-  "changesets": ["late-balloons-sit"]
+  "changesets": ["chilled-days-hang", "late-balloons-sit"]
 }

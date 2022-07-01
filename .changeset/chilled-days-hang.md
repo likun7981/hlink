@@ -4,4 +4,4 @@
 '@hlink/core': patch
 ---
 
-next
+update dep

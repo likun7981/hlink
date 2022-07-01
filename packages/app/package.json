@@ -1,6 +1,6 @@
 {
   "name": "@hlink/app",
-  "version": "2.0.0-next.0",
+  "version": "2.0.0-next.1",
   "type": "module",
   "main": "./dist/app.js",
   "module": "./dist/app.js",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@hlink/core": "workspace:^2.0.0-next.0",
+    "@hlink/core": "workspace:^2.0.0-next.1",
     "@koa/router": "^10.1.1",
     "@types/koa__router": "^8.0.11",
     "@types/lodash": "^4.14.182",
