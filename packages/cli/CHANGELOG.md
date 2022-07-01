@@ -1,5 +1,11 @@
 # hlink
 
+## 2.0.0-next.2
+
+### Patch Changes
+
+- update help text
+
 ## 2.0.0-next.1
 
 ### Patch Changes

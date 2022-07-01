@@ -17,6 +17,10 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
   hlink gen /path/to/gen
   ${chalk.gray('prune命令查看帮助')}
   hlink prune --help
+  ${chalk.gray('启动GUI服务')}
+  hlink serve start
+  ${chalk.gray('关闭GUI服务')}
+  hlink serve start
 
 可配置选项:
   --keepDirStruct,-k    是否保持原有目录结构，默认保持
@@ -25,9 +29,6 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
                         ${chalk.gray(
                           '打开后,每次硬链后会把对应文件存入缓存,就算下次删除硬链，也不会进行硬链'
                         )}
-例子:
-  ${chalk.grey('# 不给配置文件路劲，则默认会读取~/hlink.config.mjs')}
-  hlink
 `
 
 interface IOptions extends ICliOptions, Pick<IMainOptions, 'openCache'> {}

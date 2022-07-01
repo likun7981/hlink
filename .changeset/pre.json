@@ -6,5 +6,5 @@
     "hlink": "2.0.0",
     "@hlink/core": "2.0.0"
   },
-  "changesets": ["chilled-days-hang", "late-balloons-sit"]
+  "changesets": ["chilled-days-hang", "hot-olives-stare", "late-balloons-sit"]
 }
