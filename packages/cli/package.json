@@ -1,0 +1,50 @@
+{
+  "name": "hlink",
+  "version": "2.0.0-next.3",
+  "description": "hlink",
+  "license": "MIT",
+  "repository": "likun7981/hlink",
+  "homepage": "https://hlink.likun.me",
+  "author": {
+    "name": "likun7981",
+    "email": "likun7981@gmail.com"
+  },
+  "bin": {
+    "hlink": "./lib/cli.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": "^14.13.1 || >=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "npm run clean && tsc && npm run env && tsc -w",
+    "clean": "rm -rf lib",
+    "build": "npm run clean && tsc",
+    "prepublishOnly": "npm run build",
+    "env": "rm /usr/local/bin/hlink && ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js",
+    "np": "np --no-cleanup --no-tests --no-yarn",
+    "np:next": "np --tag=next --any-branch --yolo --no-yarn"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "cli",
+    "cli-app",
+    "unicorn",
+    "fun"
+  ],
+  "dependencies": {
+    "@hlink/app": "workspace:^2.0.0-next.1",
+    "@hlink/core": "workspace:^2.0.0-next.1",
+    "@types/update-notifier": "^5.1.0",
+    "chalk": "^5",
+    "execa": "^6.1.0",
+    "fs-extra": "^10",
+    "meow": "^10.1.2",
+    "update-notifier": "^5.1.0"
+  }
+}

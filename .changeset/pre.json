@@ -1,0 +1,15 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@hlink/app": "2.0.0",
+    "hlink": "2.0.0",
+    "@hlink/core": "2.0.0"
+  },
+  "changesets": [
+    "chilled-days-hang",
+    "hot-olives-stare",
+    "late-balloons-sit",
+    "lovely-suits-compete"
+  ]
+}

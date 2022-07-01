@@ -1,0 +1,18 @@
+.hlink-hover {
+  &::hover {
+    transform: scale(1.5);
+    color: white;
+  }
+  .hlink-mask {
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    left: -1px;
+    top: -1px;
+    opacity: 0.4;
+  }
+  .hlink-play {
+    display: block;
+    opacity: 1;
+    transition: opacity 0.3s, transform 0.3s, color 0.3s;
+  }
+}

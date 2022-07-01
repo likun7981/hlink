@@ -1,73 +1,55 @@
 {
-  "name": "hlink",
-  "version": "1.0.2",
+  "name": "hlink-monorepo",
+  "version": "2.0.0",
   "description": "hlink",
-  "license": "MIT",
   "repository": "likun7981/hlink",
+  "license": "MIT",
   "author": {
     "name": "likun7981",
     "email": "likun7981@gmail.com"
   },
-  "bin": {
-    "hlink": "./lib/cli.js"
-  },
   "type": "module",
-  "engines": {
-    "node": ">=12"
-  },
   "scripts": {
-    "test": "xo && ava",
-    "dev": "npm run clean && tsc && npm run env && tsc -w",
-    "clean": "rm -rf lib",
-    "cp": "cp src/hlink.config.tpl lib/hlink.config.tpl",
-    "build": "npm run clean && tsc && npm run cp",
-    "prepublishOnly": "npm run build",
-    "env": "rm /usr/local/bin/hlink && ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js",
-    "np": "np --no-cleanup --no-tests --no-yarn",
-    "np:beta": "np --tag=beta --any-branch --no-cleanup --no-tests --no-yarn",
-    "np:next": "np --tag=next --any-branch --no-cleanup --no-tests --no-yarn",
+    "app:dev": "pnpm -r --filter=./packages/app run dev",
+    "build": "pnpm -r --filter=./packages/* run build",
+    "next": "pnpm -r --filter=./packages/* run np:next",
+    "release": "pnpm -r --filter=./packages/* run np",
+    "docs:build": "vitepress build docs",
     "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs"
+    "lint": "eslint --fix packages/**/*.{ts,tsx}",
+    "prepare": "husky install",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
-  "files": [
-    "lib"
-  ],
-  "keywords": [
-    "cli",
-    "cli-app",
-    "unicorn",
-    "fun"
-  ],
-  "dependencies": {
-    "@inquirer/confirm": "0.0.19-alpha.0",
-    "@types/update-notifier": "^5.1.0",
-    "ansi-escapes": "^5.0.0",
-    "chalk": "^5",
-    "chokidar": "^3.5.3",
-    "execa": "^6",
-    "fs-extra": "^10",
-    "meow": "^10.1.2",
-    "progress": "^2.0.3",
-    "update-notifier": "^5.1.0",
-    "wrap-ansi": "^8.0.1"
+  "lint-staged": {
+    "*": "prettier -wu",
+    "packages/**/*.{ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.23.0",
     "@types/fs-extra": "^9.0.13",
     "@types/meow": "^5.0.0",
+    "@types/node": "^18.0.0",
     "@types/single-line-log": "^1.1.0",
     "@types/wrap-ansi": "^8.0.1",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "ava": "^4",
+    "commitlint": "^17.0.2",
     "eslint": "^8",
-    "eslint-config-standard-with-typescript": "^21.0.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
+    "husky": "^8.0.0",
+    "nodemon": "^2.0.16",
     "np": "^7.6.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.2",
     "typescript": "^4.6.4",
     "vitepress": "^0.22.4",
-    "vue": "^3.2.36",
-    "xo": "^0.24.0"
+    "vitest": "^0.14.2"
+  },
+  "packageManager": "pnpm@7.2.1",
+  "engines": {
+    "node": "^14.13.1 || >=16.0.0"
   }
 }

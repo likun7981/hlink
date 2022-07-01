@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "moduleResolution": "node",
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "strict": true,
+    "noImplicitOverride": true,
+    "esModuleInterop": true,
+    "useUnknownInCatchVariables": false,
+    "outDir": "../dist",
+    "declaration": true
+  },
+  "include": ["./", "../types"]
+}
