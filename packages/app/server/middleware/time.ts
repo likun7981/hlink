@@ -1,5 +1,4 @@
-import { log } from '@hlink/core'
-import chalk from 'chalk'
+import { log, chalk } from '@hlink/core'
 import { Middleware } from '../kit/base.js'
 
 const time: Middleware = async (ctx, next) => {
