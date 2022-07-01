@@ -1,0 +1,10 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@hlink/app": "1.0.0",
+    "hlink": "1.0.0",
+    "@hlink/core": "1.0.0"
+  },
+  "changesets": ["late-balloons-sit"]
+}

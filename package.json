@@ -26,6 +26,7 @@
     "packages/**/*.{ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.23.0",
     "@types/fs-extra": "^9.0.13",
     "@types/meow": "^5.0.0",
     "@types/node": "^18.0.0",
