@@ -1,9 +1,7 @@
 import { IOptions, IPruneOptions } from '@hlink/core'
 import { execa } from 'execa'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+import __dirname from './__dirname.js'
 
 export type OptionsType = {
   main: IOptions
@@ -20,7 +18,7 @@ function start<T extends 'main' | 'prune'>(
   options: OptionsType[T],
   log?: (data: string, type: 'succeed' | 'failed') => void
 ) {
-  const execPath = path.join(__dirname, './nodeExec.js')
+  const execPath = path.join(__dirname(import.meta.url), './nodeExec.js')
   const monitor = execa('node', [execPath, command, JSON.stringify(options)], {
     stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
   })

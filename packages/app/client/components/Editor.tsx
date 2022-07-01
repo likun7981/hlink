@@ -18,7 +18,7 @@ function Editor(props: TProps) {
       editor = monaco.editor.create(monacoEl.current, {
         theme: 'vs-dark',
         value: value || defaultConfig.get(),
-        language: 'typescript',
+        language: 'javascript',
         readOnly,
         lineNumbers: 'off',
       })

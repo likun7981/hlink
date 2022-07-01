@@ -1,7 +1,7 @@
 import { message, Modal } from 'antd'
 import React, { useEffect, useRef } from 'react'
 import runTask, { getOkText, getStatusCopywrite } from '../kit/runTask'
-import './RunDetail.css'
+import './RunDetail.less'
 import { taskService } from '../service'
 import RunPanel from './RunPanel'
 

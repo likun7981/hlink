@@ -2,10 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { SWRConfig } from 'swr'
-import 'antd/dist/antd.min.css'
 import 'uno.css'
-import './index.css'
-import './userWorker'
+import './index.less'
+import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution'
 
 const rootElement = document.getElementById('root')
 

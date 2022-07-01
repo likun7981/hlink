@@ -1,12 +1,12 @@
-import React, { Suspense, useEffect, useState } from 'react'
-import { Layout, Button, message, Row, Col, Space } from 'antd'
-import Config from './components/Config'
+import React, { Suspense } from 'react'
+import { Layout, Row, Col } from 'antd'
 import ConfigList from './components/ConfigList'
 import useSWR from 'swr'
 import fetch from './kit/fetch'
 import defaultConfig from './kit/defaultConfig'
-import './index.css'
+import './index.less'
 import TaskList from './components/TaskList'
+import logo from './logo.svg'
 
 const { Header, Footer, Content } = Layout
 
@@ -25,10 +25,7 @@ function App() {
           href="https://hlink.likun.me"
           className="color-white text-size-5 font-600 flex items-center justify-center"
         >
-          <img
-            className="h-1.3rem mr-3"
-            src="https://hlink.likun.me/logo.svg"
-          />
+          <img className="h-1.3rem mr-3" src={logo} />
           hlink
         </a>
       </Header>

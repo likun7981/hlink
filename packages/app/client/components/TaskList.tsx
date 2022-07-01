@@ -4,7 +4,7 @@ import {
   FullscreenOutlined,
   PlayCircleOutlined,
 } from '@ant-design/icons'
-import './TaskList.css'
+import './TaskList.less'
 import LinkSvg from '../icons/link.svg'
 import SyncSvg from '../icons/sync.svg'
 import cls from 'classnames'

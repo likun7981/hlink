@@ -7,10 +7,11 @@
     "dev": "run-p dev:* dev:server:*",
     "dev:app": "vite --host",
     "dev:server:watch": "tsc -w --project ./server/tsconfig.json",
-    "dev:server:start": "NODE_ENV=development nodemon -V -i ./configs ./dist/server/index.js",
+    "dev:server:start": "NODE_ENV=development nodemon -V -i ./configs ./dist/index.js",
     "server": "run-p dev:server:*",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "build": "rm -rf dist && run-p build:*",
+    "build:client": "tsc && vite build",
+    "preview": "node dist/index.js",
     "build:server": "tsc --project ./server/tsconfig.json"
   },
   "dependencies": {
@@ -27,6 +28,8 @@
     "fs-extra": "^10",
     "koa": "^2.13.4",
     "koa-body": "^5.0.0",
+    "koa-compress": "^5.1.0",
+    "koa-static": "^5.0.0",
     "lodash": "^4.17.21",
     "lodash-id": "^0.14.1",
     "lowdb": "^3.0.0",
@@ -38,6 +41,8 @@
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",
+    "@types/koa-compress": "^4.0.3",
+    "@types/koa-static": "^4.0.2",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@unocss/preset-attributify": "^0.38.1",
@@ -46,7 +51,10 @@
     "@unocss/vite": "^0.38.1",
     "@vitejs/plugin-react": "^1.3.0",
     "babel-plugin-import": "^1.13.5",
+    "less": "^4.1.3",
     "unocss": "^0.38.1",
-    "vite": "^2.9.9"
+    "vite": "^2.9.9",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-imp": "^2.2.0"
   }
 }

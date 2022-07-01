@@ -8,7 +8,7 @@
     "noImplicitOverride": true,
     "esModuleInterop": true,
     "useUnknownInCatchVariables": false,
-    "outDir": "../dist/server"
+    "outDir": "../dist"
   },
   "include": ["./", "../types"]
 }

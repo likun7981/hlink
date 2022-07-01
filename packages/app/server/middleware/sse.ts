@@ -19,6 +19,13 @@ function sse(paths?: string[]): Middleware {
     ctx.send = function (sendData) {
       stream.write('id: ' + message_count + '\n')
       stream.write('data: ' + JSON.stringify(sendData) + '\n\n')
+      // 兼容compress
+      if (
+        typeof ctx.body.flush === 'function' &&
+        ctx.body.flush.name !== 'deprecated'
+      ) {
+        ctx.body.flush()
+      }
       message_count += 1
     }
     ctx.sendEnd = function () {
