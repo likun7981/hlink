@@ -21,6 +21,9 @@ function start<T extends 'main' | 'prune'>(
   const execPath = path.join(__dirname(import.meta.url), './nodeExec.js')
   const monitor = execa('node', [execPath, command, JSON.stringify(options)], {
     stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
+    env: {
+      USED_BY_APP: 'browser',
+    },
   })
   if (log) {
     monitor.stdout?.on('data', (e) => {

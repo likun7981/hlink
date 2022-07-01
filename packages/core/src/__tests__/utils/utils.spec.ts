@@ -10,8 +10,9 @@ import {
   checkPathExist,
   findParentRelative,
   chalk,
+  logWrapper,
 } from '../../utils'
-import { mockGlobalVar, consoleParams } from '../_utils'
+import { mockGlobalVar } from '../_utils'
 import { describe, test, expect, vi, beforeEach } from 'vitest'
 import fs from 'fs-extra'
 
@@ -123,7 +124,7 @@ describe('utils test', () => {
         const calledParams = Array(index).fill(level)
         log[key](...calledParams)
         expect(console.log).toHaveBeenCalledWith(
-          ...consoleParams[level](...calledParams)
+          logWrapper[key](...calledParams)
         )
       })
     })

@@ -32,13 +32,6 @@ export function mockGlobalVar(...args: MockType<any>[]) {
   }
 }
 
-export const consoleParams: Record<LogLevel, (...arg: any) => any[]> = {
-  INFO: (...args: any) => [getTag('INFO'), ...args],
-  WARN: (...args: any) => [getTag('WARN'), ...args],
-  ERROR: (...args: any) => [getTag('ERROR'), ...args],
-  SUCCEED: (...args: any) => [getTag('SUCCEED'), ...args],
-}
-
 export const wait = async (timer: number) => {
   return new Promise((resolve) => {
     setTimeout(() => resolve(1), timer)

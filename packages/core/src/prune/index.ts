@@ -66,7 +66,10 @@ async function prune(options: IOptions, rm = true) {
     '删除模式:',
     chalk.magenta(deleteDir ? '删除硬链所在目录' : '仅仅删除硬链文件')
   )
-  log.info('包含的匹配规则', chalk.magenta(include.join(',')))
+  log.info(
+    '包含的匹配规则',
+    chalk.magenta(include.join(',') === '**' ? '所有文件' : include.join(','))
+  )
   log.info(
     '排除的匹配规则',
     chalk.magenta(exclude.length ? exclude.join(',') : '无')

@@ -1,7 +1,6 @@
 import { main, IPruneOptions, IOptions, prune } from '@hlink/core'
 
 let [_n, _p, _command, optionsStr] = process.argv
-
 const unknownOptions = JSON.parse(optionsStr) as unknown
 if (_command === 'prune') {
   const options = unknownOptions as IPruneOptions

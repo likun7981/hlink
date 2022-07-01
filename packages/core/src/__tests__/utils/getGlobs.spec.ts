@@ -44,11 +44,11 @@ describe('getGlobs test', () => {
     `)
   })
 
-  test('should be passed with defaultExts', () => {
+  test('should be passed with defaultGlobs', () => {
     expect(getGlobs({}, ['ext1', 'ext2'])).toMatchInlineSnapshot(`
       [
-        "*.ext1",
-        "*.ext2",
+        "ext1",
+        "ext2",
       ]
     `)
   })

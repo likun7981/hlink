@@ -8,9 +8,7 @@ class ConfigSDK extends BaseSDK<'configs'> {
   private baseDir: string
   constructor(baseDir = hlinkHomeDir) {
     super('configs')
-    if (process.env.NODE_ENV === 'development') {
-      baseDir = process.cwd()
-    }
+    console.log(baseDir)
     this.baseDir = path.join(baseDir, 'configs')
   }
 

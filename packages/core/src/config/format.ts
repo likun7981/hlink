@@ -1,6 +1,5 @@
 import path from 'node:path'
 import { IHlink } from '../IHlink.js'
-import defaultInclude from '../utils/defaultInclude.js'
 import getGlobs from '../utils/getGlobs.js'
 import {
   chalk,
@@ -53,9 +52,8 @@ async function formatConfig<T extends IHlink.Options>(config: T) {
     },
     {}
   )
-  let includeGlobs = getGlobs(config.include, defaultInclude)
+  let includeGlobs = getGlobs(config.include, ['**'])
   const excludeGlobs = getGlobs(config.exclude)
-  includeGlobs = includeGlobs.length ? includeGlobs : ['**']
   return {
     ...config,
     include: includeGlobs,

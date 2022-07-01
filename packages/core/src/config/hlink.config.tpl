@@ -11,10 +11,38 @@ export default {
   pathsMapping: {},
   /**
    * 需要包含的后缀，如果与exclude同时配置，则取两者的交集
+   * include 留空表示包含所有文件
    *
    * 后缀不够用? 高阶用法: todo 待补充链接
    */
-  include: [],
+  include: [
+    'mp4',
+    'flv',
+    'f4v',
+    'webm',
+    'm4v',
+    'mov',
+    'cpk',
+    'dirac',
+    '3gp',
+    '3g2',
+    'rm',
+    'rmvb',
+    'wmv',
+    'avi',
+    'asf',
+    'mpg',
+    'mpeg',
+    'mpe',
+    'vob',
+    'mkv',
+    'ram',
+    'qt',
+    'fli',
+    'flc',
+    'mod',
+    'iso',
+  ],
   /**
    * 需要排除的后缀，如果与include同时配置，则取两者的交集
    *
@@ -51,5 +79,5 @@ export default {
    * 是否删除文件及所在目录，为false只会删除文件
    * 可选值: true/false
    */
-  deleteDir: false
+  deleteDir: false,
 }

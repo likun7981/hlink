@@ -1,9 +1,10 @@
-import { ChalkInstance, Chalk } from 'chalk'
+import adaptChalk, { ChalkInstance, Chalk } from 'chalk'
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import path from 'path'
 
-export const chalk = new Chalk({ level: 3 })
+export const chalk =
+  process.env.USED_BY_APP === 'browser' ? new Chalk({ level: 3 }) : adaptChalk
 
 export type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'SUCCEED'
 

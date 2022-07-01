@@ -1,6 +1,9 @@
 import { IHlink } from '../IHlink.js'
 
-const getGlobs = (options?: IHlink.Rule | string[], defaultExts?: string[]) => {
+const getGlobs = (
+  options?: IHlink.Rule | string[] | string,
+  defaultGlobs: string[] = []
+) => {
   if (typeof options === 'string') {
     return [options]
   }
@@ -11,10 +14,12 @@ const getGlobs = (options?: IHlink.Rule | string[], defaultExts?: string[]) => {
     }
   }
   let { globs, exts } = options || {}
-  exts = exts?.length ? exts : defaultExts
   globs = globs || []
   if (exts) {
     globs = globs.concat(exts.map((ext) => `*.${ext.toLowerCase()}`))
+  }
+  if (!globs.length) {
+    globs = globs.concat(defaultGlobs)
   }
   return globs
 }

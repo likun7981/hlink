@@ -3,17 +3,24 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "main": "./dist/app.js",
+  "module": "./dist/app.js",
+  "exports": "./dist/app.js",
+  "types": "./dist/app.d.ts",
   "scripts": {
     "dev": "run-p dev:* dev:server:*",
     "dev:app": "vite --host",
     "dev:server:watch": "tsc -w --project ./server/tsconfig.json",
-    "dev:server:start": "NODE_ENV=development nodemon -V -i ./configs ./dist/index.js",
+    "dev:server:start": "nodemon -V -i ./configs ./dist/index.js",
     "server": "run-p dev:server:*",
     "build": "rm -rf dist && run-p build:*",
     "build:client": "tsc && vite build",
     "preview": "node dist/index.js",
     "build:server": "tsc --project ./server/tsconfig.json"
   },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@hlink/core": "workspace:^1.0.0",
@@ -37,7 +44,8 @@
     "query-string": "^7.1.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "swr": "^1.3.0"
+    "swr": "^1.3.0",
+    "user-startup": "^0.2.2"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",

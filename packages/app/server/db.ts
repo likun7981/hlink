@@ -8,7 +8,6 @@ import lodashId from 'lodash-id'
 lodash.mixin(lodashId)
 
 let baseDir = hlinkHomeDir
-baseDir = process.cwd()
 
 export type TDBType = { configs: TConfig[]; tasks: TTask[] }
 

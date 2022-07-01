@@ -11,10 +11,10 @@ export namespace IHlink {
     /**
      * @description 包含
      */
-    include?: Rule
+    include?: Rule | string[] | string
     /**
      * @description 排除
      */
-    exclude?: Rule
+    exclude?: Rule | string[] | string
   }
 }
