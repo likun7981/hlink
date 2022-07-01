@@ -1,0 +1,5 @@
+---
+'hlink': patch
+---
+
+update help
