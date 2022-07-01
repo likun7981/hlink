@@ -1,11 +1,12 @@
 import { Middleware } from '../kit/base.js'
 
 const formatBody: Middleware = async (ctx, next) => {
-  if (ctx.path === '/api/task/run') {
-    return next()
-  }
   try {
     await next()
+    // stream not format
+    if (ctx.response.headers['content-type'] === 'text/event-stream') {
+      return
+    }
     if (ctx.status === 200) {
       ctx.body = {
         success: true,

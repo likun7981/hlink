@@ -15,14 +15,14 @@ export type ReturnType<T extends 'main' | 'prune'> = {
 
 function start<T extends 'main' | 'prune'>(
   command: T,
-  options: OptionsType[T],
+  options: OptionsType[T] & { usedBy?: string },
   log?: (data: string, type: 'succeed' | 'failed') => void
 ) {
   const execPath = path.join(__dirname(import.meta.url), './nodeExec.js')
   const monitor = execa('node', [execPath, command, JSON.stringify(options)], {
     stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
     env: {
-      USED_BY_APP: 'browser',
+      USED_BY_APP: options.usedBy || 'browser',
     },
   })
   if (log) {

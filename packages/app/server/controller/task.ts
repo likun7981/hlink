@@ -3,7 +3,7 @@ import task from '../kit/TaskSDK.js'
 import koaBody from 'koa-body'
 import sse from '../middleware/sse.js'
 import start from '../kit/exec.js'
-import { chalk, logWrapper, deleteEmptyDir, rmFiles } from '@hlink/core'
+import { chalk, logWrapper, deleteEmptyDir, rmFiles, log } from '@hlink/core'
 
 const ongoingTasks: Partial<Record<string, ReturnType<typeof start> | null>> =
   {}
@@ -97,9 +97,11 @@ router.get('/cancel', async (ctx) => {
   }
   const ongoingTask = ongoingTasks[name]
   if (ongoingTask) {
-    ongoingTask.kill()
-    ongoingTasks[name] = null
-    ctx.body = true
+    if (ongoingTask.kill()) {
+      ongoingTask.kill()
+      ongoingTasks[name] = null
+      ctx.body = true
+    }
   } else {
     throw new Error('没有进行中的任务')
   }
@@ -109,11 +111,23 @@ router.get('/cancel', async (ctx) => {
  * @description 开始执行任务
  */
 router.get('/run', sse(), async (ctx) => {
-  const { name } = ctx.request.query as {
+  const { name, alive = '1' } = ctx.request.query as {
     name: string
+    alive: '1' | '0'
+  }
+  const result = await task.getConfig(name)
+  if (alive === '0') {
+    const currentMonitor = start(result.command, {
+      ...result.config,
+      usedBy: 'terminal',
+    })
+    currentMonitor.handleLog((d) => {
+      log.error('任务执行出错', name)
+      console.log(d)
+    })
+    return currentMonitor.original
   }
 
-  const result = await task.getConfig(name)
   let currentMonitor = ongoingTasks[name]
   if (currentMonitor) {
     ctx.send?.({
@@ -152,21 +166,22 @@ router.get('/run', sse(), async (ctx) => {
     })
     .catch((e) => {
       if (e.killed) {
-        ctx.send?.({
+        return ctx.send?.({
           status: 'failed',
           type: result.command,
           output: logWrapper.warn('已手动取消'),
         })
       } else {
-        ctx.send?.({
+        return ctx.send?.({
           status: 'failed',
           type: result.command,
           output: logWrapper.error('任务执行出错，已终止'),
         })
       }
     })
-    .finally(() => {
+    .then(() => {
       ongoingTasks[name] = null
+      ctx.sendEnd?.()
     })
 })
 

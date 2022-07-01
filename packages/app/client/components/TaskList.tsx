@@ -1,4 +1,5 @@
 import {
+  CopyOutlined,
   DeleteOutlined,
   EditOutlined,
   FullscreenOutlined,
@@ -26,6 +27,7 @@ import ConfigDetail from './ConfigDetail'
 import { isMobile } from '../kit'
 import Tooltip from './Tooltip'
 import RunDetail from './RunDetail'
+import copy from 'copy-to-clipboard'
 
 const Meta = Card.Meta
 
@@ -160,7 +162,29 @@ function TaskList() {
                             icon={<FullscreenOutlined key="detail" />}
                           />
                         </Tooltip>,
-                      ]}
+                        item.type === 'main' && (
+                          <Tooltip title="复制触发命令">
+                            <Button
+                              type="link"
+                              onClick={() => {
+                                if (
+                                  copy(
+                                    `curl ${location.origin}/api/task/run?name=${item.name}&alive=0`,
+                                    {
+                                      debug: true,
+                                      message: 'Press #{key} to copy',
+                                    }
+                                  )
+                                ) {
+                                  message.success('复制成功')
+                                }
+                              }}
+                              // @ts-ignore
+                              icon={<CopyOutlined key="copy" />}
+                            />
+                          </Tooltip>
+                        ),
+                      ].filter(Boolean)}
                     >
                       <div
                         onClick={() => {
