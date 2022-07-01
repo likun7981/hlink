@@ -23,6 +23,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@hlink/core": "workspace:^2.0.0",
