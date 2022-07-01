@@ -1,6 +1,5 @@
 {
   "name": "@hlink/app",
-  "private": true,
   "version": "2.0.0-next.0",
   "type": "module",
   "main": "./dist/app.js",

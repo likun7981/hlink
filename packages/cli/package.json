@@ -16,6 +16,9 @@
   "engines": {
     "node": "^14.13.1 || >=16.0.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "npm run clean && tsc && npm run env && tsc -w",
     "clean": "rm -rf lib",
