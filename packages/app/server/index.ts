@@ -7,6 +7,7 @@ import __dirname from './kit/__dirname.js'
 import compress from 'koa-compress'
 import path from 'node:path'
 import { log } from '@hlink/core'
+import { internalIpV4 } from 'internal-ip'
 
 const app = new Koa()
 
@@ -24,6 +25,7 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
 
-app.listen(process.env.PORT || 9090, () => {
-  log.success('hlink serve started', `http://localhost:${port}`)
+app.listen(process.env.PORT || 9090, async () => {
+  const ip = await internalIpV4().catch(() => 'localhost')
+  log.success('hlink serve started', `http://${ip}:${port}`)
 })

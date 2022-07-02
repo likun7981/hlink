@@ -28,3 +28,9 @@ declare module 'koa' {
     sendEnd?: () => void
   }
 }
+
+export type TSchedule = {
+  type: 'cron' | 'loop'
+  value: string
+  name: string
+}

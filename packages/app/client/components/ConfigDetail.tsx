@@ -29,24 +29,21 @@ function ConfigDetail(props: IProps) {
       configDetail.getItem(name)
     }
   }, [name])
+  if (!visible) return null
   return (
-    <>
-      {visible && (
-        <Drawer
-          title={`${name} 配置详情`}
-          visible={visible}
-          width="100vw"
-          onClose={handleClose}
-          destroyOnClose
-        >
-          <Editor
-            readOnly
-            className="flex-1 w-100%"
-            value={configDetail.data?.detail}
-          />
-        </Drawer>
-      )}
-    </>
+    <Drawer
+      title={`${name} 配置详情`}
+      visible
+      width="100vw"
+      onClose={handleClose}
+      destroyOnClose
+    >
+      <Editor
+        readOnly
+        className="flex-1 w-100%"
+        value={configDetail.data?.detail}
+      />
+    </Drawer>
   )
 }
 
