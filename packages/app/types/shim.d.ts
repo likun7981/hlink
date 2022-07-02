@@ -14,6 +14,10 @@ export type TTask = {
   scheduleValue?: string
 }
 
+export type TSchedule = Required<
+  Pick<TTask, 'name' | 'scheduleType' | 'scheduleValue'>
+>
+
 export type TTaskStatus = 'succeed' | 'failed' | 'ongoing'
 export type TTaskType = 'main' | 'prune'
 

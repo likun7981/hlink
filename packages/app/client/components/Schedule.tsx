@@ -1,33 +1,54 @@
-import { Drawer, Form, Input, message, Select } from 'antd'
-import { TTask } from '../../types/shim'
+import {
+  Button,
+  Drawer,
+  Form,
+  Input,
+  message,
+  Select,
+  Space,
+  Typography,
+} from 'antd'
+import { TSchedule } from '../../types/shim'
 
 type IProps = {
   onClose: () => void
-  onSubmit: (value: TTask) => void
-  edit: TTask
+  onSubmit: (value: TSchedule) => void
+  name: string
 }
 
 const Option = Select.Option
 
 function Schedule(props: IProps) {
-  const { onClose, onSubmit, edit } = props
-  const [form] = Form.useForm<TTask>()
+  const { onClose, onSubmit, name } = props
+  const [form] = Form.useForm<{
+    scheduleType: TSchedule['scheduleType']
+    loopValue: string
+    cronValue: string
+  }>()
 
-  const data: TTask = edit
   const type = Form.useWatch('scheduleType', form)
-
-  if (!data.scheduleType) {
-    data.scheduleType = 'loop'
-  }
 
   return (
     <Drawer
-      title={`${data.name} 定时任务设置`}
+      title={`${name} 定时任务设置`}
       visible
       contentWrapperStyle={{
         width: '100vw',
-        maxWidth: 300,
+        maxWidth: 450,
       }}
+      extra={
+        <Space>
+          <Button onClick={onClose}>关闭</Button>
+          <Button
+            onClick={() => {
+              form.submit()
+            }}
+            type="primary"
+          >
+            确定
+          </Button>
+        </Space>
+      }
       onClose={onClose}
       destroyOnClose
     >
@@ -35,12 +56,18 @@ function Schedule(props: IProps) {
         layout="vertical"
         name="basic"
         autoComplete="off"
-        initialValues={data}
+        initialValues={{
+          name,
+        }}
         onFinish={(value) => {
           if (typeof onSubmit === 'function') {
             onSubmit({
-              ...edit,
-              ...value,
+              name,
+              scheduleType: value.scheduleType,
+              scheduleValue:
+                value.scheduleType === 'cron'
+                  ? value.cronValue
+                  : value.loopValue,
             })
           }
         }}
@@ -60,25 +87,35 @@ function Schedule(props: IProps) {
         >
           <Select placeholder="请选择类型">
             <Option key="loop">定时循环(新手推荐)</Option>
-            <Option key="cron">计划任务(corn)</Option>
+            <Option key="cron">计划任务(cron)</Option>
           </Select>
         </Form.Item>
         {type === 'cron' && (
           <Form.Item
             rules={[{ required: true, message: '填入cron规则' }]}
-            valuePropName="checked"
             label="cron规则"
-            name="value"
+            name="cronValue"
+            extra={
+              <div className="pt-5px">
+                需要帮助?
+                <Typography.Link
+                  target="_blank"
+                  href="https://tooltt.com/crontab/c/56.html"
+                >
+                  点击查找
+                </Typography.Link>
+                crontab规则
+              </div>
+            }
           >
-            <Input placeholder="请输入corn规则" />
+            <Input placeholder="请输入cron规则" />
           </Form.Item>
         )}
         {type === 'loop' && (
           <Form.Item
             rules={[{ required: true, message: '填入执行周期' }]}
-            valuePropName="checked"
             label="执行周期"
-            name="value"
+            name="loopValue"
           >
             <Input placeholder="多少" prefix="每" suffix="秒执行一次" />
           </Form.Item>

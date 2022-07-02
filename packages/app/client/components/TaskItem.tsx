@@ -5,6 +5,7 @@ import {
   FieldTimeOutlined,
   FullscreenOutlined,
   PlayCircleOutlined,
+  PoweroffOutlined,
 } from '@ant-design/icons'
 import { Avatar, Badge, Button, Card, message, Popconfirm } from 'antd'
 import { useEffect, useState } from 'react'
@@ -24,13 +25,22 @@ type TProps = {
   onDelete: (name: string) => void
   onShowConfig: (config: string) => void
   onSetSchedule: (name: string) => void
+  onCancelSchedule: (name: string) => void
   onPlay: (name: string) => void
 }
 
 function TaskItem(props: TProps) {
   const [showPlayIndex, setShowPlayIndex] = useState(-1)
-  const { data, index, onEdit, onDelete, onShowConfig, onSetSchedule, onPlay } =
-    props
+  const {
+    data,
+    index,
+    onEdit,
+    onDelete,
+    onShowConfig,
+    onSetSchedule,
+    onPlay,
+    onCancelSchedule,
+  } = props
 
   const text =
     data.type === 'main' ? '硬链' : data.reverse ? '反向同步' : '正向同步'
@@ -120,16 +130,37 @@ function TaskItem(props: TProps) {
               />
             </Tooltip>
           ),
-          <Tooltip title="设置定时任务">
-            <Button
-              type="link"
-              onClick={() => {
-                onSetSchedule(data.name)
-              }}
-              // @ts-ignore
-              icon={<FieldTimeOutlined key="time" />}
-            />
-          </Tooltip>,
+          !data.scheduleType && (
+            <Tooltip title="设置定时任务">
+              <Button
+                type="link"
+                onClick={() => {
+                  onSetSchedule(data.name)
+                }}
+                // @ts-ignore
+                icon={<FieldTimeOutlined key="time" />}
+              />
+            </Tooltip>
+          ),
+          !!data.scheduleType && (
+            <Tooltip title="取消定时任务">
+              <Popconfirm
+                placement="right"
+                title="确认取消定时任务?"
+                onConfirm={() => {
+                  onCancelSchedule(data.name)
+                }}
+                okText="是"
+                cancelText="否"
+              >
+                <Button
+                  type="link"
+                  // @ts-ignore
+                  icon={<PoweroffOutlined key="off" />}
+                />
+              </Popconfirm>
+            </Tooltip>
+          ),
         ].filter(Boolean)}
       >
         <div
@@ -146,12 +177,24 @@ function TaskItem(props: TProps) {
             avatar={<Avatar src={data.type === 'main' ? LinkSvg : SyncSvg} />}
             title={data.name}
             description={
-              <>
-                配置文件:
-                <div>
-                  <b>{data.config}</b>
-                </div>
-              </>
+              <div className="h-66px">
+                配置:{' '}
+                <b className={cls({ block: !data.scheduleType })}>
+                  {data.config}
+                </b>
+                {!!data.scheduleType && (
+                  <div>
+                    已设置定时任务:
+                    <div className="font-bold">
+                      {data.scheduleType}(
+                      {data.scheduleType === 'cron'
+                        ? data.scheduleValue
+                        : `每${data.scheduleValue}秒执行一次`}
+                      )
+                    </div>
+                  </div>
+                )}
+              </div>
             }
           />
         </div>

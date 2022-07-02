@@ -23,7 +23,7 @@ class ConfigSDK extends BaseSDK<'configs'> {
   }
 
   async add(c: TConfig) {
-    if (await this.exist(c.name)) {
+    if (this.exist(c.name)) {
       throw new Error(`配置 ${c.name} 已存在`)
     }
     const item = this.db.insert(this.getConfig(c)).value()
@@ -33,7 +33,7 @@ class ConfigSDK extends BaseSDK<'configs'> {
   }
 
   async update(prevName: string, c: TConfig) {
-    if (!(await this.exist(prevName))) {
+    if (!this.exist(prevName)) {
       throw new Error(`配置 ${prevName} 不存在`)
     }
     let currentPath = this.db.getById(prevName).value().configPath
@@ -43,7 +43,7 @@ class ConfigSDK extends BaseSDK<'configs'> {
       description: c.description,
     }
     if (prevName !== c.name) {
-      if (await this.exist(c.name)) {
+      if (this.exist(c.name)) {
         throw new Error(`配置 ${c.name} 已存在`)
       }
       this.db.removeById(prevName).value()
@@ -59,7 +59,7 @@ class ConfigSDK extends BaseSDK<'configs'> {
   }
 
   async remove(name: string) {
-    if (!(await this.exist(name))) {
+    if (!this.exist(name)) {
       throw new Error(`配置 ${name} 不存在`)
     }
     const removeItem = this.db.removeById(name).value()
@@ -69,7 +69,7 @@ class ConfigSDK extends BaseSDK<'configs'> {
   }
 
   async get(name: string): Promise<TConfig> {
-    if (!(await this.exist(name))) {
+    if (!this.exist(name)) {
       throw new Error(`配置 ${name} 不存在`)
     }
     const obj = this.db.getById(name).value()
@@ -80,7 +80,7 @@ class ConfigSDK extends BaseSDK<'configs'> {
   }
 
   async getOpt(name: string) {
-    if (!(await this.exist(name))) {
+    if (!this.exist(name)) {
       throw new Error(`配置 ${name} 不存在`)
     }
     return config.get(this.db.getById(name).value().configPath)
@@ -90,11 +90,11 @@ class ConfigSDK extends BaseSDK<'configs'> {
     return config.getDefaultStr()
   }
 
-  async exist(name: string) {
+  exist(name: string) {
     if (!name) {
       throw new Error('必须指定配置名称')
     }
-    return !!(await this.db.getById(name).value())
+    return !!this.db.getById(name).value()
   }
 
   async getList() {
