@@ -1,5 +1,13 @@
 # hlink
 
+## 2.0.0-next.6
+
+### Patch Changes
+
+- log clean
+- Updated dependencies
+  - @hlink/app@2.0.0-next.3
+
 ## 2.0.0-next.5
 
 ### Patch Changes
