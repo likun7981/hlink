@@ -2,14 +2,7 @@ import Router from '@koa/router'
 import task from '../kit/TaskSDK.js'
 import koaBody from 'koa-body'
 import sse from '../middleware/sse.js'
-import start from '../kit/exec.js'
-import { chalk, logWrapper, deleteEmptyDir, rmFiles, log } from '@hlink/core'
 import { TTask } from '../../types/shim.js'
-
-const ongoingTasks: Partial<Record<string, ReturnType<typeof start> | null>> =
-  {}
-
-const waitingDeleteFiles: Partial<Record<string, string[] | null>> = {}
 
 const router = new Router({
   prefix: '/task',
@@ -76,16 +69,7 @@ router.delete('/files', async (ctx) => {
     name: string
     cancel: string
   }
-  if (cancel) {
-    waitingDeleteFiles[name] = null
-  } else {
-    const deleteFiles = waitingDeleteFiles[name]
-    if (deleteFiles) {
-      await rmFiles(deleteFiles)
-      await deleteEmptyDir(deleteFiles)
-    }
-    waitingDeleteFiles[name] = null
-  }
+  await task.confirmRemove(name, !!cancel)
   ctx.body = true
 })
 
@@ -96,16 +80,8 @@ router.get('/cancel', async (ctx) => {
   const { name } = ctx.request.query as {
     name: string
   }
-  const ongoingTask = ongoingTasks[name]
-  if (ongoingTask) {
-    if (ongoingTask.kill()) {
-      ongoingTask.kill()
-      ongoingTasks[name] = null
-      ctx.body = true
-    }
-  } else {
-    throw new Error('没有进行中的任务')
-  }
+  await task.cancel(name)
+  ctx.body = true
 })
 
 /**
@@ -126,9 +102,9 @@ router.get('/run', sse(), async (ctx) => {
 /**
  * @description 设置定时任务
  */
-router.get('/schedule', async (ctx) => {
+router.put('/schedule', koaBody(), async (ctx) => {
   const { name, scheduleType, scheduleValue } = ctx.request.body as TTask
-
+  await task.schedule(name, scheduleType, scheduleValue)
   ctx.body = true
 })
 

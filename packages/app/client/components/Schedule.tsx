@@ -56,10 +56,7 @@ function Schedule(props: IProps) {
         <Form.Item
           label="定时任务类型"
           name="scheduleType"
-          rules={[
-            { required: true, message: '必须填写名称' },
-            { pattern: /^\w+$/, message: '文件名只能包含数字/字母/下划线' },
-          ]}
+          rules={[{ required: true, message: '必须选择类型' }]}
         >
           <Select placeholder="请选择类型">
             <Option key="loop">定时循环(新手推荐)</Option>
@@ -67,12 +64,22 @@ function Schedule(props: IProps) {
           </Select>
         </Form.Item>
         {type === 'cron' && (
-          <Form.Item valuePropName="checked" label="cron规则" name="value">
+          <Form.Item
+            rules={[{ required: true, message: '填入cron规则' }]}
+            valuePropName="checked"
+            label="cron规则"
+            name="value"
+          >
             <Input placeholder="请输入corn规则" />
           </Form.Item>
         )}
         {type === 'loop' && (
-          <Form.Item valuePropName="checked" label="执行周期" name="value">
+          <Form.Item
+            rules={[{ required: true, message: '填入执行周期' }]}
+            valuePropName="checked"
+            label="执行周期"
+            name="value"
+          >
             <Input placeholder="多少" prefix="每" suffix="秒执行一次" />
           </Form.Item>
         )}

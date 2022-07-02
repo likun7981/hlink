@@ -1,8 +1,15 @@
-import { chalk, log, logWrapper } from '@hlink/core'
+import {
+  chalk,
+  alwaysLogWrapper,
+  log,
+  rmFiles,
+  deleteEmptyDir,
+} from '@hlink/core'
 import { SSELog, TTask } from '../../types/shim'
 import BaseSDK from './BaseSDK.js'
 import configSDK from './ConfigSDK.js'
 import start from './exec.js'
+import { cancelSchedule, schedule } from './schedule.js'
 
 const ongoingTasks: Partial<Record<string, ReturnType<typeof start> | null>> =
   {}
@@ -107,7 +114,7 @@ class TaskSDK extends BaseSDK<'tasks'> {
     let currentMonitor = ongoingTasks[name]
     if (currentMonitor) {
       log.send?.({
-        output: logWrapper.info(`任务 ${chalk.cyan(name)} 正在执行中..`),
+        output: alwaysLogWrapper.info(`任务 ${chalk.cyan(name)} 正在执行中..`),
         status: 'ongoing',
         type: result.command,
       })
@@ -135,7 +142,9 @@ class TaskSDK extends BaseSDK<'tasks'> {
           status: 'succeed',
           type: result.command,
           output: waitingDeleteFiles[name]
-            ? logWrapper.warn('请点击确认继续删除文件或者可以取消删除任务~')
+            ? alwaysLogWrapper.warn(
+                '请点击确认继续删除文件或者可以取消删除任务~'
+              )
             : undefined,
           confirm: !!waitingDeleteFiles[name],
         })
@@ -146,13 +155,13 @@ class TaskSDK extends BaseSDK<'tasks'> {
           return log.send?.({
             status: 'failed',
             type: result.command,
-            output: logWrapper.warn('已手动取消'),
+            output: alwaysLogWrapper.warn('已手动取消'),
           })
         } else {
           return log.send?.({
             status: 'failed',
             type: result.command,
-            output: logWrapper.error('任务执行出错，已终止'),
+            output: alwaysLogWrapper.error('任务执行出错，已终止'),
           })
         }
       })
@@ -160,6 +169,49 @@ class TaskSDK extends BaseSDK<'tasks'> {
         ongoingTasks[name] = null
         log.sendEnd?.()
       })
+  }
+
+  async cancel(name: string) {
+    const ongoingTask = ongoingTasks[name]
+    if (ongoingTask) {
+      if (ongoingTask.kill()) {
+        ongoingTasks[name] = null
+      }
+    } else {
+      throw new Error('没有进行中的任务')
+    }
+  }
+
+  async confirmRemove(name: string, cancel = true) {
+    if (cancel) {
+      waitingDeleteFiles[name] = null
+    } else {
+      const deleteFiles = waitingDeleteFiles[name]
+      if (deleteFiles) {
+        await rmFiles(deleteFiles)
+        await deleteEmptyDir(deleteFiles)
+      }
+      waitingDeleteFiles[name] = null
+    }
+  }
+
+  async schedule(
+    name: string,
+    scheduleType: TTask['scheduleType'],
+    scheduleValue: TTask['scheduleValue']
+  ) {
+    const task = await this.get(name)
+    this.db
+      .upsert({
+        ...task,
+        name,
+        scheduleType,
+        scheduleValue,
+      })
+      .value()
+    await cancelSchedule(name)
+    await schedule(name, scheduleType, scheduleValue)
+    this.write()
   }
 }
 
