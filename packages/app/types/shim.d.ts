@@ -10,6 +10,8 @@ export type TTask = {
   type: TTaskType
   config: string
   reverse?: boolean
+  scheduleType?: 'cron' | 'loop'
+  scheduleValue?: string
 }
 
 export type TTaskStatus = 'succeed' | 'failed' | 'ongoing'
@@ -22,15 +24,13 @@ export type TSendData = {
   confirm?: boolean
 }
 
-declare module 'koa' {
-  interface BaseContext {
-    send?: (data: TSendData) => void
-    sendEnd?: () => void
-  }
+export interface SSELog {
+  send?: (data: TSendData) => void
+  sendEnd?: () => void
 }
 
-export type TSchedule = {
-  type: 'cron' | 'loop'
-  value: string
-  name: string
+declare module 'koa' {
+  interface BaseContext extends SSELog {
+    withSSE: true
+  }
 }

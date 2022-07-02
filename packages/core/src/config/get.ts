@@ -9,8 +9,9 @@ async function get(configPath: string) {
     ? configPath
     : path.join(process.cwd(), configPath)
   warning(!(await checkPathExist(configPath)), '指定的配置文件不存在')
-  const config = (await import(pathToFileURL(configPath).href))
-    .default as TAllConfig
+  const config = (
+    await import(`${pathToFileURL(configPath).href}?${Date.now()}`)
+  ).default as TAllConfig
   return config
 }
 

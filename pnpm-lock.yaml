@@ -25,6 +25,7 @@ importers:
       classnames: ^2.3.1
       copy-to-clipboard: ^3.3.1
       execa: ^6.1.0
+      exit-hook: ^3.0.0
       fs-extra: ^10
       internal-ip: ^7.0.0
       koa: ^2.13.4
@@ -54,6 +55,7 @@ importers:
       '@types/koa__router': 8.0.11
       '@types/lodash': 4.14.182
       execa: 6.1.0
+      exit-hook: 3.0.0
       fs-extra: 10.1.0
       internal-ip: 7.0.0
       koa: 2.13.4
@@ -2072,6 +2074,14 @@ packages:
       onetime: 6.0.0
       signal-exit: 3.0.7
       strip-final-newline: 3.0.0
+    dev: false
+
+  /exit-hook/3.0.0:
+    resolution:
+      {
+        integrity: sha512-ElRvnoj3dvOc5WjnQx0CF66rS0xehV6eZdcmqZX17uOLPy3me43frl8UD73Frkx5Aq5kgziMDECjDJR2X1oBFQ==,
+      }
+    engines: { node: ^12.20.0 || ^14.13.1 || >=16.0.0 }
     dev: false
 
   /fast-glob/3.2.11:

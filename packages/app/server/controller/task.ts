@@ -4,6 +4,7 @@ import koaBody from 'koa-body'
 import sse from '../middleware/sse.js'
 import start from '../kit/exec.js'
 import { chalk, logWrapper, deleteEmptyDir, rmFiles, log } from '@hlink/core'
+import { TTask } from '../../types/shim.js'
 
 const ongoingTasks: Partial<Record<string, ReturnType<typeof start> | null>> =
   {}
@@ -115,74 +116,20 @@ router.get('/run', sse(), async (ctx) => {
     name: string
     alive: '1' | '0'
   }
-  const result = await task.getConfig(name)
   if (alive === '0') {
-    const currentMonitor = start(result.command, {
-      ...result.config,
-      usedBy: 'terminal',
-    })
-    currentMonitor.handleLog((d) => {
-      log.error('任务执行出错', name)
-      console.log(d)
-    })
-    return currentMonitor.original
-  }
-
-  let currentMonitor = ongoingTasks[name]
-  if (currentMonitor) {
-    ctx.send?.({
-      output: logWrapper.info(`任务 ${chalk.cyan(name)} 正在执行中..`),
-      status: 'ongoing',
-      type: result.command,
-    })
+    return task.start(name)
   } else {
-    currentMonitor = start(result.command, result.config)
+    task.run(name, ctx)
   }
-  ongoingTasks[name] = currentMonitor
-  currentMonitor.handleLog((data) => {
-    ctx.send?.({
-      output: data,
-      status: 'ongoing',
-      type: result.command,
-    })
-  })
-  // 接受prune传来的文件
-  currentMonitor.original.on('message', (r) => {
-    const files = r as string[]
-    if (files.length) {
-      waitingDeleteFiles[name] = r as string[]
-    }
-  })
-  currentMonitor.original
-    .then(async () => {
-      ctx.send?.({
-        status: 'succeed',
-        type: result.command,
-        output: waitingDeleteFiles[name]
-          ? logWrapper.warn('请点击确认继续删除文件或者可以取消删除任务~')
-          : undefined,
-        confirm: !!waitingDeleteFiles[name],
-      })
-    })
-    .catch((e) => {
-      if (e.killed) {
-        return ctx.send?.({
-          status: 'failed',
-          type: result.command,
-          output: logWrapper.warn('已手动取消'),
-        })
-      } else {
-        return ctx.send?.({
-          status: 'failed',
-          type: result.command,
-          output: logWrapper.error('任务执行出错，已终止'),
-        })
-      }
-    })
-    .then(() => {
-      ongoingTasks[name] = null
-      ctx.sendEnd?.()
-    })
+})
+
+/**
+ * @description 设置定时任务
+ */
+router.get('/schedule', async (ctx) => {
+  const { name, scheduleType, scheduleValue } = ctx.request.body as TTask
+
+  ctx.body = true
 })
 
 export default router.routes()

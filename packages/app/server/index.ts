@@ -8,10 +8,15 @@ import compress from 'koa-compress'
 import path from 'node:path'
 import { log } from '@hlink/core'
 import { internalIpV4 } from 'internal-ip'
+import exitHook from 'exit-hook'
 
 const app = new Koa()
 
 const port = process.env.PORT || 9090
+
+exitHook(() => {
+  console.log('exit~~~')
+})
 
 app
   .use(

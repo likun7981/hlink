@@ -1,36 +1,34 @@
 import { Drawer, Form, Input, message, Select } from 'antd'
-import { useEffect, useState } from 'react'
-import { TSchedule } from '../../types/shim'
+import { TTask } from '../../types/shim'
 
 type IProps = {
   onClose: () => void
-  onSubmit: (value: TSchedule) => void
-  edit: TSchedule
-  name: string
+  onSubmit: (value: TTask) => void
+  edit: TTask
 }
 
 const Option = Select.Option
 
 function Schedule(props: IProps) {
-  const { onClose, onSubmit, edit, name } = props
-  const [visible, setVisible] = useState(false)
-  const [form] = Form.useForm<TSchedule>()
-  const handleClose = () => {
-    setVisible(false)
-    onClose()
+  const { onClose, onSubmit, edit } = props
+  const [form] = Form.useForm<TTask>()
+
+  const data: TTask = edit
+  const type = Form.useWatch('scheduleType', form)
+
+  if (!data.scheduleType) {
+    data.scheduleType = 'loop'
   }
-
-  const data = edit || { type: 'loop' }
-  const type = Form.useWatch('type', form)
-
-  data.name = name
 
   return (
     <Drawer
-      title={`${name} 定时任务设置`}
-      visible={visible}
-      width="100vw"
-      onClose={handleClose}
+      title={`${data.name} 定时任务设置`}
+      visible
+      contentWrapperStyle={{
+        width: '100vw',
+        maxWidth: 300,
+      }}
+      onClose={onClose}
       destroyOnClose
     >
       <Form
@@ -40,7 +38,10 @@ function Schedule(props: IProps) {
         initialValues={data}
         onFinish={(value) => {
           if (typeof onSubmit === 'function') {
-            onSubmit(value)
+            onSubmit({
+              ...edit,
+              ...value,
+            })
           }
         }}
         onFinishFailed={(errorInfo) => {
@@ -52,19 +53,16 @@ function Schedule(props: IProps) {
         form={form}
         className="flex flex-col h-100%"
       >
-        <Form.Item hidden name="name">
-          <Input />
-        </Form.Item>
         <Form.Item
           label="定时任务类型"
-          name="type"
+          name="scheduleType"
           rules={[
             { required: true, message: '必须填写名称' },
             { pattern: /^\w+$/, message: '文件名只能包含数字/字母/下划线' },
           ]}
         >
           <Select placeholder="请选择类型">
-            <Option key="cycle">定时循环(小白推荐)</Option>
+            <Option key="loop">定时循环(新手推荐)</Option>
             <Option key="cron">计划任务(corn)</Option>
           </Select>
         </Form.Item>
@@ -75,7 +73,7 @@ function Schedule(props: IProps) {
         )}
         {type === 'loop' && (
           <Form.Item valuePropName="checked" label="执行周期" name="value">
-            <Input placeholder="请输入周期" suffix="秒" />
+            <Input placeholder="多少" prefix="每" suffix="秒执行一次" />
           </Form.Item>
         )}
       </Form>

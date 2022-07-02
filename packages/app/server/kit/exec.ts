@@ -19,12 +19,16 @@ function start<T extends 'main' | 'prune'>(
   log?: (data: string, type: 'succeed' | 'failed') => void
 ) {
   const execPath = path.join(__dirname(import.meta.url), './nodeExec.js')
-  const monitor = execa('node', [execPath, command, JSON.stringify(options)], {
-    stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
-    env: {
-      USED_BY_APP: options.usedBy || 'browser',
-    },
-  })
+  const monitor = execa(
+    process.execPath,
+    [execPath, command, JSON.stringify(options)],
+    {
+      stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
+      env: {
+        USED_BY_APP: options.usedBy || 'browser',
+      },
+    }
+  )
   if (log) {
     monitor.stdout?.on('data', (e) => {
       const str = e.toString()
