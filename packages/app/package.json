@@ -15,6 +15,7 @@
     "build": "rm -rf dist && run-p build:*",
     "build:client": "tsc && vite build",
     "preview": "node dist/index.js",
+    "prepublishOnly": "npm run build",
     "build:server": "tsc --project ./server/tsconfig.json",
     "np": "np --no-cleanup --no-tests --no-yarn",
     "np:next": "np --tag=next --any-branch --yolo --no-yarn"

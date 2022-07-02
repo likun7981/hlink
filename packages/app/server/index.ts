@@ -10,13 +10,22 @@ import { log } from '@hlink/core'
 import { internalIpV4 } from 'internal-ip'
 import exitHook from 'exit-hook'
 import { cancelAllSchedule } from './kit/schedule.js'
+import fs from 'fs-extra'
+import nodeSchedule from 'node-schedule'
+import paths from './kit/paths.js'
 
 const app = new Koa()
 
 const port = process.env.PORT || 9090
 
+// 每7天清理一下log
+const cleanLogTask = nodeSchedule.scheduleJob('0 0 * * 0', () => {
+  fs.rm(paths.logFile)
+})
+
 exitHook(() => {
   cancelAllSchedule()
+  cleanLogTask.cancel()
 })
 
 app
