@@ -1,5 +1,11 @@
 # @hlink/core
 
+## 2.0.0-next.2
+
+### Patch Changes
+
+- schedule task
+
 ## 2.0.0-next.1
 
 ### Patch Changes

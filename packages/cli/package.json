@@ -1,6 +1,6 @@
 {
   "name": "hlink",
-  "version": "2.0.0-next.4",
+  "version": "2.0.0-next.5",
   "description": "hlink",
   "license": "MIT",
   "repository": "likun7981/hlink",
@@ -38,8 +38,8 @@
     "fun"
   ],
   "dependencies": {
-    "@hlink/app": "workspace:^2.0.0-next.1",
-    "@hlink/core": "workspace:^2.0.0-next.1",
+    "@hlink/app": "^2.0.0-next.2",
+    "@hlink/core": "^2.0.0-next.2",
     "@types/update-notifier": "^5.1.0",
     "chalk": "^5",
     "execa": "^6.1.0",
