@@ -10,15 +10,15 @@ export const chalk =
 
 export type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'SUCCEED'
 
-const color: Record<LogLevel, ChalkInstance> = {
-  INFO: chalk.black.bgBlue,
-  WARN: chalk.black.bgYellow,
-  ERROR: chalk.black.bgRed,
-  SUCCEED: chalk.black.bgGreen,
-}
+const color = (_chalk: ChalkInstance) => ({
+  INFO: _chalk.black.bgBlue,
+  WARN: _chalk.black.bgYellow,
+  ERROR: _chalk.black.bgRed,
+  SUCCEED: _chalk.black.bgGreen,
+})
 
 const createGetTag = (_chalk: ChalkInstance) => (type: LogLevel) =>
-  color[type](_chalk.white(` ${type} `))
+  color(_chalk)[type](_chalk.white(` ${type} `))
 
 export const getTag = createGetTag(chalk)
 
