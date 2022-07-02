@@ -52,6 +52,7 @@ function runTask(name: string, options: TOptions) {
       }
     }
     watched.onerror = (e) => {
+      watched.close()
       if (isFunction(onError)) {
         onError(e)
       }

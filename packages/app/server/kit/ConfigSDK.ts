@@ -8,7 +8,6 @@ class ConfigSDK extends BaseSDK<'configs'> {
   private baseDir: string
   constructor(baseDir = hlinkHomeDir) {
     super('configs')
-    console.log(baseDir)
     this.baseDir = path.join(baseDir, 'configs')
   }
 

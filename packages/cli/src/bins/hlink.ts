@@ -18,9 +18,9 @@ QQ反馈群号：${chalk.cyanBright('807101297')}
   ${chalk.gray('prune命令查看帮助')}
   hlink prune --help
   ${chalk.gray('开启GUI服务')}
-  hlink serve start
+  hlink start
   ${chalk.gray('关闭GUI服务')}
-  hlink serve stop
+  hlink stop
 
 可配置选项:
   --keepDirStruct,-k    是否保持原有目录结构，默认保持

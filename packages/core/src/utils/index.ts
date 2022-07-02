@@ -3,8 +3,10 @@ import { execa } from 'execa'
 import fs from 'fs-extra'
 import path from 'path'
 
+export const alwaysChalk = new Chalk({ level: 3 })
+
 export const chalk =
-  process.env.USED_BY_APP === 'browser' ? new Chalk({ level: 3 }) : adaptChalk
+  process.env.USED_BY_APP === 'browser' ? alwaysChalk : adaptChalk
 
 export type LogLevel = 'INFO' | 'WARN' | 'ERROR' | 'SUCCEED'
 
@@ -15,22 +17,29 @@ const color: Record<LogLevel, ChalkInstance> = {
   SUCCEED: chalk.black.bgGreen,
 }
 
-export const getTag = (type: LogLevel) => color[type](chalk.white(` ${type} `))
+const createGetTag = (_chalk: ChalkInstance) => (type: LogLevel) =>
+  color[type](_chalk.white(` ${type} `))
 
-export const logWrapper = {
+export const getTag = createGetTag(chalk)
+
+const createLogWrapper = (_getTag: typeof getTag) => ({
   info: function (...args: string[]) {
-    return `${getTag('INFO')} ${args.join(' ')}`
+    return `${_getTag('INFO')} ${args.join(' ')}`
   },
   warn: function (...args: string[]) {
-    return `${getTag('WARN')} ${args.join(' ')}`
+    return `${_getTag('WARN')} ${args.join(' ')}`
   },
   error: function (...args: string[]) {
-    return `${getTag('ERROR')} ${args.join(' ')}`
+    return `${_getTag('ERROR')} ${args.join(' ')}`
   },
   success: function (...args: string[]) {
-    return `${getTag('SUCCEED')} ${args.join(' ')}`
+    return `${_getTag('SUCCEED')} ${args.join(' ')}`
   },
-}
+})
+
+export const alwaysLogWrapper = createLogWrapper(createGetTag(alwaysChalk))
+
+export const logWrapper = createLogWrapper(getTag)
 
 export const log = {
   info: function (...args: any[]) {

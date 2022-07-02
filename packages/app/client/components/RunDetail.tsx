@@ -42,54 +42,52 @@ function RunDetail(props: IProps) {
               },
               okText: getOkText(status, type, confirm),
             }
-            if (type === 'main' || !confirm) {
-              updated.cancelButtonProps = {
-                disabled: status !== 'ongoing',
-              }
+            if ((type === 'main' || !confirm) && status !== 'ongoing') {
               updated.onCancel = () => {}
+              updated.cancelButtonProps = {
+                disabled: true,
+              }
             }
-            if (type === 'prune') {
-              if (status !== 'ongoing' && confirm) {
-                updated.onCancel = () => {
-                  message.loading({ content: '取消中', key: 'cancelDelete' })
-                  return taskService
-                    .makeDeleteFile(name, true)
-                    .then(() => {
-                      message.success({
-                        content: '删除已取消',
-                        key: 'cancelDelete',
-                      })
-                      handleClose()
-                      return Promise.resolve()
+            if (type === 'prune' && status !== 'ongoing' && confirm) {
+              updated.onCancel = () => {
+                message.loading({ content: '取消中', key: 'cancelDelete' })
+                return taskService
+                  .makeDeleteFile(name, true)
+                  .then(() => {
+                    message.success({
+                      content: '删除已取消',
+                      key: 'cancelDelete',
                     })
-                    .catch((e) => {
-                      message.error({
-                        content: `取消失败: ${e.mssage}`,
-                        key: 'cancelDelete',
-                      })
-                      return Promise.reject()
+                    handleClose()
+                    return Promise.resolve()
+                  })
+                  .catch((e) => {
+                    message.error({
+                      content: `取消失败: ${e.mssage}`,
+                      key: 'cancelDelete',
                     })
-                }
-                updated.onOk = () => {
-                  message.loading({ content: '执行删除中', key: 'makeDelete' })
-                  return taskService
-                    .makeDeleteFile(name)
-                    .then(() => {
-                      message.success({
-                        content: '删除成功',
-                        key: 'makeDelete',
-                      })
-                      handleClose()
-                      return Promise.resolve()
+                    return Promise.reject()
+                  })
+              }
+              updated.onOk = () => {
+                message.loading({ content: '执行删除中', key: 'makeDelete' })
+                return taskService
+                  .makeDeleteFile(name)
+                  .then(() => {
+                    message.success({
+                      content: '删除成功',
+                      key: 'makeDelete',
                     })
-                    .catch((e) => {
-                      message.error({
-                        content: `删除失败: ${e.mssage}`,
-                        key: 'makeDelete',
-                      })
-                      return Promise.reject()
+                    handleClose()
+                    return Promise.resolve()
+                  })
+                  .catch((e) => {
+                    message.error({
+                      content: `删除失败: ${e.mssage}`,
+                      key: 'makeDelete',
                     })
-                }
+                    return Promise.reject()
+                  })
               }
             }
             modal.update(updated)
@@ -122,8 +120,7 @@ function RunDetail(props: IProps) {
                     message.error(e.message)
                   })
                   .finally(() => {
-                    handleClose()
-                    return Promise.reject()
+                    return Promise.reject('已取消')
                   })
               },
               cancelText: '取消',

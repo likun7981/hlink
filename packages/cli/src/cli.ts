@@ -2,7 +2,7 @@
 
 // eslint-disable-next-line node/shebang
 import meow from 'meow'
-import { configPath, config, log, chalk } from '@hlink/core'
+import { configPath, config } from '@hlink/core'
 import path from 'node:path'
 import { restore, backup } from './bins/qnap.js'
 import doctor from './bins/doctor.js'
@@ -48,16 +48,11 @@ switch (_command) {
   case 'restore':
     restore(inputs[0])
     break
-  case 'serve':
-    if (inputs[0] === 'start') {
-      app.start()
-    } else if (inputs[0] === 'stop') {
-      app.stop()
-    } else {
-      log.error('未知命令')
-      log.info('服务启动命令', chalk.cyan('hlink serve start'))
-      log.info('服务关闭命令', chalk.cyan('hlink serve stop'))
-    }
+  case 'start':
+    app.start()
+    break
+  case 'stop':
+    app.stop()
     break
   case 'doctor':
     doctor()
