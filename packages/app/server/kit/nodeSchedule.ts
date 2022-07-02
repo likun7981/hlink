@@ -4,16 +4,16 @@ import { ToadScheduler, SimpleIntervalJob, AsyncTask } from 'toad-scheduler'
 // const rule = new schedule.RecurrenceRule();
 // rule.second = new schedule.Range(0, 60);
 
-// const job = schedule.scheduleJob('*/61 * * * * *', function(){
-//   console.log('The answer to life, the universe, and everything!');
-// });
+const cronJob = schedule.scheduleJob('*/1 * * * * *', function () {
+  console.log('node-schedule everything!')
+})
 
 const scheduler = new ToadScheduler()
 
 const task = new AsyncTask(
   'simple task',
   async () => {
-    console.log('The answer to life, the universe, and everything!')
+    console.log('toad-scheduler everything!')
   },
   (err: Error) => {
     /* handle error here */
