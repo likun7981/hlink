@@ -9,8 +9,8 @@ import TaskItem from './TaskItem'
 import Schedule from './Schedule'
 
 function TaskList() {
-  const [editType, setEditType] = useState<'schedule' | 'task'>()
-  const editTypeRef = useRef<'schedule' | 'task'>()
+  const [editVisible, startEdit] = useState(false)
+  const [scheduleTaskName, setScheduleName] = useState<string>()
   const [showConfigName, setShowConfigName] = useState<string>()
   const [runTaskName, setRunTaskName] = useState<string>()
   const list = taskService.useList()
@@ -18,13 +18,19 @@ function TaskList() {
   const optTask = taskService.useAddOrEdit({
     onSuccess() {
       list.mutate()
-      setEditType(undefined)
-      editTypeRef.current = undefined
+      startEdit(false)
+      task.getItem(undefined)
+    },
+  })
+  const scheduleTask = taskService.useSchedule({
+    onSuccess() {
+      setScheduleName(undefined)
+      list.mutate()
     },
   })
   const task = taskService.useGet({
     onSuccess() {
-      setEditType(editTypeRef.current)
+      startEdit(true)
     },
   })
   const deleteResult = taskService.useDelete({
@@ -32,10 +38,15 @@ function TaskList() {
       list.mutate()
     },
   })
+  const cancelSchedule = taskService.useCancelSchedule({
+    onSuccess() {
+      list.mutate()
+    },
+  })
 
   const handleCreate = () => {
     if (configList?.data?.length) {
-      setEditType('task')
+      startEdit(true)
     } else {
       message.info('请先创建配置')
     }
@@ -74,15 +85,16 @@ function TaskList() {
                     data={item}
                     index={i}
                     onEdit={(name) => {
-                      editTypeRef.current = 'task'
                       task.getItem(name)
                     }}
                     onDelete={(name) => deleteResult.rmItem(name)}
                     onPlay={(name) => setRunTaskName(name)}
                     onSetSchedule={(name) => {
-                      editTypeRef.current = 'schedule'
-                      task.getItem(name)
+                      setScheduleName(name)
                     }}
+                    onCancelSchedule={(name) =>
+                      cancelSchedule.cancelSchedule(name)
+                    }
                     onShowConfig={(config) => setShowConfigName(config)}
                   />
                 </Col>
@@ -91,27 +103,26 @@ function TaskList() {
           </Row>
         )}
       </Card>
-      {editType === 'task' && (
+      {editVisible && (
         <Task
           edit={task.data}
           onClose={() => {
             task.getItem(undefined)
-            setEditType(undefined)
+            startEdit(false)
           }}
           onSubmit={(v) => {
             optTask.addOrUpdateTask(v, task.data?.name)
           }}
         />
       )}
-      {editType === 'schedule' && task.data && (
+      {!!scheduleTaskName && (
         <Schedule
-          edit={task.data}
+          name={scheduleTaskName}
           onClose={() => {
-            task.getItem(undefined)
-            setEditType(undefined)
+            setScheduleName(undefined)
           }}
           onSubmit={(v) => {
-            optTask.addOrUpdateTask(v, task.data?.name)
+            scheduleTask.addScheduleTask(v)
           }}
         />
       )}

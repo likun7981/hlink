@@ -2,7 +2,7 @@ import Router from '@koa/router'
 import task from '../kit/TaskSDK.js'
 import koaBody from 'koa-body'
 import sse from '../middleware/sse.js'
-import { TTask } from '../../types/shim.js'
+import { TSchedule, TTask } from '../../types/shim.js'
 
 const router = new Router({
   prefix: '/task',
@@ -22,7 +22,7 @@ router.get('/', async (ctx) => {
   const { name } = ctx.request.query as {
     name: string
   }
-  ctx.body = await task.get(name)
+  ctx.body = task.get(name)
 })
 
 /**
@@ -102,9 +102,25 @@ router.get('/run', sse(), async (ctx) => {
 /**
  * @description 设置定时任务
  */
-router.put('/schedule', koaBody(), async (ctx) => {
-  const { name, scheduleType, scheduleValue } = ctx.request.body as TTask
-  await task.schedule(name, scheduleType, scheduleValue)
+router.post('/schedule', koaBody(), async (ctx) => {
+  const options = ctx.request.body as TSchedule
+  const { name, scheduleType, scheduleValue } = options
+  if (!name || !scheduleType || !scheduleValue) {
+    throw new Error('设置定时任务失败, 请检查参数是否正确')
+  }
+  await task.createSchedule(options)
+  ctx.body = true
+})
+
+/**
+ * @description 取消定时任务
+ */
+router.delete('/schedule', async (ctx) => {
+  const { name } = ctx.request.query as { name: string }
+  if (!name) {
+    throw new Error('任务名称必须传')
+  }
+  await task.cancelSchedule(name)
   ctx.body = true
 })
 

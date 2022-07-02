@@ -1,7 +1,7 @@
 import { message } from 'antd'
 import useSWR from 'swr'
 import fetch from '../kit/fetch'
-import { TTask } from '../../types/shim'
+import { TSchedule, TTask } from '../../types/shim'
 import { useState } from 'react'
 import { isFunction } from '../kit'
 
@@ -47,6 +47,64 @@ export function useAddOrEdit(options?: CallbackOption<boolean>) {
       addOrUpdateTask(newTask)
     },
     ...addOrEditResult,
+  }
+}
+
+export function useSchedule(options?: CallbackOption<boolean>) {
+  const [scheduleTask, addScheduleTask] = useState<TSchedule>()
+  const addOrEditResult = useSWR(
+    () => (scheduleTask ? ['/api/task/schedule'] : null),
+    (url) => {
+      return fetch.post<boolean>(url, scheduleTask)
+    },
+    {
+      onError(e) {
+        message.error(e.message)
+        addScheduleTask(undefined)
+        if (isFunction(options?.onError)) {
+          options?.onError(e)
+        }
+      },
+      onSuccess(data) {
+        addScheduleTask(undefined)
+        if (isFunction(options?.onSuccess)) {
+          options?.onSuccess(data)
+        }
+      },
+    }
+  )
+  return {
+    ...addOrEditResult,
+    addScheduleTask,
+  }
+}
+
+export function useCancelSchedule(options?: CallbackOption<boolean>) {
+  const [name, cancelSchedule] = useState<string>()
+  const cancelResult = useSWR(
+    () => (name ? ['/api/task/schedule'] : null),
+    (url) => {
+      return fetch.delete<boolean>(url, { name })
+    },
+    {
+      onError(e) {
+        message.error(e.message)
+        cancelSchedule(undefined)
+        if (isFunction(options?.onError)) {
+          options?.onError(e)
+        }
+      },
+      onSuccess(data) {
+        cancelSchedule(undefined)
+        if (isFunction(options?.onSuccess)) {
+          options?.onSuccess(data)
+        }
+      },
+    }
+  )
+  return {
+    ...cancelResult,
+    cancelSchedule,
   }
 }
 
