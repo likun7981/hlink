@@ -6,7 +6,7 @@ import router from './router.js'
 import __dirname from './kit/__dirname.js'
 import compress from 'koa-compress'
 import path from 'node:path'
-import { log } from '@hlink/core'
+import { checkPathExist, log } from '@hlink/core'
 import { internalIpV4 } from 'internal-ip'
 import exitHook from 'exit-hook'
 import { cancelAllSchedule } from './kit/schedule.js'
@@ -19,8 +19,10 @@ const app = new Koa()
 const port = process.env.PORT || 9090
 
 // 每7天清理一下log
-const cleanLogTask = nodeSchedule.scheduleJob('0 0 * * 0', () => {
-  fs.rm(paths.logFile)
+const cleanLogTask = nodeSchedule.scheduleJob('0 0 * * 0', async () => {
+  if (await checkPathExist(paths.logFile)) {
+    fs.rm(paths.logFile)
+  }
 })
 
 exitHook(() => {
