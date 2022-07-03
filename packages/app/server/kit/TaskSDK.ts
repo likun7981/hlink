@@ -180,6 +180,7 @@ class TaskSDK extends BaseSDK<'tasks'> {
         }
       })
       .then(() => {
+        exec.clearFiles(name)
         log.sendEnd?.()
       })
   }
