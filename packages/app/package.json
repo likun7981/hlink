@@ -10,7 +10,7 @@
     "dev": "run-p dev:* dev:server:*",
     "dev:app": "vite --host",
     "dev:server:watch": "tsc -w --project ./server/tsconfig.json",
-    "dev:server:start": "HLINK_HOME=/Users/likun/hlinkHome nodemon -V -i ./configs -i db.json ./dist/start.js",
+    "dev:server:start": "NODE_ENV=development nodemon -V -i ./configs -i db.json ./dist/start.js",
     "server": "run-p dev:server:*",
     "build": "rm -rf dist && run-p build:*",
     "build:client": "tsc && vite build",

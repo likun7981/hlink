@@ -1,6 +1,6 @@
 import './TaskList.less'
 import { Button, Card, Col, message, Row, Empty } from 'antd'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { configService, taskService } from '../service'
 import Task from './Task'
 import ConfigDetail from './ConfigDetail'
@@ -44,11 +44,13 @@ function TaskList() {
     },
   })
 
+  console.log('taskList render', configList.data)
+
   const handleCreate = () => {
     if (configList?.data?.length) {
       startEdit(true)
     } else {
-      message.info('请先创建配置')
+      message.info('请先创建配置, 如果已有配置请刷新页面重试')
     }
   }
   return (

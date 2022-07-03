@@ -11,7 +11,7 @@ const rootElement = document.getElementById('root')
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <SWRConfig value={{ dedupingInterval: 100 }}>
+      <SWRConfig value={{ dedupingInterval: 10 }}>
         <App />
       </SWRConfig>
     </React.StrictMode>

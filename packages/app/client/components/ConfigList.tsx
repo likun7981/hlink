@@ -19,6 +19,7 @@ function ConfigList() {
   const optConfig = configService.useAddOrEdit({
     onSuccess() {
       setVisible(false)
+      config.getItem(undefined)
       listResult.mutate()
     },
   })

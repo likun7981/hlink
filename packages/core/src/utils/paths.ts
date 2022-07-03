@@ -7,7 +7,7 @@ const homedir = os.homedir()
 export const hlinkHomeDir =
   process.env.HLINK_HOME ||
   (process.env.NODE_ENV === 'development'
-    ? process.cwd()
+    ? path.join(process.cwd(), 'hlink')
     : path.join(homedir, '.hlink'))
 
 if (!(await checkPathExist(hlinkHomeDir))) {

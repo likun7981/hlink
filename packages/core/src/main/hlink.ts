@@ -1,4 +1,5 @@
 import HLinkError from '../core/HlinkError.js'
+import { saveCache } from '../utils/cacheHelp.js'
 import execAsyncByGroup from '../utils/execAsyncByGroup.js'
 import {
   getDirBasePath,
@@ -136,6 +137,7 @@ async function hlink(options: IOptions) {
   }
   endLog(successCount, failCount, failReasons)
   time.end()
+  saveCache(waitLinkFiles.map((a) => a.sourcePath))
   return {
     waitLinkFiles,
     failCount,

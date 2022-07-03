@@ -2,7 +2,7 @@ import { message } from 'antd'
 import useSWR from 'swr'
 import fetch from '../kit/fetch'
 import { TConfig } from '../../types/shim'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { isFunction } from '../kit'
 import { TAllConfig } from '@hlink/core'
 
@@ -54,9 +54,7 @@ export function useAddOrEdit(options?: CallbackOption<boolean>) {
 }
 
 export function useList() {
-  return useSWR('/api/config/list', (url) => fetch.get<TConfig[]>(url), {
-    suspense: true,
-  })
+  return useSWR('/api/config/list', (url) => fetch.get<TConfig[]>(url))
 }
 
 export function useGet(options?: CallbackOption<TConfig>) {

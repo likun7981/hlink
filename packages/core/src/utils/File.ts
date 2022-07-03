@@ -12,9 +12,6 @@ class File<T extends Array<any> | Record<string, any>> {
   private timeoutHandle?: NodeJS.Timeout
   constructor(filename: string, defaultValue: T, saveDir?: string) {
     saveDir = saveDir || hlinkHomeDir
-    if (process.env.NODE_ENV === 'development') {
-      saveDir = path.resolve('hlink')
-    }
     this.jsonPath = path.join(saveDir, filename)
     this.backupPath = this.jsonPath + '_backup'
     this.saveDir = saveDir

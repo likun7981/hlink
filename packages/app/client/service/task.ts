@@ -109,9 +109,7 @@ export function useCancelSchedule(options?: CallbackOption<boolean>) {
 }
 
 export function useList() {
-  return useSWR('/api/task/list', (url) => fetch.get<TTask[]>(url), {
-    suspense: true,
-  })
+  return useSWR('/api/task/list', (url) => fetch.get<TTask[]>(url))
 }
 
 export function useGet(options?: CallbackOption<TTask>) {
