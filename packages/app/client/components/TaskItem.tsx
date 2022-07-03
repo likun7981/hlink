@@ -115,7 +115,11 @@ function TaskItem(props: TProps) {
                 onClick={() => {
                   if (
                     copy(
-                      `curl ${location.origin}/api/task/run?name=${data.name}&alive=0`,
+                      `curl ${
+                        location.origin
+                      }/api/task/run?name=${encodeURIComponent(
+                        data.name
+                      )}&alive=0`,
                       {
                         debug: true,
                         message: 'Press #{key} to copy',
