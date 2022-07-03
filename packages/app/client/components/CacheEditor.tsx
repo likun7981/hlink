@@ -29,7 +29,7 @@ function CacheEditor(props: IProps) {
           <Button
             onClick={async () => {
               if (valueRef.current !== cacheDetail.data) {
-                valueRef.current = valueRef.current?.replaceAll(' ', '')
+                valueRef.current = valueRef.current?.trim()
                 if (!valueRef.current) {
                   valueRef.current = '[]'
                 }
