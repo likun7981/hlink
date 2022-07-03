@@ -38,8 +38,8 @@
     "fun"
   ],
   "dependencies": {
-    "@hlink/app": "2.0.0-next.8",
-    "@hlink/core": "^2.0.0-next.3",
+    "@hlink/app": "next",
+    "@hlink/core": "next",
     "@types/update-notifier": "^5.1.0",
     "chalk": "^5",
     "execa": "^6.1.0",
