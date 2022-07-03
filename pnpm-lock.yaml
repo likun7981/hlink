@@ -50,7 +50,7 @@ importers:
   packages/app:
     specifiers:
       '@ant-design/icons': ^4.7.0
-      '@hlink/core': ^2.0.0-next.2
+      '@hlink/core': ^2.0.0-next.3
       '@koa/router': ^10.1.1
       '@types/koa': ^2.13.4
       '@types/koa__router': ^8.0.11
@@ -144,8 +144,8 @@ importers:
 
   packages/cli:
     specifiers:
-      '@hlink/app': ^2.0.0-next.3
-      '@hlink/core': ^2.0.0-next.2
+      '@hlink/app': 2.0.0-next.7
+      '@hlink/core': ^2.0.0-next.3
       '@types/update-notifier': ^5.1.0
       chalk: ^5
       execa: ^6.1.0
@@ -165,10 +165,12 @@ importers:
   packages/core:
     specifiers:
       '@inquirer/confirm': 0.0.19-alpha.0
+      '@types/dateformat': ^5.0.0
       '@types/micromatch': ^4.0.2
       '@types/update-notifier': ^5.1.0
       ansi-escapes: ^5.0.0
       chalk: ^5
+      dateformat: ^5.0.3
       execa: ^6
       fs-extra: ^10
       micromatch: ^4.0.5
@@ -177,11 +179,13 @@ importers:
       '@inquirer/confirm': 0.0.19-alpha.0
       ansi-escapes: 5.0.0
       chalk: 5.0.1
+      dateformat: 5.0.3
       execa: 6.1.0
       fs-extra: 10.1.0
       micromatch: 4.0.5
       wrap-ansi: 8.0.1
     devDependencies:
+      '@types/dateformat': 5.0.0
       '@types/micromatch': 4.0.2
       '@types/update-notifier': 5.1.0
 
@@ -1687,6 +1691,13 @@ packages:
       '@types/express': 4.17.13
       '@types/keygrip': 1.0.2
       '@types/node': 18.0.0
+
+  /@types/dateformat/5.0.0:
+    resolution:
+      {
+        integrity: sha512-SZg4JdHIWHQGEokbYGZSDvo5wA4TLYPXaqhigs/wH+REDOejcJzgH+qyY+HtEUtWOZxEUkbhbdYPqQDiEgrXeA==,
+      }
+    dev: true
 
   /@types/express-serve-static-core/4.17.29:
     resolution:
@@ -3672,7 +3683,7 @@ packages:
     dependencies:
       '@types/node': 18.0.0
       cosmiconfig: 7.0.1
-      ts-node: 10.8.1_qiyc72axg2v44xl4yovan2v55u
+      ts-node: 10.8.2_qiyc72axg2v44xl4yovan2v55u
       typescript: 4.7.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -3835,6 +3846,14 @@ packages:
       }
     engines: { node: '>=0.11' }
     dev: true
+
+  /dateformat/5.0.3:
+    resolution:
+      {
+        integrity: sha512-Kvr6HmPXUMerlLcLF+Pwq3K7apHpYmGDVqrxcDasBg86UcKeTSNWbEzU8bwdXnxnR44FtMhJAxI4Bov6Y/KUfA==,
+      }
+    engines: { node: '>=12.20' }
+    dev: false
 
   /dayjs/1.11.3:
     resolution:
@@ -10390,10 +10409,10 @@ packages:
     engines: { node: '>=12' }
     dev: false
 
-  /ts-node/10.8.1_qiyc72axg2v44xl4yovan2v55u:
+  /ts-node/10.8.2_qiyc72axg2v44xl4yovan2v55u:
     resolution:
       {
-        integrity: sha512-Wwsnao4DQoJsN034wePSg5nZiw4YKXf56mPIAeD6wVmiv+RytNSWqc2f3fKvcUoV+Yn2+yocD71VOfQHbmVX4g==,
+        integrity: sha512-LYdGnoGddf1D6v8REPtIH+5iq/gTDuZqv2/UJUU7tKjuEU8xVZorBM+buCGNjj+pGEud+sOoM4CX3/YzINpENA==,
       }
     hasBin: true
     peerDependencies:

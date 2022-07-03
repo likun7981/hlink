@@ -7,6 +7,7 @@ const time: Middleware = async (ctx, next) => {
   return next().then(() => {
     log.info(
       chalk.gray(ctx.originalUrl),
+      ctx.request.method,
       ctx.status,
       '耗时',
       Date.now() - start,

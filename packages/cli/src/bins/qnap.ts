@@ -1,7 +1,6 @@
 import chalk from 'chalk'
 import { execaSync } from 'execa'
 import path from 'path'
-import os from 'os'
 import { log, hlinkHomeDir } from '@hlink/core'
 
 export const backup = (_path: string) => {
@@ -20,6 +19,6 @@ export const restore = (_path: string) => {
   execaSync('cp', [
     '-r',
     _path.indexOf('.hlink') ? _path : path.join(_path, '.hlink'),
-    os.homedir(),
+    path.dirname(hlinkHomeDir),
   ])
 }
