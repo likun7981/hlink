@@ -2,6 +2,7 @@ import adaptChalk, { ChalkInstance, Chalk } from 'chalk'
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import path from 'path'
+import dateformat from 'dateformat'
 
 export const alwaysChalk = new Chalk({ level: 3 })
 
@@ -17,8 +18,11 @@ const color = (_chalk: ChalkInstance) => ({
   SUCCEED: _chalk.black.bgGreen,
 })
 
-const createGetTag = (_chalk: ChalkInstance) => (type: LogLevel) =>
-  color(_chalk)[type](_chalk.white(` ${type} `))
+const createGetTag = (_chalk: ChalkInstance) => (type: LogLevel) => {
+  return `${_chalk.gray(
+    `[${dateformat(new Date(), 'yy/mm/dd HH:MM:ss')}]`
+  )} ${color(_chalk)[type](_chalk.white(` ${type} `))}`
+}
 
 export const getTag = createGetTag(chalk)
 
