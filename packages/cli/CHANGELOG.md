@@ -1,5 +1,14 @@
 # hlink
 
+## 2.0.0-next.9
+
+### Patch Changes
+
+- docker
+- Updated dependencies
+  - @hlink/app@2.0.0-next.7
+  - @hlink/core@2.0.0-next.3
+
 ## 2.0.0-next.6
 
 ### Patch Changes
