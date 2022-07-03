@@ -9,6 +9,7 @@ vi.mock('fs-extra', () => ({
     ensureDirSync: vi.fn(),
     writeJSONSync: vi.fn(() => {}),
     readJSONSync: vi.fn(),
+    ensureDir: vi.fn(),
   },
 }))
 
