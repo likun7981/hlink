@@ -12,7 +12,11 @@ const serverFile = path.join(__dirname(import.meta.url), 'index.js')
 
 const startApp = async () => {
   if (process.env.DOCKER === 'true') {
-    execaSync(process.execPath, [serverFile])
+    execaSync(process.execPath, [serverFile], {
+      env: {
+        DOCKER: 'true',
+      },
+    })
   } else {
     const port = process.env.PORT || 9090
     const startupFile = startup.getFile('hlink')
