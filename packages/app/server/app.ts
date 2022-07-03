@@ -5,19 +5,24 @@ import startup from 'user-startup'
 import __dirname from './kit/__dirname.js'
 import { internalIpV4 } from 'internal-ip'
 import paths from './kit/paths.js'
+import { execaSync } from 'execa'
 
 const file = path.join(hlinkHomeDir, 'startup')
 const serverFile = path.join(__dirname(import.meta.url), 'index.js')
 
 const startApp = async () => {
-  const port = process.env.PORT || 9090
-  const startupFile = startup.getFile('hlink')
-  startup.create('hlink', process.execPath, [serverFile], paths.logFile)
-  fs.ensureDirSync(hlinkHomeDir)
-  fs.writeFileSync(file, startupFile)
+  if (process.env.DOCKER === 'true') {
+    execaSync(process.execPath, [serverFile])
+  } else {
+    const port = process.env.PORT || 9090
+    const startupFile = startup.getFile('hlink')
+    startup.create('hlink', process.execPath, [serverFile], paths.logFile)
+    fs.ensureDirSync(hlinkHomeDir)
+    fs.writeFileSync(file, startupFile)
 
-  const ip = await internalIpV4().catch(() => 'localhost')
-  log.success('hlink serve started', `http://${ip}:${port}`)
+    const ip = await internalIpV4().catch(() => 'localhost')
+    log.success('hlink serve started', `http://${ip}:${port}`)
+  }
 }
 
 const stopApp = () => {
