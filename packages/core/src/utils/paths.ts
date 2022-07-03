@@ -1,11 +1,18 @@
 import path from 'path'
 import os from 'os'
+import fs from 'fs-extra'
+import { checkPathExist } from './index.js'
 
-const homedir = process.env.HLINK_HOME || os.homedir()
+const homedir = os.homedir()
 export const hlinkHomeDir =
-  process.env.NODE_ENV === 'development'
+  process.env.HLINK_HOME ||
+  (process.env.NODE_ENV === 'development'
     ? process.cwd()
-    : path.join(homedir, '.hlink')
+    : path.join(homedir, '.hlink'))
+
+if (!(await checkPathExist(hlinkHomeDir))) {
+  fs.ensureDir(hlinkHomeDir)
+}
 
 export const configName = 'hlink.config.mjs'
 export const configPath = path.join(homedir, configName)

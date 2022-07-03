@@ -90,6 +90,12 @@ export function cancel(name: string) {
   return false
 }
 
+export function clear(name: string) {
+  ongoingTasks[name] = null
+  clearFiles(name)
+  return true
+}
+
 export function get(name: string) {
   return ongoingTasks[name]
 }
