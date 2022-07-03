@@ -85,7 +85,7 @@ describe('format test', () => {
       {
         "exclude": [],
         "include": [
-          "*.mkv",
+          "**.mkv",
         ],
         "pathsMapping": {
           "/a": "/b",
