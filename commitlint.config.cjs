@@ -17,6 +17,7 @@ module.exports = {
         'revert',
         'style',
         'test',
+        'release',
       ],
     ],
     'subject-empty': [2, 'never'],
