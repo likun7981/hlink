@@ -10,7 +10,7 @@
 ![Docker.png](https://s2.loli.net/2022/07/05/3Wb2FLvDhYjU4qK.png)
 
 > 映射详解
-![Hlink](https://s2.loli.net/2022/07/05/lG59w28SjYVbf1h.png)
+![Hlink](https://s2.loli.net/2022/07/05/Ye6P8alIDEpKL5N.png)
 
 > 需要强调的一点是 最好映射母文件夹 如果映射到具体的子文件夹 后续可能会出错 
 
@@ -20,9 +20,8 @@
 1）配置列表 > 创建配置 以下是我的配置 仅供参考！需要注意 pathsMapping的填写 
 2）任务列表 > 创建任务 任务类型选择（硬链hlink） 配置文件（选择上一步我们创建的配置）
 > 建议打开缓存 即 openCache: true
-
-<picture>
-<source media="(prefers-color-scheme: light)"
+>以下是我的配置 供参考
+```
 // 重要说明路径地址都请填写 绝对路径！！！！
 export default {
   /**
@@ -82,5 +81,4 @@ export default {
    */
   deleteDir: true,
 }
-/>
-</picture>
+```
