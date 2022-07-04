@@ -95,4 +95,4 @@ export default {
   deleteDir: true,
 }
 ```
-### 3. Prune 命令暂时用不到 教程可以移步官方文档 Wiki  >  https://hlink.likun.me/other/prune.html
+### 3. Prune 命令暂时用不到 教程可以参考官方文档 Wiki  >  https://hlink.likun.me/other/prune.html
