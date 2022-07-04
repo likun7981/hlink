@@ -207,11 +207,7 @@ export function createTimeLog() {
 }
 
 export async function rmFiles(files: string[]) {
-  try {
-    await execa('rm', ['-r', ...makeOnly(files)])
-  } catch (e) {
-    // 忽略移除 的错误
-  }
+  await execa('rm', ['-r', ...makeOnly(files)])
   return
 }
 
