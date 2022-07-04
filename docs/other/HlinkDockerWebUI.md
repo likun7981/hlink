@@ -34,7 +34,13 @@ export default {
    */
   pathsMapping: {
         '/Pt/Downloads/SourceCode/电影': '/Pt/Hlinks/电影', 
-        '/Pt/Downloads/SourceCode/剧集/美剧': '/Pt/Hlinks/剧集/美剧',
+        '/Pt/Downloads/SourceCode/番剧': '/Pt/Hlinks/番剧',
+        '/Pt/Downloads/SourceCode/纪录': '/Pt/Hlinks/纪录',
+        '/Pt/Downloads/SourceCode/综艺': '/Pt/Hlinks/综艺', 
+        '/Pt/Downloads/SourceCode/剧集/华语': '/Pt/Hlinks/剧集/华语',
+        '/Pt/Downloads/SourceCode/剧集/美剧': '/Pt/Hlinks/剧集/美剧', 
+        '/Pt/Downloads/SourceCode/剧集/韩剧': '/Pt/Hlinks/剧集/韩剧',
+        '/Pt/Downloads/SourceCode/剧集/日剧': '/Pt/Hlinks/剧集/日剧'
   },
   /**
    * 需要包含的后缀，如果与exclude同时配置，则取两者的交集
