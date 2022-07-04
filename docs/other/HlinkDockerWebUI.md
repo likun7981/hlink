@@ -5,7 +5,7 @@
 
 ### Dokcer 配置
 首先我们去商店下载镜像 选择第二个 选择桥接或者Host 
-环境变量增加：HLINK_HOME /data 
+环境变量增加：HLINK_HOME /data 以及需要硬链的文件夹
 ![iShot_2022-07-05_01.12.17.png](https://s2.loli.net/2022/07/05/SjykW4fP35Oms78.png)
 ![Docker.png](https://s2.loli.net/2022/07/05/3Wb2FLvDhYjU4qK.png)
 
