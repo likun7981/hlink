@@ -1,15 +1,15 @@
 ## Hlink 硬链接 群晖 Docker WebUI 配置
  
-1. Docker 映射配置
-2. Hlink 设置
+- Docker 映射配置
+- Hlink 设置
 > 只要弄懂理解Docker的映射关系 就容易多了
-### Dokcer 配置
+### 1. Dokcer 配置
 
-> 1.首先我们去商店下载镜像 选择第二个 选择桥接或者Host 
+> 1）首先我们去商店下载镜像 选择第二个 选择桥接或者Host 
 
 ![iShot_2022-07-05_01.12.17.png](https://s2.loli.net/2022/07/05/SjykW4fP35Oms78.png)
 
-> 2.环境变量增加：HLINK_HOME /data 以及需要硬链的文件夹
+> 2）环境变量增加：HLINK_HOME /data 以及需要硬链的文件夹
 
 - 我们要先映射data的路径 然后HLINK_HOME才能读取到 
 
@@ -22,7 +22,7 @@
 > 需要强调的一点是 最好映射母文件夹 如果映射到具体的子文件夹 后续可能会出错 
 
 
-### WebUI 配置 > ip:9090 登陆
+### 2. WebUI 配置 > ip:9090 登陆
 
 1）配置列表 > 创建配置 以下是我的配置 仅供参考！需要注意 pathsMapping的填写 
 
@@ -96,4 +96,4 @@ export default {
   deleteDir: true,
 }
 ```
-### prune 命令暂时用不到 教程可以移步官方文档 Wiki  >  https://hlink.likun.me/other/prune.html
+### 3. Prune 命令暂时用不到 教程可以移步官方文档 Wiki  >  https://hlink.likun.me/other/prune.html
