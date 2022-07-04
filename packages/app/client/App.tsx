@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, Row, Col, Button } from 'antd'
+import { Layout, Row, Col, Button, Badge, Tooltip } from 'antd'
 import ConfigList from './components/ConfigList'
 import useSWR from 'swr'
 import fetch from './kit/fetch'
@@ -18,19 +18,31 @@ function App() {
       defaultConfig.set(data)
     },
   })
+  const version = useSWR('/api/version', (url) =>
+    fetch.get<{ tag: string; version: string; needUpdate: boolean }>(url)
+  )
   const [visible, setVisible] = useState(false)
-
   return (
     <>
       <Layout className="h-screen">
         <Header className="flex justify-between items-center">
-          <a
-            href="https://hlink.likun.me"
-            className="color-white text-size-5 font-600 flex items-center justify-center"
+          <Tooltip
+            visible={version.data?.needUpdate}
+            title={`有新版本 ${version.data?.version} 请更新`}
+            placement="right"
+            color="white"
+            overlayInnerStyle={{ color: 'black' }}
           >
-            <img className="h-1.3rem mr-3" src={logo} />
-            hlink
-          </a>
+            <Badge dot={version.data?.needUpdate}>
+              <a
+                href="https://hlink.likun.me"
+                className="color-white text-size-5 font-600 flex items-center"
+              >
+                <img className="h-1.3rem mr-3" src={logo} />
+                hlink
+              </a>
+            </Badge>
+          </Tooltip>
           <Button type="link" onClick={() => setVisible(true)}>
             编辑缓存
           </Button>

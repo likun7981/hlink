@@ -1,6 +1,8 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-export default (metaUrl: string) => {
+const dirname = (metaUrl: string) => {
   return path.dirname(fileURLToPath(metaUrl))
 }
+
+export default dirname
