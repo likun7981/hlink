@@ -9,9 +9,10 @@
 
 > 2.环境变量增加：HLINK_HOME /data 以及需要硬链的文件夹
 
->  1) 我们要先映射data的路径 然后HLINK_HOME才能读取到 
+> 1）我们要先映射data的路径 然后HLINK_HOME才能读取到 
 
->  2）Demo/Pt 母文件夹 不需要过多映射到具体 
+> 2）Demo/Pt 母文件夹 不需要过多映射到具体 
+
 ![Docker.png](https://s2.loli.net/2022/07/05/3Wb2FLvDhYjU4qK.png)
 
 > 关系图
