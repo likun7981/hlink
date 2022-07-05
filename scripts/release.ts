@@ -119,7 +119,7 @@ async function main(): Promise<void> {
   } else {
     console.log(
       colors.green(
-        '\nPushed, publishing should starts shortly on CI.\nhttps://github.com/likun7981/hlink/actions/publish.yml'
+        '\nPushed, publishing should starts shortly on CI.\nhttps://github.com/likun7981/hlink/actions/workflows/publish.yml'
       )
     )
   }
