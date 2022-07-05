@@ -1,3 +1,5 @@
+# [2.0.0-next.18](https://github.com/likun7981/hlink/compare/app@2.0.0-next.18...app@2.0.0-next.18) (2022-07-05)
+
 # [2.0.0-next.18](https://github.com/likun7981/hlink/compare/app@2.0.0-next.17...app@2.0.0-next.18) (2022-07-05)
 
 ### Bug Fixes
