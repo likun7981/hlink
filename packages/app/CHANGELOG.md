@@ -1,3 +1,9 @@
+# [2.0.0-next.18](https://github.com/likun7981/hlink/compare/app@2.0.0-next.17...app@2.0.0-next.18) (2022-07-05)
+
+### Bug Fixes
+
+- throw error when execa ([a08c214](https://github.com/likun7981/hlink/commit/a08c2143c7ce5ddc6810b72f9c62be581a37cf05))
+
 # 2.0.0-next.17 (2022-07-04)
 
 ### Bug Fixes
