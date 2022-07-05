@@ -207,8 +207,7 @@ export function createTimeLog() {
 }
 
 export async function rmFiles(files: string[]) {
-  await execa('rm', ['-r', ...makeOnly(files)])
-  return
+  return execa('rm', ['-r', ...makeOnly(files)])
 }
 
 /**

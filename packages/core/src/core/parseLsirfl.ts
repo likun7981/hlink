@@ -35,9 +35,9 @@ async function parseLs(dir: string, ignoreError = false) {
   return results
 }
 
-export async function getInodes(dest: string) {
+export async function getInodes(dest: string, ignoreError = false) {
   const inodes: string[] = []
-  ;(await lsirf(dest, true)).split('\n').forEach((file) => {
+  ;(await lsirf(dest, ignoreError)).split('\n').forEach((file) => {
     if (Boolean(file) && !file.endsWith('/') && !file.endsWith(':')) {
       const [inode] = file.split(' ')
       if (inode) {

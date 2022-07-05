@@ -14,7 +14,7 @@ import createSchedule, {
   hasSchedule,
   renameSchedule,
 } from './schedule.js'
-import { main, IPruneOptions, IOptions, prune } from '@hlink/core'
+import { main, prune } from '@hlink/core'
 
 class TaskSDK extends BaseSDK<'tasks'> {
   constructor() {
