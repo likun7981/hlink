@@ -1,0 +1,5 @@
+# [2.0.0-next.17](https://github.com/likun7981/hlink/compare/core@2.0.0-next.16...core@2.0.0-next.17) (2022-07-05)
+
+### Bug Fixes
+
+- dist dir not exist ([4d72f31](https://github.com/likun7981/hlink/commit/4d72f3174be8f372ee49946311bce16d91529809))
