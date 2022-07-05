@@ -4,8 +4,8 @@ on:
   push:
     tags:
       - "app@*"
-    branches:
-      - "master"
+      - "cli@"
+      - "core@*"
 
 jobs:
   docker:
