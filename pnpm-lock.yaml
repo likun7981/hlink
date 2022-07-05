@@ -113,7 +113,7 @@ importers:
       vite-plugin-imp: ^2.2.0
     dependencies:
       '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
-      '@hlink/core': link:../core
+      '@hlink/core': 2.0.0-next.16
       '@koa/router': 10.1.1
       '@types/koa__router': 8.0.11
       '@types/lodash': 4.14.182
@@ -174,40 +174,13 @@ importers:
       update-notifier: ^5.1.0
     dependencies:
       '@hlink/app': 2.0.0-next.16
-      '@hlink/core': link:../core
+      '@hlink/core': 2.0.0-next.16
       '@types/update-notifier': 5.1.0
       chalk: 5.0.1
       execa: 6.1.0
       fs-extra: 10.1.0
       meow: 10.1.3
       update-notifier: 5.1.0
-
-  packages/core:
-    specifiers:
-      '@inquirer/confirm': 0.0.19-alpha.0
-      '@types/dateformat': ^5.0.0
-      '@types/micromatch': ^4.0.2
-      '@types/update-notifier': ^5.1.0
-      ansi-escapes: ^5.0.0
-      chalk: ^5
-      dateformat: ^5.0.3
-      execa: ^6
-      fs-extra: ^10
-      micromatch: ^4.0.5
-      wrap-ansi: ^8.0.1
-    dependencies:
-      '@inquirer/confirm': 0.0.19-alpha.0
-      ansi-escapes: 5.0.0
-      chalk: 5.0.1
-      dateformat: 5.0.3
-      execa: 6.1.0
-      fs-extra: 10.1.0
-      micromatch: 4.0.5
-      wrap-ansi: 8.0.1
-    devDependencies:
-      '@types/dateformat': 5.0.0
-      '@types/micromatch': 4.0.2
-      '@types/update-notifier': 5.1.0
 
 packages:
   /@algolia/autocomplete-core/1.7.1:
@@ -1119,7 +1092,7 @@ packages:
       }
     dependencies:
       '@ant-design/icons': 4.7.0
-      '@hlink/core': 2.0.0-next.15
+      '@hlink/core': 2.0.0-next.16
       '@koa/router': 10.1.1
       '@types/koa__router': 8.0.11
       '@types/lodash': 4.14.182
@@ -1144,10 +1117,10 @@ packages:
       - supports-color
     dev: false
 
-  /@hlink/core/2.0.0-next.15:
+  /@hlink/core/2.0.0-next.16:
     resolution:
       {
-        integrity: sha512-qFUOVQknKQsOM1XzdKF03GBhBlHo5S8glH706ZtMePgyfhwHbmc4bffuDi6Wc2Zq5Gh2hYhz3BrKwrPwmeZNwA==,
+        integrity: sha512-EoPyWqdu3DRLowVHHbn4dDGHnwPWDcRh6EloDE1e4nu8u4u3GV5ApxXs0E9dDFFOqTydMYBsvnNKM4dBt0Soxw==,
       }
     engines: { node: ^14.13.1 || >=16.0.0 }
     dependencies:
@@ -1499,13 +1472,6 @@ packages:
       '@types/connect': 3.4.35
       '@types/node': 18.0.0
 
-  /@types/braces/3.0.1:
-    resolution:
-      {
-        integrity: sha512-+euflG6ygo4bn0JHtn4pYqcXwRtLvElQ7/nnjDu7iYG56H0+OhCd7d6Ug0IE3WcFpZozBKW2+80FUbv5QGk5AQ==,
-      }
-    dev: true
-
   /@types/cacheable-request/6.0.2:
     resolution:
       {
@@ -1538,6 +1504,7 @@ packages:
       {
         integrity: sha512-GUvNiia85zTDDIx0iPrtF3pI8dwrQkfuokEqxqPDE55qxH0U5SZz4awVZjiJLWN2ZZRkXCUqgsMUbygXY+kytA==,
       }
+    dev: false
 
   /@types/connect/3.4.35:
     resolution:
@@ -1563,13 +1530,6 @@ packages:
       '@types/express': 4.17.13
       '@types/keygrip': 1.0.2
       '@types/node': 18.0.0
-
-  /@types/dateformat/5.0.0:
-    resolution:
-      {
-        integrity: sha512-SZg4JdHIWHQGEokbYGZSDvo5wA4TLYPXaqhigs/wH+REDOejcJzgH+qyY+HtEUtWOZxEUkbhbdYPqQDiEgrXeA==,
-      }
-    dev: true
 
   /@types/express-serve-static-core/4.17.29:
     resolution:
@@ -1739,15 +1699,6 @@ packages:
       '@types/minimist-options': 4.0.1
     dev: true
 
-  /@types/micromatch/4.0.2:
-    resolution:
-      {
-        integrity: sha512-oqXqVb0ci19GtH0vOA/U2TmHTcRY9kuZl4mqUxe0QmJAlIW13kzhuK5pi1i9+ngav8FjpSb9FVS/GE00GLX1VA==,
-      }
-    dependencies:
-      '@types/braces': 3.0.1
-    dev: true
-
   /@types/mime/1.3.2:
     resolution:
       {
@@ -1883,6 +1834,7 @@ packages:
     dependencies:
       '@types/configstore': 6.0.0
       boxen: 4.2.0
+    dev: false
 
   /@types/wrap-ansi/8.0.1:
     resolution:
@@ -2855,6 +2807,7 @@ packages:
       term-size: 2.2.1
       type-fest: 0.8.1
       widest-line: 3.1.0
+    dev: false
 
   /boxen/5.1.2:
     resolution:
@@ -3109,6 +3062,7 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+    dev: false
 
   /chalk/4.1.2:
     resolution:
@@ -10455,6 +10409,7 @@ packages:
         integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==,
       }
     engines: { node: '>=8' }
+    dev: false
 
   /terminal-link/2.1.1:
     resolution:
