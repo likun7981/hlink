@@ -1,3 +1,5 @@
+# [2.0.0-next.22](https://github.com/likun7981/hlink/compare/app@2.0.0-next.21...app@2.0.0-next.22) (2022-07-05)
+
 # [2.0.0-next.21](https://github.com/likun7981/hlink/compare/app@2.0.0-next.20...app@2.0.0-next.21) (2022-07-05)
 
 # [2.0.0-next.20](https://github.com/likun7981/hlink/compare/app@2.0.0-next.19...app@2.0.0-next.20) (2022-07-05)
