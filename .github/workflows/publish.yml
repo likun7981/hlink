@@ -32,6 +32,9 @@ jobs:
 
       - name: Install deps
         run: pnpm install
+        
+      - name: Run build
+        run: pnpm run build
 
       - name: Creating .npmrc
         run: |
