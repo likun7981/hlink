@@ -13,20 +13,20 @@
     "app:dev": "pnpm -r --filter=./packages/app run dev",
     "build": "pnpm -r --filter=./packages/* run build",
     "next": "pnpm -r --filter=./packages/* run np:next",
-    "release": "tsx ./scripts/release.ts",
+    "release": "tsx scripts/release.ts",
     "docs:build": "vitepress build docs",
     "docs:dev": "vitepress dev docs",
     "lint": "eslint --fix packages/**/*.{ts,tsx}",
     "prepare": "husky install",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "ci-publish": "tsx scripts/publishCI.ts"
   },
   "lint-staged": {
     "*": "prettier -wu",
     "packages/**/*.{ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.23.0",
     "@types/fs-extra": "^9.0.13",
     "@types/meow": "^5.0.0",
     "@types/node": "^18.0.0",
