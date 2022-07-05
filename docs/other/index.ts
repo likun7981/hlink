@@ -14,5 +14,9 @@ export default [
   {
     text: '常见问题',
     link: 'troubleshooting'
+  },
+  {
+    text: 'docker',
+    link: 'HlinkDockerWebUI'
   }
 ]
