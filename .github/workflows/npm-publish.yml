@@ -1,0 +1,47 @@
+# modify from https://github.com/vitejs/vite/blob/main/.github/workflows/publish.yml
+name: Publish Package
+
+on:
+  push:
+    tags:
+      - "app@*"
+      - "ci@"
+      - "core@*"
+
+jobs:
+  publish:
+    # prevents this action from running on forks
+    if: github.repository == 'likun7981/hlink'
+    runs-on: ubuntu-latest
+    environment: Release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: Set node version to 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          registry-url: https://registry.npmjs.org/
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Creating .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish package
+        run: pnpm run ci-publish -- ${{ github.ref_name }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
