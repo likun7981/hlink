@@ -5,7 +5,7 @@ on:
   push:
     tags:
       - "app@*"
-      - "ci@"
+      - "cli@"
       - "core@*"
 
 jobs:
