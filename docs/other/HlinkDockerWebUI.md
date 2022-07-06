@@ -1,34 +1,38 @@
 ## Hlink 硬链接 群晖 Docker WebUI 配置
- 
+
+> 该文档由群友[Spirei](https://github.com/Spirei)提供
+
 - Docker 映射配置
 - Hlink 设置
-> 只要弄懂理解Docker的映射关系 就容易多了
+  > 只要弄懂理解 Docker 的映射关系 就容易多了
+
 ### 1. Dokcer 配置
 
-> 1）首先我们去商店下载镜像 选择第二个 选择桥接或者Host 
+> 1）首先我们去商店下载镜像 选择第二个 选择桥接或者 Host
 
 ![iShot_2022-07-05_01.12.17.png](https://s2.loli.net/2022/07/05/SjykW4fP35Oms78.png)
 
 > 2）环境变量增加：HLINK_HOME /data 以及需要硬链的文件夹
 
-- 我们要先映射data的路径 然后HLINK_HOME才能读取到 
+- 我们要先映射 data 的路径 然后 HLINK_HOME 才能读取到
 
-- Demo/Pt 母文件夹 不需要过多映射到具体 
-![Docker.png](https://s2.loli.net/2022/07/05/3Wb2FLvDhYjU4qK.png)
+- Demo/Pt 母文件夹 不需要过多映射到具体
+  ![Docker.png](https://s2.loli.net/2022/07/05/3Wb2FLvDhYjU4qK.png)
 
 - 关系图
-![Hlink](https://s2.loli.net/2022/07/05/Ye6P8alIDEpKL5N.png)
+  ![Hlink](https://s2.loli.net/2022/07/05/Ye6P8alIDEpKL5N.png)
 
-> 需要强调的一点是 最好映射母文件夹 如果映射到具体的子文件夹 后续可能会出错 
-
+> 需要强调的一点是 最好映射母文件夹 如果映射到具体的子文件夹 后续可能会出错
 
 ### 2. WebUI 配置 > ip:9090 登陆
 
-1）配置列表 > 创建配置 然后根据自己情况稍加修改 以下是我的配置 仅供参考！需要注意 pathsMapping的填写 
+1）配置列表 > 创建配置 然后根据自己情况稍加修改 以下是我的配置 仅供参考！需要注意 pathsMapping 的填写
 
-2）任务列表 > 创建任务 任务类型选择（硬链hlink） 配置文件（选择上一步我们创建的配置）
+2）任务列表 > 创建任务 任务类型选择（硬链 hlink） 配置文件（选择上一步我们创建的配置）
+
 > 建议打开缓存 即 openCache: true
->以下是我的配置 供参考
+> 以下是我的配置 供参考
+
 ```ruby
 // 重要说明路径地址都请填写 绝对路径！！！！
 export default {
@@ -41,11 +45,11 @@ export default {
    *  }
    */
   pathsMapping: {
-        '/Pt/Downloads/SourceCode/电影': '/Pt/Hlinks/电影', 
+        '/Pt/Downloads/SourceCode/电影': '/Pt/Hlinks/电影',
         '/Pt/Downloads/SourceCode/番剧': '/Pt/Hlinks/番剧',
         '/Pt/Downloads/SourceCode/纪录片': '/Pt/Hlinks/纪录片',
         '/Pt/Downloads/SourceCode/剧集/华语': '/Pt/Hlinks/剧集/华语',
-        '/Pt/Downloads/SourceCode/剧集/美剧': '/Pt/Hlinks/剧集/美剧', 
+        '/Pt/Downloads/SourceCode/剧集/美剧': '/Pt/Hlinks/剧集/美剧',
         '/Pt/Downloads/SourceCode/剧集/韩剧': '/Pt/Hlinks/剧集/韩剧',
         '/Pt/Downloads/SourceCode/剧集/日剧': '/Pt/Hlinks/剧集/日剧'
   },
@@ -95,4 +99,5 @@ export default {
   deleteDir: true,
 }
 ```
-### 3. Prune 命令暂时用不到 教程可以参考官方文档 Wiki  >  https://hlink.likun.me/other/prune.html
+
+### 3. Prune 命令暂时用不到 教程可以参考官方文档 Wiki > https://hlink.likun.me/other/prune.html
