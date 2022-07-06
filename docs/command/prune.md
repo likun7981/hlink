@@ -8,29 +8,15 @@
 
 ## 基础用法
 
-无任何配置项的情况 **hlink** 默认会检测常用的视频格式`mp4,flv,f4v,webm,m4v,mov,cpk,dirac,3gp,3g2,rm,rmvb,wmv,avi,asf,mpg,mpeg,mpe,vob,mkv,ram,qt,fli,flc,mod,iso`
-
-多项路径，请使用`,`隔开。
-
-::: warning 重要提醒
-因为路径多项使用了`,`隔开，所以你的源路径和目标路径，一定不要包含`,`。否则会出错
-:::
-
 ```bash
-hlink prune 源路径1,源路径2 目标路径1,目标路径2
+hlink prune /path/to/config
 ```
 
-## 配置选项
+## 命令行可选配置选项
 
-::: tip 提醒
-注意目前 **prune** 不会读取配置文件，只能通过命令行指定配置项
-:::
 
-::: tip 提醒
-注意目前 **prune** 不会读取配置文件，只能通过命令行指定配置项
-:::
-
-### reverse
+### -r
+> hlink prune -r /path/to/config
 
 是否使用反向检测，默认不使用反向检测，则为正向检测。该选项的使用场景是：
 
@@ -41,32 +27,16 @@ hlink prune 源路径1,源路径2 目标路径1,目标路径2
 
 1. 正向检测：一定要列全所有的源目录
 2. 反向检测：一定要列全所有的硬链目录
-   :::
+:::
 
-### includeExtname(即将废弃)
+### -d
+> hlink prune -d /path/to/config
 
-> 多项使用`,`隔开
+是否删除文件及所在目录，默认只会删除文件
 
-白名单模式，需要包含的文件后缀，如果你需要使用黑名单模式，则不要指定该选项，同时需要删除配置文件中的`includeExtname`。
+### -w
+> hlink prune -w /path/to/config
 
-```bash
-hlink prune -i=mkv /path/to/source /path/to/dest
-```
+删除前是否需确认? 默认需要确认。在GUI计划任务是无需确认的，所以开启计划任务前确认好
 
-### include(即将上线)
-
-> 替换 includeExtname，使用场景更多，详情见[#issue12](https://github.com/likun7981/hlink/issues/12)
-
-### excludeExtname(即将废弃)
-
-> 多项使用`,`隔开
-
-黑名单模式，需要排除的文件后缀，如果指定了`includeExtname`，则该配置无效。
-
-```bash
-hlink prune -e=txt,info /path/to/source /path/to/dest
-```
-
-### exclude(即将上线)
-
-> 替换 excludeExtname，使用场景更多，详情见[#issue12](https://github.com/likun7981/hlink/issues/12)
+当然你也可以组合配置选项 `hlink -rdw /path/to/config`
