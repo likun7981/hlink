@@ -13,7 +13,7 @@ export default {
    * 需要包含的后缀，如果与exclude同时配置，则取两者的交集
    * include 留空表示包含所有文件
    *
-   * 后缀不够用? 高阶用法: todo 待补充链接
+   * 后缀不够用? 高阶用法: https://hlink.likun.me/other/v2.html#%E6%96%B0%E5%A2%9E%E5%8A%9F%E8%83%BD
    */
   include: [
     'mp4',
@@ -46,7 +46,7 @@ export default {
   /**
    * 需要排除的后缀，如果与include同时配置，则取两者的交集
    *
-   * 后缀不够用? 高阶用法: todo 待补充链接
+   * 后缀不够用? 高阶用法: https://hlink.likun.me/other/v2.html#%E6%96%B0%E5%A2%9E%E5%8A%9F%E8%83%BD
    */
   exclude: [],
   /**
