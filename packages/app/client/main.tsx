@@ -5,6 +5,7 @@ import { SWRConfig } from 'swr'
 import 'uno.css'
 import './index.less'
 import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution'
+import 'monaco-editor/esm/vs/editor/contrib/find/browser/findController.js'
 
 const rootElement = document.getElementById('root')
 

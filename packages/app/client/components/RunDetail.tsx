@@ -54,7 +54,7 @@ function RunDetail(props: IProps) {
                 return taskService
                   .makeDeleteFile(name, true)
                   .then(() => {
-                    message.success({
+                    message.info({
                       content: '删除已取消',
                       key: 'cancelDelete',
                     })
