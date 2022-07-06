@@ -9,14 +9,15 @@
 ## 基础用法
 
 ```bash
-hlink prune /path/to/config
+hlink prune /path/to/config.mjs
 ```
+配置详见：[配置文件说明](https://hlink.likun.me/command/#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E)
 
 ## 命令行可选配置选项
 
 
 ### -r
-> hlink prune -r /path/to/config
+> hlink prune -r /path/to/config.mjs
 
 是否使用反向检测，默认不使用反向检测，则为正向检测。该选项的使用场景是：
 
@@ -30,13 +31,13 @@ hlink prune /path/to/config
 :::
 
 ### -d
-> hlink prune -d /path/to/config
+> hlink prune -d /path/to/config.mjs
 
 是否删除文件及所在目录，默认只会删除文件
 
 ### -w
-> hlink prune -w /path/to/config
+> hlink prune -w /path/to/config.mjs
 
 删除前是否需确认? 默认需要确认。在GUI计划任务是无需确认的，所以开启计划任务前确认好
 
-当然你也可以组合配置选项 `hlink -rdw /path/to/config`
+当然你也可以组合配置选项 `hlink -rdw /path/to/config.mjs`
