@@ -92,7 +92,6 @@ export function cancel(name: string) {
 
 export function clear(name: string) {
   ongoingTasks[name] = null
-  clearFiles(name)
   return true
 }
 
