@@ -6,7 +6,6 @@
 hlink /path/to/config.mjs
 ```
 
-作者推荐，使用配置文件来进行配置各个选项，这样配置可以持久化。命令使用也更简单，只需要`hlink -c /path/to/hlink.config.mjs`就可以完成硬链接生成
 ## 生成配置文件
 
 使用以下命令
