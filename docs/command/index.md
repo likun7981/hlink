@@ -114,7 +114,7 @@ export default {
 
 ## 命令行可选配置
 
-### -k
+### -k=false
 > hlink -k /path/to/config
 
 是否保持原有目录结构，默认保持
