@@ -1,3 +1,9 @@
+# [2.0.0-next.20](https://github.com/likun7981/hlink/compare/core@2.0.0-next.19...core@2.0.0-next.20) (2022-07-07)
+
+### Bug Fixes
+
+- log error ([ec35178](https://github.com/likun7981/hlink/commit/ec35178a56888309c94fc7427af5f345df45c396))
+
 # [2.0.0-next.19](https://github.com/likun7981/hlink/compare/core@2.0.0-next.18...core@2.0.0-next.19) (2022-07-07)
 
 ### Features
