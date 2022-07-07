@@ -1,3 +1,5 @@
+# [2.0.0-next.21](https://github.com/likun7981/hlink/compare/core@2.0.0-next.20...core@2.0.0-next.21) (2022-07-07)
+
 # [2.0.0-next.20](https://github.com/likun7981/hlink/compare/core@2.0.0-next.19...core@2.0.0-next.20) (2022-07-07)
 
 ### Bug Fixes
