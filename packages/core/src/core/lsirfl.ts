@@ -11,7 +11,7 @@ async function lsirf(path: string, ignoreError = false): Promise<string> {
     debug(
       `ls path is %s, result length %d, raw is %s ...  `,
       path,
-      raw.length,
+      raw?.length,
       raw?.slice(0, 100)
     )
     return (await execa('ls', ['-iRFL', path])).stdout
