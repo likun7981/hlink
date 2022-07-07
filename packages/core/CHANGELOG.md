@@ -1,3 +1,9 @@
+# [2.0.0-next.19](https://github.com/likun7981/hlink/compare/core@2.0.0-next.18...core@2.0.0-next.19) (2022-07-07)
+
+### Features
+
+- add debug log for core ([94719d3](https://github.com/likun7981/hlink/commit/94719d34b26242c7652961da5e31338ba24a267b))
+
 # [2.0.0-next.18](https://github.com/likun7981/hlink/compare/core@2.0.0-next.17...core@2.0.0-next.18) (2022-07-06)
 
 ### Features
