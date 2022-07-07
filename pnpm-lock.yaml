@@ -187,11 +187,13 @@ importers:
     specifiers:
       '@inquirer/confirm': 0.0.19-alpha.0
       '@types/dateformat': ^5.0.0
+      '@types/debug': ^4.1.7
       '@types/micromatch': ^4.0.2
       '@types/update-notifier': ^5.1.0
       ansi-escapes: ^5.0.0
       chalk: ^5
       dateformat: ^5.0.3
+      debug: ^4.3.4
       execa: ^6
       fs-extra: ^10
       micromatch: ^4.0.5
@@ -201,12 +203,14 @@ importers:
       ansi-escapes: 5.0.0
       chalk: 5.0.1
       dateformat: 5.0.3
+      debug: 4.3.4
       execa: 6.1.0
       fs-extra: 10.1.0
       micromatch: 4.0.5
       wrap-ansi: 8.0.1
     devDependencies:
       '@types/dateformat': 5.0.0
+      '@types/debug': 4.1.7
       '@types/micromatch': 4.0.2
       '@types/update-notifier': 5.1.0
 
@@ -1145,6 +1149,12 @@ packages:
     resolution: {integrity: sha512-SZg4JdHIWHQGEokbYGZSDvo5wA4TLYPXaqhigs/wH+REDOejcJzgH+qyY+HtEUtWOZxEUkbhbdYPqQDiEgrXeA==}
     dev: true
 
+  /@types/debug/4.1.7:
+    resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
+    dependencies:
+      '@types/ms': 0.7.31
+    dev: true
+
   /@types/express-serve-static-core/4.17.29:
     resolution: {integrity: sha512-uMd++6dMKS32EOuw1Uli3e3BPgdLIXmezcfHv7N4c1s3gkhikBplORPpMq3fuWkxncZN1reb16d5n8yhQ80x7Q==}
     dependencies:
@@ -1270,6 +1280,10 @@ packages:
 
   /@types/minimist/1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
+
+  /@types/ms/0.7.31:
+    resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
+    dev: true
 
   /@types/node-schedule/2.1.0:
     resolution: {integrity: sha512-NiTwl8YN3v/1YCKrDFSmCTkVxFDylueEqsOFdgF+vPsm+AlyJKGAo5yzX1FiOxPsZiN6/r8gJitYx2EaSuBmmg==}

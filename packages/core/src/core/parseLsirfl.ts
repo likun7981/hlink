@@ -1,6 +1,9 @@
 import path from 'path'
 import parseFilePath from './parseFilePath.js'
 import lsirf from './lsirfl.js'
+import createDebug from 'debug'
+
+const debug = createDebug('core:parseLsirfl')
 
 async function parseLs(dir: string, ignoreError = false) {
   const str = await lsirf(dir, ignoreError)
@@ -32,6 +35,11 @@ async function parseLs(dir: string, ignoreError = false) {
       }
     }
   })
+  debug(
+    'Parsed result length: %d, first result is: %O',
+    results.length,
+    results[0]
+  )
   return results
 }
 
