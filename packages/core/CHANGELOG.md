@@ -1,3 +1,9 @@
+# [2.0.0-next.22](https://github.com/likun7981/hlink/compare/core@2.0.0-next.21...core@2.0.0-next.22) (2022-07-08)
+
+### Bug Fixes
+
+- trim for parse file path ([7f3b101](https://github.com/likun7981/hlink/commit/7f3b101df21c9be22a02683290b28df42b233447))
+
 # [2.0.0-next.21](https://github.com/likun7981/hlink/compare/core@2.0.0-next.20...core@2.0.0-next.21) (2022-07-07)
 
 # [2.0.0-next.20](https://github.com/likun7981/hlink/compare/core@2.0.0-next.19...core@2.0.0-next.20) (2022-07-07)
