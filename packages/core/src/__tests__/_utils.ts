@@ -83,7 +83,7 @@ sourceDir1/dir2:
   s2: `
 4445152 dir/
 4445154 s2a.mkv
-4445155 s2b.mp4
+   4445155 s2b.mp4
 
 sourceDir2/dir:
 4445153 s2c.m3
