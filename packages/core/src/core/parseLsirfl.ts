@@ -12,6 +12,7 @@ async function parseLs(dir: string, ignoreError = false) {
   let prevIsBlank = true // 记录上一行是否是空行
   const results: { inode: string; fullPath: string }[] = []
   files.forEach((file: string) => {
+    file = file.trim()
     // 上一行是空行，并且是:结尾，表示是目录
     if (file.endsWith(':') && file.indexOf(dir) === 0 && prevIsBlank) {
       prevIsBlank = false
