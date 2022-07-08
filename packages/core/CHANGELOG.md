@@ -1,3 +1,9 @@
+# [2.0.0-next.23](https://github.com/likun7981/hlink/compare/core@2.0.0-next.22...core@2.0.0-next.23) (2022-07-08)
+
+### Bug Fixes
+
+- trim getInodes path ([ee3ccaa](https://github.com/likun7981/hlink/commit/ee3ccaacddaa29dbfc6038e76a0e4e6f0a51b3d2))
+
 # [2.0.0-next.22](https://github.com/likun7981/hlink/compare/core@2.0.0-next.21...core@2.0.0-next.22) (2022-07-08)
 
 ### Bug Fixes
