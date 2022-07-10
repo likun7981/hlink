@@ -1,3 +1,9 @@
+# [2.0.0-next.27](https://github.com/likun7981/hlink/compare/app@2.0.0-next.26...app@2.0.0-next.27) (2022-07-10)
+
+### Performance Improvements
+
+- delete loading use button loading status ([be3f811](https://github.com/likun7981/hlink/commit/be3f8110ef6867e58a15696c58ecace7df9ddce8))
+
 # [2.0.0-next.26](https://github.com/likun7981/hlink/compare/app@2.0.0-next.25...app@2.0.0-next.26) (2022-07-06)
 
 ### Bug Fixes
