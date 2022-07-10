@@ -1,3 +1,9 @@
+# [2.0.0-next.24](https://github.com/likun7981/hlink/compare/core@2.0.0-next.23...core@2.0.0-next.24) (2022-07-10)
+
+### Performance Improvements
+
+- prune cmd only print one for repeat dir ([bb694e5](https://github.com/likun7981/hlink/commit/bb694e5c7549cafffdc5e901c226825783de860d))
+
 # [2.0.0-next.23](https://github.com/likun7981/hlink/compare/core@2.0.0-next.22...core@2.0.0-next.23) (2022-07-08)
 
 ### Bug Fixes
