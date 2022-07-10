@@ -70,7 +70,12 @@ function RunDetail(props: IProps) {
                   })
               }
               updated.onOk = () => {
-                message.loading({ content: '执行删除中', key: 'makeDelete' })
+                modal.update({
+                  okButtonProps: {
+                    loading: true,
+                  },
+                  okText: '执行删除中',
+                })
                 return taskService
                   .makeDeleteFile(name)
                   .then(() => {
@@ -87,6 +92,14 @@ function RunDetail(props: IProps) {
                       key: 'makeDelete',
                     })
                     return Promise.reject()
+                  })
+                  .then(() => {
+                    modal.update({
+                      okButtonProps: {
+                        loading: false,
+                      },
+                      okText: '知道了',
+                    })
                   })
               }
             }
