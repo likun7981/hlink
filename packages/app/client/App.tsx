@@ -1,5 +1,15 @@
 import React, { useState } from 'react'
-import { Layout, Row, Col, Button, Badge, Tooltip } from 'antd'
+import {
+  Layout,
+  Row,
+  Col,
+  Button,
+  Badge,
+  Tooltip,
+  Typography,
+  message,
+  Spin,
+} from 'antd'
 import ConfigList from './components/ConfigList'
 import useSWR from 'swr'
 import fetch from './kit/fetch'
@@ -12,6 +22,7 @@ import CacheEditor from './components/CacheEditor'
 const { Header, Footer, Content } = Layout
 
 function App() {
+  const [loading, setLoading] = useState(false)
   useSWR('/api/config/default', (url) => fetch.get<string>(url), {
     suspense: true,
     onSuccess(data) {
@@ -21,15 +32,49 @@ function App() {
   const version = useSWR('/api/version', (url) =>
     fetch.get<{ tag: string; version: string; needUpdate: boolean }>(url)
   )
+  // const version = useSWR('/api/version', (url) =>
+  //   fetch.get<{ tag: string; version: string; needUpdate: boolean }>(url)
+  // )
   const [visible, setVisible] = useState(false)
   return (
-    <>
+    <Spin spinning={loading} wrapperClassName="z-100" tip="更新中">
       <Layout className="h-screen">
         <Header className="flex justify-between items-center">
           <Tooltip
             visible={version.data?.needUpdate}
-            title={`有新版本 ${version.data?.version} 请更新`}
-            placement="right"
+            // @ts-ignore
+            getPopupContainer={(e) => e.parentNode || document.body}
+            title={
+              <>
+                <div>有新版本 {version.data?.version}</div>
+                <div>
+                  请
+                  <Typography.Link
+                    onClick={() => {
+                      console.log(123)
+                      setLoading(true)
+                      fetch
+                        .get('/api/update')
+                        .then((r) => {
+                          if (r) {
+                            message.success('更新成功，重启服务后新版本生效')
+                          }
+                        })
+                        .catch((e) => {
+                          message.error(e.message)
+                        })
+                        .then(() => {
+                          setLoading(false)
+                        })
+                    }}
+                  >
+                    点击
+                  </Typography.Link>
+                  更新
+                </div>
+              </>
+            }
+            placement="rightBottom"
             color="white"
             overlayInnerStyle={{ color: 'black' }}
           >
@@ -62,7 +107,7 @@ function App() {
         </Footer>
       </Layout>
       <CacheEditor visible={visible} onClose={() => setVisible(false)} />
-    </>
+    </Spin>
   )
 }
 

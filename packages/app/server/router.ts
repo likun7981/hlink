@@ -7,6 +7,7 @@ import dirname from './kit/__dirname.js'
 import path from 'node:path'
 import got from 'got'
 import semver from 'semver'
+import { execa, ExecaChildProcess } from 'execa'
 
 const router = new Router({
   prefix: '/api',
@@ -47,6 +48,19 @@ router.get('/version', async (ctx) => {
     version,
     needUpdate,
   }
+})
+
+let updatingProcess: ExecaChildProcess | null = null
+
+router.get('/update', async (ctx) => {
+  if (!updatingProcess) {
+    updatingProcess = execa('npm', ['i', '-g', 'hlink@next'], {
+      stdio: 'inherit',
+    })
+  }
+  await updatingProcess
+  updatingProcess = null
+  ctx.body = true
 })
 
 export default router
