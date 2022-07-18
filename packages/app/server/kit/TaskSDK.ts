@@ -87,8 +87,13 @@ class TaskSDK extends BaseSDK<'tasks'> {
   getList() {
     const list = this.db.value()
     list.forEach((v) => {
-      if (!!v.scheduleType && !hasSchedule(v.name)) {
-        this.cancelSchedule(v.name, false)
+      // 有计划任务则自动创建
+      if (!!v.scheduleType && !!v.scheduleValue && !hasSchedule(v.name)) {
+        this.createSchedule({
+          name: v.name,
+          scheduleType: v.scheduleType,
+          scheduleValue: v.scheduleValue,
+        })
       }
     })
     this.write()

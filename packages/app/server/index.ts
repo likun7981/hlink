@@ -8,6 +8,7 @@ import compress from 'koa-compress'
 import path from 'node:path'
 import { internalIpV4 } from 'internal-ip'
 import { log } from '@hlink/core'
+import TaskSDK from './kit/TaskSDK.js'
 
 const app = new Koa()
 
@@ -25,6 +26,7 @@ app
 
 export default () => {
   const port = process.env.PORT || 9090
+  TaskSDK.getList() // 自动开启计划任务
   app.listen(port, async () => {
     const ip = await internalIpV4().catch(() => 'localhost')
     log.success('hlink serve started', `http://${ip}:${port}`)

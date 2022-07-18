@@ -8,6 +8,9 @@ const schedules: Partial<Record<string, (() => void) | null>> = {}
 function createSchedule(options: TSchedule, runTask: () => void) {
   cancelSchedule(options.name)
   let cancel: (() => boolean) | undefined
+  log.success(
+    `计划任务${options.name}已开启：${options.scheduleType} | ${options.scheduleValue}`
+  )
   if (options.scheduleType === 'cron') {
     const cronJob = schedule.scheduleJob(options.scheduleValue, function () {
       runTask()
