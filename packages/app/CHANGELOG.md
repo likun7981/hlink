@@ -1,3 +1,10 @@
+# [2.0.0-next.28](https://github.com/likun7981/hlink/compare/app@2.0.0-next.27...app@2.0.0-next.28) (2022-07-18)
+
+### Features
+
+- support auto exec schedule when restart serve ([9074648](https://github.com/likun7981/hlink/commit/90746483862236a6843d206f7b430d202403af6c))
+- support auto update ([1c7afc7](https://github.com/likun7981/hlink/commit/1c7afc7425e269705b310dc1ab8655d5aa55d655))
+
 # [2.0.0-next.27](https://github.com/likun7981/hlink/compare/app@2.0.0-next.26...app@2.0.0-next.27) (2022-07-10)
 
 ### Performance Improvements
