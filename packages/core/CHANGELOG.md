@@ -1,3 +1,9 @@
+# [2.0.0-next.25](https://github.com/likun7981/hlink/compare/core@2.0.0-next.24...core@2.0.0-next.25) (2022-07-23)
+
+### Bug Fixes
+
+- exclude include should ignore case ([c568763](https://github.com/likun7981/hlink/commit/c5687634217caa08eaef57abb4833f71d0873387))
+
 # [2.0.0-next.24](https://github.com/likun7981/hlink/compare/core@2.0.0-next.23...core@2.0.0-next.24) (2022-07-10)
 
 ### Performance Improvements
