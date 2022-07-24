@@ -1,3 +1,9 @@
+# [2.0.0-next.26](https://github.com/likun7981/hlink/compare/core@2.0.0-next.25...core@2.0.0-next.26) (2022-07-24)
+
+### Bug Fixes
+
+- globs should ignore case ([49cb44c](https://github.com/likun7981/hlink/commit/49cb44cc90b358c5046be03ee7c9e0b4a60228a7))
+
 # [2.0.0-next.25](https://github.com/likun7981/hlink/compare/core@2.0.0-next.24...core@2.0.0-next.25) (2022-07-23)
 
 ### Bug Fixes
