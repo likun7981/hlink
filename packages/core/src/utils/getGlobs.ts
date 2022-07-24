@@ -16,12 +16,12 @@ const getGlobs = (
   let { globs, exts } = options || {}
   globs = globs || []
   if (exts) {
-    globs = globs.concat(exts.map((ext) => `**.${ext.toLowerCase()}`))
+    globs = globs.concat(exts)
   }
   if (!globs.length) {
     globs = globs.concat(defaultGlobs)
   }
-  return globs
+  return globs.map((ext) => `**.${ext.toLowerCase()}`)
 }
 
 export default getGlobs
