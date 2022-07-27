@@ -3,7 +3,11 @@ module.exports = {
     'type-case': [2, 'always', 'lower-case'],
     'type-empty': [2, 'never'],
     'scope-case': [2, 'always', 'lower-case'],
-    'scope-enum': [2, 'always', ['app', 'cli', 'core', 'scripts', 'other']],
+    'scope-enum': [
+      2,
+      'always',
+      ['app', 'cli', 'core', 'scripts', 'docker', 'other'],
+    ],
     'type-enum': [
       2,
       'always',
