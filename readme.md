@@ -19,21 +19,51 @@
 - 📦 多平台：支持Windows、Mac、Linux
 - 🛠️ 丰富的配置：支持黑白名单，缓存等多个配置
 - 🔩 修剪机制：让你更方便的同步源文件和硬链
+- 🌐 WebUI：图形化界面让你更方便的管理
+- 🐳 Docker：无需关心环境问题
+
 
 更多介绍：https://hlink.likun.me
 
-## 安装
+## 使用docker run
 ```bash
-npm install -g hlink
-
-# 查看帮助
-
-hlink --help
+docker run -d --name mysql \
+-e HLINK_HOME=$YOUR_HLINK_HOME_DIR \
+-p 9090:9090 \
+-v $YOUR_NAS_VOLUM_PATH:$DOCKER_VOLUM_PATH \
+likun7981/hlink:latest
 ```
 
-## 使用
+## 使用docker compose
+```yml
+version: '2'
 
+services:
+  docker:
+    image: likun7981/hlink:latest # docker镜像名称
+    restart: on-failure
+    ports: # 这个端口映射
+      - 9090:9090
+    volumes: # 这个表示存储空间映射
+      - $YOUR_NAS_VOLUM_PATH:$DOCKER_VOLUM_PATH
+    environment:
+      - HLINK_HOME=$YOUR_HLINK_HOME_DIR # 这个是环境变量
+```
+
+`$YOUR_HLINK_HOME_DIR`、`$YOUR_NAS_VOLUM_PATH`、`$DOCKER_VOLUM_PATH`为变量，根据自己的情况自行设置
+
+
+## 使用npm安装
+```bash
+npm i -g hlink
+
+# 帮助
+hlink --help
+```
 <img src="https://user-images.githubusercontent.com/13427467/148177243-50ce207f-a31e-4a0a-b601-27ea9cbb1e1f.png" width="520"/>
+
+## WebUI截图
+<img src="https://user-images.githubusercontent.com/13427467/177048631-04dc6ace-af3a-4459-8848-13cc3c928856.png" width="520"/>
 
 ## 效果截图
 <img src="https://user-images.githubusercontent.com/13427467/148171766-ccbe2a1a-c30c-4e1a-868c-4e2c69617d29.png" width="520"/>
@@ -53,6 +83,10 @@ hlink --help
 - *沐 `30.00 RMB`
 - *春 `1.00 RMB`
 - *卷 `20.00 RMB`
+- H*r `20.00 RMB`
+- *. `3.00 RMB`
+- *府 `80.00 RMB`
+- every*Ok `20.00 RMB`
 
 感谢各位的支持，如果有遗漏，实在抱歉，可联系作者补充~
 
