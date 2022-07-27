@@ -33,11 +33,11 @@ async function main() {
     : version.includes('next')
     ? 'next'
     : undefined
-  await Promise.all(
-    getPackageDirs().map(async (pkgDir) => {
-      return publishPackage(pkgDir, releaseTag)
-    })
-  )
+  const dirs = getPackageDirs()
+  for (let i = 0; i < dirs.length; i++) {
+    const pkgDir = dirs[i]
+    await publishPackage(pkgDir, releaseTag)
+  }
 }
 
 main().catch((err) => {
