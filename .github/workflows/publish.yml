@@ -7,6 +7,7 @@ on:
       - "app@*"
       - "cli@*"
       - "core@*"
+      - "v*"
 jobs:
   npm:
     # prevents this action from running on forks
