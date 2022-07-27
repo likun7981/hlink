@@ -1,6 +1,12 @@
 // modify from https://github.com/vitejs/vite/blob/main/scripts/publishCI.ts
 
-import { args, getPackageInfo, publishPackage, step } from './releaseKit'
+import {
+  args,
+  getPackageInfo,
+  getPackageList,
+  publishPackage,
+  step,
+} from './releaseKit'
 
 async function main() {
   const tag = args._[0]
@@ -9,15 +15,11 @@ async function main() {
     throw new Error('No tag specified')
   }
 
-  let pkgName = 'vite'
-  let version
-
-  if (tag.includes('@')) [pkgName, version] = tag.split('@')
-  else version = tag
+  let version = tag
 
   if (version.startsWith('v')) version = version.slice(1)
 
-  const { currentVersion, pkgDir } = getPackageInfo(pkgName)
+  const { currentVersion } = getPackageInfo()
   if (currentVersion !== version)
     throw new Error(
       `Package version from tag "${version}" mismatches with current version "${currentVersion}"`
@@ -31,7 +33,9 @@ async function main() {
     : version.includes('next')
     ? 'next'
     : undefined
-  await publishPackage(pkgDir, releaseTag)
+  getPackageList().forEach(async (pkgDir) => {
+    await publishPackage(pkgDir, releaseTag)
+  })
 }
 
 main().catch((err) => {

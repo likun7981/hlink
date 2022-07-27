@@ -6,6 +6,7 @@ import colors from 'chalk'
 import {
   args,
   getPackageInfo,
+  getPackageList,
   getVersionChoices,
   isDryRun,
   logRecentCommits,
@@ -13,25 +14,17 @@ import {
   run,
   runIfNotDry,
   step,
-  updateTemplateVersions,
-  updateVersion,
+  updateVersions,
 } from './releaseKit'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 async function main(): Promise<void> {
   let targetVersion: string | undefined
 
-  const { pkg }: { pkg: string } = await prompts({
-    type: 'select',
-    name: 'pkg',
-    message: 'Select package',
-    choices: packages.map((i) => ({ value: i, title: i })),
-  })
+  await logRecentCommits()
 
-  if (!pkg) return
-
-  await logRecentCommits(pkg)
-
-  const { currentVersion, pkgName, pkgPath, pkgDir } = getPackageInfo(pkg)
+  const { currentVersion } = getPackageInfo()
 
   if (!targetVersion) {
     const { release }: { release: string } = await prompts({
@@ -58,8 +51,7 @@ async function main(): Promise<void> {
     throw new Error(`invalid target version: ${targetVersion}`)
   }
 
-  const tag =
-    pkgName === 'vite' ? `v${targetVersion}` : `${pkgName}@${targetVersion}`
+  const tag = `v${targetVersion}`
 
   if (targetVersion.includes('beta') && !args.tag) {
     args.tag = 'beta'
@@ -82,8 +74,8 @@ async function main(): Promise<void> {
   }
 
   step('\nUpdating package version...')
-  updateVersion(pkgPath, targetVersion)
-  if (pkgName === 'create-vite') updateTemplateVersions()
+  const list = getPackageList()
+  updateVersions(list, targetVersion)
 
   step('\nGenerating changelog...')
   const changelogArgs = [
@@ -96,8 +88,9 @@ async function main(): Promise<void> {
     '--commit-path',
     '.',
   ]
-  if (pkgName !== 'vite') changelogArgs.push('--lerna-package', pkgName)
-  await run('npx', changelogArgs, { cwd: pkgDir })
+  const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+  await run('npx', changelogArgs, { cwd: path.join(__dirname, '..') })
 
   const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
   if (stdout) {

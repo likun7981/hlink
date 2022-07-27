@@ -1,5 +1,5 @@
 // https://github.com/vitejs/vite/blob/main/scripts/releaseUtils.ts
-import { existsSync, readdirSync, writeFileSync } from 'node:fs'
+import { readdirSync } from 'node:fs'
 import path from 'node:path'
 import colors from 'chalk'
 import type { Options as ExecaOptions, ExecaReturnValue } from 'execa'
@@ -37,34 +37,28 @@ interface Pkg {
   private?: boolean
 }
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-export function getPackageInfo(pkgName: string): {
+export function getPackageInfo(): {
   pkg: Pkg
-  pkgName: string
-  pkgDir: string
   pkgPath: string
   currentVersion: string
 } {
-  const pkgDir = path.resolve(__dirname, '../packages/' + pkgName)
-
-  if (!existsSync(pkgDir)) {
-    throw new Error(`Package ${pkgName} not found`)
-  }
-
-  const pkgPath = path.resolve(pkgDir, 'package.json')
+  const pkgPath = path.resolve(__dirname, '../package.json')
   const pkg: Pkg = fs.readJSONSync(pkgPath)
   const currentVersion = pkg.version
 
-  if (pkg.private) {
-    throw new Error(`Package ${pkgName} is private`)
-  }
-
   return {
     pkg,
-    pkgName,
-    pkgDir,
     pkgPath,
     currentVersion,
   }
+}
+
+export function getPackageList() {
+  const packagesPath = path.join(__dirname, '..', 'packages')
+  const pkgs = fs.readdirSync(packagesPath)
+  return pkgs
+    .map((p) => path.join(packagesPath, p, 'package.json'))
+    .concat(path.join(__dirname, '../package.json'))
 }
 
 export async function run(
@@ -159,10 +153,27 @@ export function getVersionChoices(currentVersion: string): VersionChoice[] {
   return versionChoices
 }
 
-export function updateVersion(pkgPath: string, version: string): void {
-  const pkg = fs.readJSONSync(pkgPath)
+export async function updateVersions(
+  pkgPaths: string | string[],
+  version: string
+) {
+  if (Array.isArray(pkgPaths)) {
+    await Promise.all(
+      pkgPaths.map(async (pkgPath) => {
+        return updateVersion(pkgPath, version)
+      })
+    )
+  } else {
+    await updateVersion(pkgPaths, version)
+  }
+}
+
+export async function updateVersion(pkgPath: string, version: string) {
+  const pkg = await fs.readJSON(pkgPath)
   pkg.version = version
-  writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+  await fs.writeJSON(pkgPath, pkg, {
+    spaces: 2,
+  })
 }
 
 export async function publishPackage(
@@ -178,40 +189,32 @@ export async function publishPackage(
   })
 }
 
-export async function getLatestTag(pkgName: string): Promise<string> {
+export async function getLatestTag(): Promise<string> {
   const tags = (await run('git', ['tag'], { stdio: 'pipe' })).stdout
     .split(/\n/)
     .filter(Boolean)
-  const prefix = pkgName === 'vite' ? 'v' : `${pkgName}@`
   return tags
-    .filter((tag) => tag.startsWith(prefix))
+    .filter((tag) => tag.startsWith('v'))
     .sort()
     .reverse()[0]
 }
 
-export async function logRecentCommits(pkgName: string): Promise<void> {
-  const tag = await getLatestTag(pkgName)
+export async function logRecentCommits(): Promise<void> {
+  const tag = await getLatestTag()
   if (!tag) return
   const sha = await run('git', ['rev-list', '-n', '1', tag], {
     stdio: 'pipe',
   }).then((res) => res.stdout.trim())
   console.log(
     colors.bold(
-      `\n${colors.blue(`i`)} Commits of ${colors.green(
-        pkgName
-      )} since ${colors.green(tag)} ${colors.gray(`(${sha.slice(0, 5)})`)}`
+      `\n${colors.blue(`i`)} Commits since ${colors.green(tag)} ${colors.gray(
+        `(${sha.slice(0, 5)})`
+      )}`
     )
   )
   await run(
     'git',
-    [
-      '--no-pager',
-      'log',
-      `${sha}..HEAD`,
-      '--oneline',
-      '--',
-      `packages/${pkgName}`,
-    ],
+    ['--no-pager', 'log', `${sha}..HEAD`, '--oneline', '--', `.`],
     { stdio: 'inherit' }
   )
   console.log()
@@ -235,6 +238,8 @@ export async function updateTemplateVersions(): Promise<void> {
       pkg.devDependencies['@vitejs/plugin-vue'] =
         `^` + (await fs.readJSON('../packages/plugin-vue/package.json')).version
     }
-    writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+    await fs.writeJSON(pkgPath, pkg, {
+      spaces: 2,
+    })
   }
 }
