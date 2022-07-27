@@ -27,7 +27,7 @@
 
 ## 使用docker run
 ```bash
-docker run -d --name mysql \
+docker run -d --name hlink \
 -e HLINK_HOME=$YOUR_HLINK_HOME_DIR \
 -p 9090:9090 \
 -v $YOUR_NAS_VOLUM_PATH:$DOCKER_VOLUM_PATH \
