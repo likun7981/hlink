@@ -30,7 +30,7 @@
 docker run -d --name hlink \
 -e HLINK_HOME=$YOUR_HLINK_HOME_DIR \
 -p 9090:9090 \
--v $YOUR_NAS_VOLUM_PATH:$DOCKER_VOLUM_PATH \
+-v $YOUR_NAS_VOLUME_PATH:$DOCKER_VOLUME_PATH \
 likun7981/hlink:latest
 ```
 
@@ -45,12 +45,12 @@ services:
     ports: # 这个端口映射
       - 9090:9090
     volumes: # 这个表示存储空间映射
-      - $YOUR_NAS_VOLUM_PATH:$DOCKER_VOLUM_PATH
+      - $YOUR_NAS_VOLUME_PATH:$DOCKER_VOLUME_PATH
     environment:
       - HLINK_HOME=$YOUR_HLINK_HOME_DIR # 这个是环境变量
 ```
 
-`$YOUR_HLINK_HOME_DIR`、`$YOUR_NAS_VOLUM_PATH`、`$DOCKER_VOLUM_PATH`为变量，根据自己的情况自行设置
+`$YOUR_HLINK_HOME_DIR`、`$YOUR_NAS_VOLUME_PATH`、`$DOCKER_VOLUME_PATH`为变量，根据自己的情况自行设置
 
 
 ## 使用npm安装
