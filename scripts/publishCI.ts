@@ -2,8 +2,8 @@
 
 import {
   args,
+  getPackageDirs,
   getPackageInfo,
-  getPackageList,
   publishPackage,
   step,
 } from './releaseKit'
@@ -34,7 +34,7 @@ async function main() {
     ? 'next'
     : undefined
   await Promise.all(
-    getPackageList().map(async (pkgDir) => {
+    getPackageDirs().map(async (pkgDir) => {
       return publishPackage(pkgDir, releaseTag)
     })
   )

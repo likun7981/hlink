@@ -61,6 +61,11 @@ export function getPackageList() {
     .concat(path.join(__dirname, '../package.json'))
 }
 
+export function getPackageDirs() {
+  const packagesPath = path.join(__dirname, '..', 'packages')
+  return ['core', 'app', 'cli'].map((p) => path.join(packagesPath, p))
+}
+
 export async function run(
   bin: string,
   args: string[],
