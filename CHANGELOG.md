@@ -1,3 +1,9 @@
+## [2.0.5](https://github.com/likun7981/hlink/compare/v2.0.4...v2.0.5) (2022-07-27)
+
+### Bug Fixes
+
+- **app:** update stable version instead of next ([85cc3e9](https://github.com/likun7981/hlink/commit/85cc3e9e6d915c9386f065d6ecb46ae029fe0fc7))
+
 ## [2.0.4](https://github.com/likun7981/hlink/compare/v1.0.4...v2.0.4) (2022-07-27)
 
 ### Features
