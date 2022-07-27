@@ -137,7 +137,10 @@ async function hlink(options: IOptions) {
   }
   endLog(successCount, failCount, failReasons)
   time.end()
-  saveCache(waitLinkFiles.map((a) => a.sourcePath))
+  // 只有openCache才进行存储
+  if (openCache) {
+    saveCache(waitLinkFiles.map((a) => a.sourcePath))
+  }
   return {
     waitLinkFiles,
     failCount,
