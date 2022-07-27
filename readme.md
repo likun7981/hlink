@@ -7,9 +7,9 @@
   <a href="https://www.npmjs.com/package/hlink"><img src="https://img.shields.io/npm/v/hlink.svg" alt="npm package"></a>
   <a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/hlink.svg" alt="node compatibility"></a>
   <a href="https://npmjs.com/package/hlink"><img src="https://img.shields.io/npm/dm/hlink.svg" alt="downloads"></a>
+  <a href="https://github.com/likun7981/hlink/actions/workflows/publish.yml"><img src="https://github.com/likun7981/hlink/actions/workflows/publish.yml/badge.svg" alt="license"></a>
   <a href="https://github.com/likun7981/hlink/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/hlink.svg" alt="license"></a>
 </p>
-
 
 # hlink
 > 批量、快速硬链工具(The batch, fast hard link toolkit)
