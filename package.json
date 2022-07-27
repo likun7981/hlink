@@ -21,6 +21,7 @@
     "docs:build": "vitepress build docs",
     "docs:dev": "vitepress dev docs",
     "lint": "eslint --fix packages/**/*.{ts,tsx}",
+    "clean": "rm -rf node_modules && rm -rf packages/*/node_modules",
     "prepare": "husky install",
     "test": "vitest run",
     "test:watch": "vitest",

@@ -65,7 +65,7 @@ importers:
   packages/app:
     specifiers:
       '@ant-design/icons': ^4.7.0
-      '@hlink/core': next
+      '@hlink/core': v2.x
       '@koa/router': ^10.1.1
       '@types/koa': ^2.13.4
       '@types/koa__router': ^8.0.11
@@ -165,8 +165,8 @@ importers:
 
   packages/cli:
     specifiers:
-      '@hlink/app': next
-      '@hlink/core': next
+      '@hlink/app': v2.x
+      '@hlink/core': v2.x
       '@types/update-notifier': ^5.1.0
       chalk: ^5
       execa: ^6.1.0
