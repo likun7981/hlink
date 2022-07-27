@@ -54,7 +54,7 @@ let updatingProcess: ExecaChildProcess | null = null
 
 router.get('/update', async (ctx) => {
   if (!updatingProcess) {
-    updatingProcess = execa('npm', ['i', '-g', 'hlink@next'], {
+    updatingProcess = execa('npm', ['i', '-g', 'hlink'], {
       stdio: 'inherit',
     })
   }
