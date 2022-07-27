@@ -24,9 +24,7 @@
     "clean": "rm -rf lib",
     "cp": "cp src/config/hlink.config.tpl lib/config/hlink.config.tpl",
     "build": "npm run clean && tsc && npm run cp",
-    "prepublishOnly": "npm run build && vitest run",
-    "np": "np --no-cleanup --no-tests --no-yarn",
-    "np:next": "np --tag=next --any-branch --yolo --no-yarn"
+    "prepublishOnly": "npm run build && vitest run"
   },
   "files": [
     "lib",

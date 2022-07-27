@@ -2,6 +2,8 @@ module.exports = {
   rules: {
     'type-case': [2, 'always', 'lower-case'],
     'type-empty': [2, 'never'],
+    'scope-case': [2, 'always', 'lower-case'],
+    'scope-enum': [2, 'always', ['app', 'cli', 'core', 'scripts', 'other']],
     'type-enum': [
       2,
       'always',

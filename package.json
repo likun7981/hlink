@@ -17,6 +17,7 @@
     "build:core": "pnpm -r --filter=./packages/core run build",
     "next": "pnpm -r --filter=./packages/* run np:next",
     "release": "tsx scripts/release.ts",
+    "release:dry": "tsx scripts/release.ts --dry",
     "docs:build": "vitepress build docs",
     "docs:dev": "vitepress dev docs",
     "lint": "eslint --fix packages/**/*.{ts,tsx}",

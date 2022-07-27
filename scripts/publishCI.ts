@@ -33,9 +33,11 @@ async function main() {
     : version.includes('next')
     ? 'next'
     : undefined
-  getPackageList().forEach(async (pkgDir) => {
-    await publishPackage(pkgDir, releaseTag)
-  })
+  await Promise.all(
+    getPackageList().map(async (pkgDir) => {
+      return publishPackage(pkgDir, releaseTag)
+    })
+  )
 }
 
 main().catch((err) => {

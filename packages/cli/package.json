@@ -24,9 +24,7 @@
     "clean": "rm -rf lib",
     "build": "npm run clean && tsc",
     "prepublishOnly": "npm run build",
-    "env": "rm /usr/local/bin/hlink && ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js",
-    "np": "np --no-cleanup --no-tests --no-yarn",
-    "np:next": "np --tag=next --any-branch --yolo --no-yarn"
+    "env": "rm /usr/local/bin/hlink && ln -s $PWD/lib/cli-dev.js /usr/local/bin/hlink && chmod +x ./lib/cli-dev.js"
   },
   "files": [
     "lib"
@@ -38,8 +36,8 @@
     "fun"
   ],
   "dependencies": {
-    "@hlink/app": "next",
-    "@hlink/core": "next",
+    "@hlink/app": "v2.x",
+    "@hlink/core": "v2.x",
     "@types/update-notifier": "^5.1.0",
     "chalk": "^5",
     "execa": "^6.1.0",

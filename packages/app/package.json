@@ -16,9 +16,7 @@
     "build:client": "tsc && vite build",
     "preview": "node dist/index.js",
     "prepublishOnly": "npm run build",
-    "build:server": "tsc --project ./server/tsconfig.json",
-    "np": "np --no-cleanup --no-tests --no-yarn",
-    "np:next": "np --tag=next --any-branch --yolo --no-yarn"
+    "build:server": "tsc --project ./server/tsconfig.json"
   },
   "files": [
     "dist"
@@ -28,7 +26,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@hlink/core": "next",
+    "@hlink/core": "v2.x",
     "@koa/router": "^10.1.1",
     "@types/koa__router": "^8.0.11",
     "@types/lodash": "^4.14.182",
