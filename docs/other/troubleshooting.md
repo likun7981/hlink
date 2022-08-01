@@ -12,7 +12,7 @@
 ## 3. hlink 支持的nodejs版本？
 > 报错关键字`supported by the default ESM loader`
 
-`12.20` `14.14` 或者 `>=16`，建议直接装最新的lts版本。[如何管理nodejs版本?](../install/nodejs.md)
+`14.14` 或者 `>=16`，建议直接装最新的lts版本。[如何管理nodejs版本?](../install/nodejs.md)
 
 ## 4. 没有执行权限
 > 报错关键字`Operation not permitted`
