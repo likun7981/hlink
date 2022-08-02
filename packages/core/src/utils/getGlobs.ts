@@ -16,7 +16,7 @@ const getGlobs = (
   let { globs, exts } = options || {}
   globs = globs || []
   if (exts) {
-    globs = globs.concat(exts.map((ext) => `**.${ext}`))
+    globs = globs.concat(exts.map((ext) => `**/*.${ext}`))
   }
   if (!globs.length) {
     globs = globs.concat(defaultGlobs)
