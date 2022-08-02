@@ -2,7 +2,7 @@
 
 ### Bug Fixes
 
-- **core:** ext globs should use **/\*.ext otherwise **.ext ([8130394](https://github.com/likun7981/hlink/commit/8130394888e28d00db7cec9270f778af99d4f490))
+- **core:** ext globs should use **/\*.ext instead of **.ext ([8130394](https://github.com/likun7981/hlink/commit/8130394888e28d00db7cec9270f778af99d4f490))
 
 ## [2.0.5](https://github.com/likun7981/hlink/compare/v2.0.4...v2.0.5) (2022-07-27)
 
