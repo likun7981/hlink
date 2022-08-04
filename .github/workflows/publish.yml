@@ -68,4 +68,4 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: likun7981/hlink:latest
+          tags: likun7981/hlink:latest,likun7981/hlink:${{ github.ref_name }}
