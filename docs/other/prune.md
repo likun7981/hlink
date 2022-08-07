@@ -58,3 +58,9 @@ hlink prune /path/to/源目录1 /path/to/硬链目录1,/path/to/硬链目录2
 
 以上就是对 `hlink prune` 的所有介绍，有问题可以群里咨询
 
+## v2.0prune改动
+
+为保证源目录和硬链目录的文件追踪，v2.0prune取消了命令行录入目录，都是通过和主命令使用同一个配置文件来实现。详情见 [prune使用说明](../command/prune.md)
+
+
+
