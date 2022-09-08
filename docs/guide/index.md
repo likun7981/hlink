@@ -14,7 +14,7 @@ npm i -g hlink
 完成hlink的安装，最简单的使用
 
 ```bash
-hlink /path/to/download /path/to/movie
+hlink /path/to/hlink.config.mjs
 ```
 
 更多使用技巧见 [hlink使用介绍](../command/index.md)
