@@ -5,7 +5,7 @@ export namespace IHlink {
   }
   export interface Options {
     /**
-     * @description 原路径和目标路劲的映射关系
+     * @description 原路径和目标路径的映射关系
      */
     pathsMapping: Record<string, string>
     /**

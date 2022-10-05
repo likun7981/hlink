@@ -23,16 +23,16 @@ describe('format test', () => {
   })
   test('should exit when no one source and dest', async () => {
     expect(formatConfig({ pathsMapping: { '/b': '/b' } })).rejects.toThrowError(
-      '过滤后，没有一个路劲满足要求'
+      '过滤后，没有一个路径满足要求'
     )
     expect(formatConfig({ pathsMapping: { '/a': '/b' } })).rejects.toThrowError(
-      '过滤后，没有一个路劲满足要求'
+      '过滤后，没有一个路径满足要求'
     )
     expect(
       formatConfig({ pathsMapping: { './a': '/b' } })
-    ).rejects.toThrowError('过滤后，没有一个路劲满足要求')
+    ).rejects.toThrowError('过滤后，没有一个路径满足要求')
     expect(formatConfig({ pathsMapping: {} })).rejects.toThrowError(
-      '至少配置一个路劲'
+      '至少配置一个路径'
     )
   })
   test('should get right result', async () => {
