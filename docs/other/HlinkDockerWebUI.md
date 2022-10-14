@@ -37,7 +37,7 @@
 // 重要说明路径地址都请填写 绝对路径！！！！
 export default {
   /**
-   * 源路劲与目标路径的映射关系
+   * 源路径与目标路径的映射关系
    * 例子:
    *  pathsMapping: {
    *     '/path/to/exampleSource': '/path/to/exampleDest',

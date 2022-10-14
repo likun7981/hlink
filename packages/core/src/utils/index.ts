@@ -241,7 +241,7 @@ export function findParent(_paths: string[]) {
 /**
  *
  * @param _paths 路径集合
- * @returns 返回_paths的相对于公共父目录的路劲
+ * @returns 返回_paths的相对于公共父目录的路径
  *
  * _paths = ['/a/c/d/e', '/a/b/c/d/e']
  * result = ['c/d/e','b/c/d/e']
