@@ -28,6 +28,9 @@
 ## 使用docker run
 ```bash
 docker run -d --name hlink \
+-e PUID=$YOUR_USER_ID \
+-e PGID=$YOUR_GROUP_ID \
+-e UMASK=$YOUR_UMASK \
 -e HLINK_HOME=$YOUR_HLINK_HOME_DIR \
 -p 9090:9090 \
 -v $YOUR_NAS_VOLUME_PATH:$DOCKER_VOLUME_PATH \
@@ -47,10 +50,13 @@ services:
     volumes: # 这个表示存储空间映射
       - $YOUR_NAS_VOLUME_PATH:$DOCKER_VOLUME_PATH
     environment:
+      - PUID=$YOUR_USER_ID
+      - PGID=$YOUR_GROUP_ID
+      - UMASK=$YOUR_UMASK
       - HLINK_HOME=$YOUR_HLINK_HOME_DIR # 这个是环境变量
 ```
 
-`$YOUR_HLINK_HOME_DIR`、`$YOUR_NAS_VOLUME_PATH`、`$DOCKER_VOLUME_PATH`为变量，根据自己的情况自行设置
+`$YOUR_USER_ID`、`$YOUR_GROUP_ID`、`$YOUR_UMASK`、`$YOUR_HLINK_HOME_DIR`、`$YOUR_NAS_VOLUME_PATH`、`$DOCKER_VOLUME_PATH`为变量，根据自己的情况自行设置
 
 
 ## 使用npm安装
