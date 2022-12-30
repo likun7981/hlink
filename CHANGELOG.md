@@ -1,3 +1,5 @@
+## [2.0.7](https://github.com/likun7981/hlink/compare/v2.0.6...v2.0.7) (2022-12-30)
+
 ## [2.0.6](https://github.com/likun7981/hlink/compare/v2.0.5...v2.0.6) (2022-08-02)
 
 ### Bug Fixes
