@@ -1,4 +1,6 @@
 ## [2.0.7](https://github.com/likun7981/hlink/compare/v2.0.6...v2.0.7) (2022-12-30)
+### Features
+- **docker**: Add PUID, PGID, Umask settings to Docker image @DDS-ALL [#112(https://github.com/likun7981/hlink/pull/112](https://github.com/likun7981/hlink/pull/112))
 
 ## [2.0.6](https://github.com/likun7981/hlink/compare/v2.0.5...v2.0.6) (2022-08-02)
 
