@@ -4,8 +4,8 @@ LABEL MAINTAINER likun7981
 
 ENV DOCKER=true \
     PS1="\u@\h:\w \$ " \
-    PUID=1000 \
-    PGID=1000 \
+    PUID=0 \
+    PGID=0 \
     UMASK=022
 
 RUN apk add --no-cache \
