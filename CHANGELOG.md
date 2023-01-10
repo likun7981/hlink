@@ -1,5 +1,9 @@
 ## [2.0.8](https://github.com/likun7981/hlink/compare/v2.0.7...v2.0.8) (2023-01-10)
 
+### Features
+
+- **docker**: Start the program with the root user by default
+
 ## [2.0.7](https://github.com/likun7981/hlink/compare/v2.0.6...v2.0.7) (2022-12-30)
 
 ### Features
