@@ -1,3 +1,9 @@
+## [2.0.9](https://github.com/likun7981/hlink/compare/v2.0.8...v2.0.9) (2023-02-19)
+
+### Bug Fixes
+
+- prune task should not confirm ([1d9f1ea](https://github.com/likun7981/hlink/commit/1d9f1eacc48979d01758c2c52590f26de3826312))
+
 ## [2.0.8](https://github.com/likun7981/hlink/compare/v2.0.7...v2.0.8) (2023-01-10)
 
 ### Features
