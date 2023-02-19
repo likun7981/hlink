@@ -250,7 +250,7 @@ class TaskSDK extends BaseSDK<'tasks'> {
       startTask = async () => {
         await prune({
           ...taskConfig.config,
-          withoutConfirm: false,
+          withoutConfirm: true,
         })
         console.log()
       }
