@@ -9,4 +9,4 @@ fi
 
 umask ${UMASK}
 
-su-exec ${PUID}:${PGID} hlink start
+exec su-exec ${PUID}:${PGID} hlink start
