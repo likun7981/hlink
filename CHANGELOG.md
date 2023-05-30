@@ -1,3 +1,13 @@
+## [2.0.10](https://github.com/likun7981/hlink/compare/v2.0.9...v2.0.10) (2023-05-30)
+
+### Bug Fixes
+
+- bug ([9af6d56](https://github.com/likun7981/hlink/commit/9af6d567445b789c48ba7d66d52ede75cc787a55))
+
+### Features
+
+- support armv7 armv6 ([828dbb2](https://github.com/likun7981/hlink/commit/828dbb29d00dbbdd2f07af021cdbe19fdbd2d5e5))
+
 ## [2.0.9](https://github.com/likun7981/hlink/compare/v2.0.8...v2.0.9) (2023-02-19)
 
 ### Bug Fixes
