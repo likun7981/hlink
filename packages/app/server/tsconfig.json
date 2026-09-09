@@ -11,5 +11,6 @@
     "outDir": "../dist",
     "declaration": true
   },
-  "include": ["./", "../types"]
+  "include": ["./", "../types"],
+  "exclude": ["**/*.spec.ts", "**/__tests__/**"]
 }
