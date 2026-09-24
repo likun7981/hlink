@@ -1,4 +1,4 @@
-import { describe, test, expect, vi, beforeEach } from 'vitest'
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 import path from 'node:path'
 import fs from 'fs-extra'
 import formatConfig from '../../config/format'
@@ -12,15 +12,19 @@ const destDir = path.join(mockDir, 'dest')
 
 describe('format test', () => {
   beforeEach(async () => {
+    await fs.ensureDir(mockDir)
     await Promise.all([fs.ensureDir(sourceDir), fs.ensureDir(destDir)])
     console.log = vi.fn()
-    return async () => {
-      await fs.rm(mockDir, {
-        recursive: true,
-      })
-      vi.restoreAllMocks()
-    }
   })
+
+  afterEach(async () => {
+    await fs.rm(mockDir, {
+      recursive: true,
+      force: true,
+    })
+    vi.restoreAllMocks()
+  })
+
   test('should exit when no one source and dest', async () => {
     expect(formatConfig({ pathsMapping: { '/b': '/b' } })).rejects.toThrowError(
       '过滤后，没有一个路径满足要求'
