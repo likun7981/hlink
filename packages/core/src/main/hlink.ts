@@ -65,11 +65,13 @@ async function hlink(options: IOptions) {
       })
     })
   ).forEach((item) => {
-    waitLinkFiles.push(...item.waitLinkFiles)
-    excludeFiles.push(...item.excludeFiles)
-    existFiles.push(...item.existFiles)
-    cacheFiles.push(...item.cacheFiles)
-    parseResults.push(...item.parseResults)
+    // 使用循环逐个 push，避免展开运算符在文件数量过大时超出最大调用栈
+    // 参考: https://github.com/likun7981/hlink/issues/141
+    for (const f of item.waitLinkFiles) waitLinkFiles.push(f)
+    for (const f of item.excludeFiles) excludeFiles.push(f)
+    for (const f of item.existFiles) existFiles.push(f)
+    for (const f of item.cacheFiles) cacheFiles.push(f)
+    for (const f of item.parseResults) parseResults.push(f)
   })
 
   log.info('共计', chalk.magenta(parseResults.length), '个文件')
