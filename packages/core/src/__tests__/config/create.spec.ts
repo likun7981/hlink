@@ -5,7 +5,8 @@ import create from '../../config/create'
 import { getMockDir } from '../_utils'
 import { checkPathExist } from '../../utils'
 
-const { mockDir } = getMockDir(import.meta.url, 'mock_dir')
+// 使用独立目录，避免与 format.spec.ts 并行运行时共享 mock_dir 产生竞态
+const { mockDir } = getMockDir(import.meta.url, 'mock_create_dir')
 
 const configPath = path.join(mockDir, 'hlink.config.mjs')
 
