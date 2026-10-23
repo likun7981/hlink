@@ -1,0 +1,13 @@
+.git
+**/node_modules
+**/lib
+**/dist
+**/*.tsbuildinfo
+**/*.log
+.env
+.env.*
+backups
+build-e2big-*
+hlink-*.tar.gz
+.DS_Store
+._*

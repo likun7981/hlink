@@ -6,15 +6,17 @@ hlink 是一个批量快速硬链工具，全称为`hard link`，能够帮你快
 
 ## 如何使用
 
-首先你需要安装`nodejs`，目前最新版本的`hlink`需要`12.20`以上或者`14.14`以上的`nodejs`版本[如何安装nodejs](../install/nodejs.md)。
-安装nodejs完成后，使用以下命令
+首先你需要安装`nodejs`，当前分支使用 Node.js 24 LTS（24.22.1 或更新的 24.x 补丁版）[如何安装 nodejs](../install/nodejs.md)。
+安装 nodejs 完成后，使用以下命令
+
 ```bash
 npm i -g hlink
 ```
-完成hlink的安装，最简单的使用
+
+完成 hlink 的安装，最简单的使用
 
 ```bash
 hlink /path/to/hlink.config.mjs
 ```
 
-更多使用技巧见 [hlink使用介绍](../command/index.md)
+更多使用技巧见 [hlink 使用介绍](../command/index.md)
