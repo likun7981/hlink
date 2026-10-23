@@ -10,6 +10,7 @@ export type TTask = {
   type: TTaskType
   config: string
   reverse?: boolean
+  fileFilter?: TFileFilter | null
   scheduleType?: 'cron' | 'loop'
   scheduleValue?: string
 }
@@ -38,3 +39,4 @@ declare module 'koa' {
     withSSE: true
   }
 }
+import type { TFileFilter } from '@hlink/core'

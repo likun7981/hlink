@@ -4,6 +4,8 @@ import {
   log,
   rmFiles,
   deleteEmptyDir,
+  validateFileFilter,
+  preview,
 } from '@hlink/core'
 import { SSELog, TSchedule, TTask } from '../../types/shim'
 import BaseSDK from './BaseSDK.js'
@@ -21,6 +23,7 @@ class TaskSDK extends BaseSDK<'tasks'> {
     super('tasks')
   }
   async add(c: TTask) {
+    validateFileFilter(c.fileFilter ?? undefined)
     if (this.exist(c.name)) {
       throw new Error(`任务 ${c.name} 已存在`)
     }
@@ -30,6 +33,7 @@ class TaskSDK extends BaseSDK<'tasks'> {
   }
 
   async update(prevName: string, c: TTask) {
+    validateFileFilter(c.fileFilter ?? undefined)
     const task = this.get(prevName)
     if (!task) {
       throw new Error(`任务 ${prevName} 不存在`)
@@ -38,7 +42,7 @@ class TaskSDK extends BaseSDK<'tasks'> {
       if (this.exist(c.name)) {
         throw new Error(`任务 ${c.name} 已存在`)
       }
-      renameSchedule(prevName, c.name)
+      cancelSchedule(prevName)
       this.db.removeById(prevName).value()
       this.db
         .insert({
@@ -55,6 +59,14 @@ class TaskSDK extends BaseSDK<'tasks'> {
         .value()
     }
     await this.write()
+    const updated = this.get(c.name)
+    if (updated.scheduleType && updated.scheduleValue) {
+      await this.createSchedule({
+        name: updated.name,
+        scheduleType: updated.scheduleType,
+        scheduleValue: updated.scheduleValue,
+      })
+    }
     return true
   }
 
@@ -100,12 +112,13 @@ class TaskSDK extends BaseSDK<'tasks'> {
     return this.db.value()
   }
 
-  async getConfig(name: string) {
-    const task = this.get(name)
+  async resolveConfig(task: TTask) {
     const allConfig = await configSDK.getOpt(task.config)
+    const fileFilter = task.fileFilter ?? allConfig.fileFilter
+    validateFileFilter(fileFilter)
     let config
     if (task.type === 'main') {
-      config = allConfig
+      config = { ...allConfig, fileFilter }
     } else if (task.type === 'prune') {
       config = {
         withoutConfirm: false,
@@ -114,6 +127,7 @@ class TaskSDK extends BaseSDK<'tasks'> {
         exclude: allConfig.exclude,
         include: allConfig.include,
         deleteDir: allConfig.deleteDir,
+        fileFilter,
       }
     } else {
       throw new Error('未知的任务类型')
@@ -122,6 +136,16 @@ class TaskSDK extends BaseSDK<'tasks'> {
       command: task.type,
       config,
     }
+  }
+
+  async getConfig(name: string) {
+    return this.resolveConfig(this.get(name))
+  }
+
+  async preview(task: TTask) {
+    if (task.type !== 'main') throw new Error('匹配预览仅支持硬链任务')
+    const { config } = await this.resolveConfig(task)
+    return preview(config)
   }
 
   async start(name: string) {
@@ -244,23 +268,20 @@ class TaskSDK extends BaseSDK<'tasks'> {
         scheduleValue,
       })
       .value()
-    const taskConfig = await this.getConfig(name)
-    let startTask = () => {}
-    if (taskConfig.command === 'prune') {
-      startTask = async () => {
+    await this.getConfig(name)
+    const startTask = async () => {
+      const taskConfig = await this.getConfig(name)
+      if (taskConfig.command === 'prune') {
         await prune({
           ...taskConfig.config,
           withoutConfirm: true,
         })
-        console.log()
-      }
-    } else if (taskConfig.command === 'main') {
-      startTask = async () => {
+      } else if (taskConfig.command === 'main') {
         await main(taskConfig.config)
-        console.log()
+      } else {
+        throw new Error('未知命令!')
       }
-    } else {
-      throw new Error('未知命令!')
+      console.log()
     }
     if (createSchedule(option, startTask)) {
       await this.write()

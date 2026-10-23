@@ -1,4 +1,7 @@
-import { cacheRecord } from '../utils/cacheHelp.js'
+import path from 'node:path'
+import fs from 'fs-extra'
+import { cacheRecord, isCached } from '../utils/cacheHelp.js'
+import compileFileFilter from '../utils/fileFilter.js'
 import parseLsirfl, { getInodes } from '../core/parseLsirfl.js'
 import {
   chalk,
@@ -12,6 +15,7 @@ import supported from '../utils/supported.js'
 interface IOptions extends Omit<IHlinkOptions, 'pathsMapping'> {
   source: string
   dest: string
+  readOnly?: boolean
 }
 
 export type WaitLinks = {
@@ -25,9 +29,11 @@ async function analyse(config: IOptions) {
   const {
     include,
     exclude,
+    fileFilter,
     openCache,
     source,
     dest,
+    readOnly = false,
     keepDirStruct = true,
     mkdirIfSingle = true,
   } = config
@@ -38,31 +44,39 @@ async function analyse(config: IOptions) {
     chalk.gray(relativeDest),
   ].join(' ')
   log.info('执行分析任务:', taskName)
-  const parseResults = await parseLsirfl(source)
-  const dstInodes = await getInodes(dest)
+  const matches = compileFileFilter(fileFilter)
+  const parseResults = await parseLsirfl(source, false, !readOnly)
+  const dstInodes =
+    readOnly && !(await fs.pathExists(dest))
+      ? []
+      : await getInodes(dest, false, !readOnly)
   const existFiles: string[] = []
   const waitLinkFiles: WaitLinks[] = []
   const excludeFiles: string[] = []
   const cacheFiles: string[] = []
-  const cached = cacheRecord.read()
+  const cached = openCache ? cacheRecord.read() : []
 
   parseResults.forEach((parseResult) => {
     const { fullPath } = parseResult
-    if (!supported(fullPath, include, exclude)) {
+    const destDir = getOriginalDestPath(
+      fullPath,
+      source,
+      dest,
+      keepDirStruct,
+      mkdirIfSingle
+    )
+    if (!supported(fullPath, include, exclude) || !matches(fullPath, source)) {
       excludeFiles.push(fullPath)
     } else if (dstInodes.indexOf(parseResult.inode) > -1) {
       existFiles.push(fullPath)
-    } else if (openCache && cached.includes(fullPath)) {
+    } else if (
+      openCache &&
+      isCached(cached, fullPath, path.join(destDir, path.basename(fullPath)))
+    ) {
       cacheFiles.push(fullPath)
     } else {
       waitLinkFiles.push({
-        destDir: getOriginalDestPath(
-          fullPath,
-          source,
-          dest,
-          keepDirStruct,
-          mkdirIfSingle
-        ),
+        destDir,
         sourcePath: fullPath,
         originalDest: dest,
         originalSource: source,

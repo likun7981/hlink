@@ -1,6 +1,7 @@
 import path from 'node:path'
 import parseLsirfl, { getInodes } from '../core/parseLsirfl.js'
-import { cacheRecord } from '../utils/cacheHelp.js'
+import { cacheRecord, isCached } from '../utils/cacheHelp.js'
+import compileFileFilter from '../utils/fileFilter.js'
 import { makeOnly, asyncMap } from '../utils/index.js'
 import supported from '../utils/supported.js'
 import { IOptions as PruneOptions } from './index'
@@ -10,10 +11,12 @@ type TOptions = {
   destArr: string[]
   include: string[]
   exclude: string[]
-} & Pick<PruneOptions, 'deleteDir' | 'reverse'>
+} & Pick<PruneOptions, 'deleteDir' | 'reverse' | 'fileFilter'>
 
 const getRmFiles = async (options: TOptions) => {
-  let { sourceArr, destArr, include, exclude, deleteDir, reverse } = options
+  let { sourceArr, destArr, include, exclude, deleteDir, reverse, fileFilter } =
+    options
+  const matches = compileFileFilter(fileFilter)
   include = include.length ? include : ['**']
   if (reverse) {
     const tmp = sourceArr
@@ -29,16 +32,18 @@ const getRmFiles = async (options: TOptions) => {
   const cached = (reverse && cacheRecord.read()) || []
   let filesNeedDelete = makeOnly(
     (await asyncMap(destArr, (d) => parseLsirfl(d, true))).reduce<string[]>(
-      (result, parseItem) =>
+      (result, parseItem, index) =>
         result.concat(
           parseItem
             .filter((item) => {
               return !inodes.includes(item.inode)
             })
             .filter((item) => {
-              let isSupported = supported(item.fullPath, include, exclude)
+              let isSupported =
+                supported(item.fullPath, include, exclude) &&
+                matches(item.fullPath, destArr[index])
               if (reverse && isSupported) {
-                isSupported = !cached.includes(item.fullPath)
+                isSupported = !isCached(cached, item.fullPath)
               }
               return isSupported
             })

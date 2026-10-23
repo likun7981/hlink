@@ -4,6 +4,11 @@ import fetch from '../kit/fetch'
 import { TSchedule, TTask } from '../../types/shim'
 import { useState } from 'react'
 import { isFunction } from '../kit'
+import type { PreviewResult } from '@hlink/core'
+
+export function previewTask(task: TTask) {
+  return fetch.post<PreviewResult>('/api/task/preview', task)
+}
 
 type CallbackOption<T> = {
   onSuccess?: (data: T) => void

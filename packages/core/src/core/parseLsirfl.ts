@@ -5,8 +5,8 @@ import createDebug from 'debug'
 
 const debug = createDebug('core:parseLsirfl')
 
-async function parseLs(dir: string, ignoreError = false) {
-  const str = await lsirf(dir, ignoreError)
+async function parseLs(dir: string, ignoreError = false, createDir = true) {
+  const str = await lsirf(dir, ignoreError, createDir)
   const files = str.split('\n').filter((a) => !a?.endsWith('/'))
   let currentDir = dir
   let prevIsBlank = true // 记录上一行是否是空行
@@ -44,9 +44,13 @@ async function parseLs(dir: string, ignoreError = false) {
   return results
 }
 
-export async function getInodes(dest: string, ignoreError = false) {
+export async function getInodes(
+  dest: string,
+  ignoreError = false,
+  createDir = true
+) {
   const inodes: string[] = []
-  ;(await lsirf(dest, ignoreError)).split('\n').forEach((file) => {
+  ;(await lsirf(dest, ignoreError, createDir)).split('\n').forEach((file) => {
     file = file.trim()
     if (Boolean(file) && !file.endsWith('/') && !file.endsWith(':')) {
       const [inode] = file.split(' ')

@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { IHlink } from '../IHlink.js'
 import getGlobs from '../utils/getGlobs.js'
+import compileFileFilter from '../utils/fileFilter.js'
 import {
   chalk,
   checkPathExist,
@@ -14,6 +15,7 @@ function join(arr: string[]) {
 }
 
 async function formatConfig<T extends IHlink.Options>(config: T) {
+  compileFileFilter(config?.fileFilter)
   warning(
     !config || !config.pathsMapping || !Object.keys(config.pathsMapping).length,
     '至少配置一个路径'

@@ -50,6 +50,18 @@ export default {
    */
   exclude: [],
   /**
+   * 可选：按关键词、正则、Glob 或命名规范进一步筛选（源文件始终保留）
+   * 同一源目录可创建多个配置和任务，分别指向不同目标。
+   * rules 为空表示不额外限制；exclude 任意命中即排除。
+   * WebUI 任务编辑中也可直接添加规则，无需修改配置文件。
+   * 示例：
+   * fileFilter: {
+   *   mode: 'any', // any 满足任意规则；all 满足全部规则
+   *   rules: [{ type: 'keyword', values: ['纪录片', 'Documentary'], target: 'filename' }],
+   *   exclude: [{ type: 'keyword', values: ['预告', 'trailer'] }],
+   * },
+   */
+  /**
    * @scope 该配置项 hlink 专用
    * 是否保持原有目录结构，为false时则只保存一级目录结构
    * 可选值: true/false

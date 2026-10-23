@@ -33,6 +33,7 @@ export interface IOptions extends IHlink.Options {
 async function prune(options: IOptions, rm = true) {
   const {
     exclude,
+    fileFilter,
     withoutConfirm,
     include,
     reverse = false,
@@ -83,6 +84,7 @@ async function prune(options: IOptions, rm = true) {
     include,
     exclude,
     deleteDir,
+    fileFilter,
     reverse,
   })
   log.info('分析完毕')
