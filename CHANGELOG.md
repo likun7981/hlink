@@ -1,3 +1,9 @@
+## [2.0.11](https://github.com/likun7981/hlink/compare/v2.0.10...v2.0.11) (2026-10-24)
+
+### Bug Fixes
+
+- **core:** avoid stack overflow when merging large parse results ([b8279c2](https://github.com/likun7981/hlink/commit/b8279c25923c3901093ecc8a9c1ee37e5516eb61))
+
 ## [2.0.10](https://github.com/likun7981/hlink/compare/v2.0.9...v2.0.10) (2023-05-30)
 
 ### Bug Fixes
