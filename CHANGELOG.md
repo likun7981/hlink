@@ -1,21 +1,9 @@
-## [2.1.2](https://github.com/likun7981/hlink/compare/v2.1.1...v2.1.2) (2026-10-24)
+## [2.1.2](https://github.com/likun7981/hlink/compare/v2.0.10...v2.1.2) (2026-10-24)
 
 ### Bug Fixes
-
 - **ci:** validate npm authentication before publishing ([a16ba05](https://github.com/likun7981/hlink/commit/a16ba05bead4dcb6cbc208d88509092e93033245))
 
-### Reverts
-
-- Revert "Fix npm publish metadata: replace invalid v2.x ranges with valid semver ranges" ([5f958f0](https://github.com/likun7981/hlink/commit/5f958f011a72f64216833f94377b9806bd41754e))
-
-## [2.1.1](https://github.com/likun7981/hlink/compare/v2.1.0...v2.1.1) (2026-10-24)
-
-# [2.1.0](https://github.com/likun7981/hlink/compare/v2.0.11...v2.1.0) (2026-10-24)
-
-## [2.0.11](https://github.com/likun7981/hlink/compare/v2.0.10...v2.0.11) (2026-10-24)
-
 ### Bug Fixes
-
 - **core:** avoid stack overflow when merging large parse results ([b8279c2](https://github.com/likun7981/hlink/commit/b8279c25923c3901093ecc8a9c1ee37e5516eb61))
 
 ## [2.0.10](https://github.com/likun7981/hlink/compare/v2.0.9...v2.0.10) (2023-05-30)
