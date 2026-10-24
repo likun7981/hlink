@@ -1,10 +1,8 @@
-## [2.1.3](https://github.com/likun7981/hlink/compare/v2.1.2...v2.1.3) (2026-10-24)
+## [2.1.3](https://github.com/likun7981/hlink/compare/v2.0/10...v2.1.3) (2026-10-24)
 
 ### Bug Fixes
 
 - **docker:** pin Node.js base image to 22-alpine ([f4f4f8c](https://github.com/likun7981/hlink/commit/f4f4f8c5d494f81cc41cacd6858d0695db604f5c))
-
-## [2.1.2](https://github.com/likun7981/hlink/compare/v2.0.10...v2.1.2) (2026-10-24)
 
 ### Bug Fixes
 
