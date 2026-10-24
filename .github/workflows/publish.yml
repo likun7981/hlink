@@ -34,13 +34,20 @@ jobs:
       - name: Install deps
         run: pnpm install
 
-      - name: Creating .npmrc
-        run: |
-          cat << EOF > "$HOME/.npmrc"
-            //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          EOF
+      - name: Verify npm authentication
+        # setup-node configures npm to read NODE_AUTH_TOKEN at runtime.
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "::error::NPM_TOKEN is missing. Add it to the GitHub Release environment secrets."
+            exit 1
+          fi
+          if ! npm whoami --registry=https://registry.npmjs.org/; then
+            echo "::error::Cannot authenticate to npm. Check registry connectivity and the NPM_TOKEN secret in the GitHub Release environment; use a valid granular npm access token."
+            exit 1
+          fi
+          echo "npm authentication passed. Publishing also requires package write access to @hlink/core, @hlink/app and hlink, plus permission for noninteractive publishing."
 
       - name: Publish package
         run: pnpm run ci-publish -- ${{ github.ref_name }}
