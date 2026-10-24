@@ -1,3 +1,5 @@
+## [2.1.1](https://github.com/likun7981/hlink/compare/v2.1.0...v2.1.1) (2026-10-24)
+
 # [2.1.0](https://github.com/likun7981/hlink/compare/v2.0.11...v2.1.0) (2026-10-24)
 
 ## [2.0.11](https://github.com/likun7981/hlink/compare/v2.0.10...v2.0.11) (2026-10-24)
