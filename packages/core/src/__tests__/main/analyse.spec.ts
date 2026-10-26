@@ -143,7 +143,7 @@ describe('analyse test', () => {
   })
   test('should cache some files with openCache', async () => {
     vi.spyOn(cacheRecord, 'read').mockImplementationOnce(() => {
-      return ['/c/d.mp4']
+      return [{ source: '/c/d.mp4', target: '/c/d.mp4' }]
     })
     mockParse(
       [

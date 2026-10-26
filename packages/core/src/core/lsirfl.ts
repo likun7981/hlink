@@ -4,8 +4,12 @@ import createDebug from 'debug'
 
 const debug = createDebug('core:lsirfl')
 
-async function lsirf(path: string, ignoreError = false): Promise<string> {
-  await fs.ensureDir(path)
+async function lsirf(
+  path: string,
+  ignoreError = false,
+  createDir = true
+): Promise<string> {
+  if (createDir) await fs.ensureDir(path)
   try {
     const raw = (await execa('ls', ['-iRFL', path])).stdout
     debug(

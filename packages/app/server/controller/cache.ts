@@ -8,7 +8,12 @@ const router = new Router({
 })
 
 router.get('/', async (ctx) => {
-  ctx.body = (await fs.readFile(cachePath)).toString()
+  try {
+    ctx.body = (await fs.readFile(cachePath)).toString()
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+    ctx.body = '[]'
+  }
 })
 
 router.put('/', koaBody(), async (ctx) => {

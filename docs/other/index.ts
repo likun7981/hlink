@@ -1,5 +1,9 @@
 export default [
   {
+    text: '同目录多任务与文件筛选',
+    link: 'file-filter',
+  },
+  {
     text: 'v2.0升级介绍',
     link: 'v2',
   },

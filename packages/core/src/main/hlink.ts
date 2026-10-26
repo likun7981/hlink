@@ -14,6 +14,8 @@ import getProgressBar from '../utils/progress.js'
 import analyse, { WaitLinks } from './analyse.js'
 import { IOptions as IHlinkOptions } from './index.js'
 import link from './link.js'
+import path from 'node:path'
+import { CacheEntry } from '../utils/cacheHelp.js'
 
 export interface IOptions extends Omit<IHlinkOptions, 'include' | 'exclude'> {
   include: string[]
@@ -28,6 +30,7 @@ async function hlink(options: IOptions) {
     keepDirStruct = true,
     include,
     exclude,
+    fileFilter,
   } = options
   log.info('当前配置如下')
   log.info(
@@ -59,6 +62,7 @@ async function hlink(options: IOptions) {
         dest: pathsMapping[source],
         include,
         exclude,
+        fileFilter,
         openCache,
         mkdirIfSingle,
         keepDirStruct,
@@ -94,6 +98,7 @@ async function hlink(options: IOptions) {
   }
 
   let successCount = 0
+  const successfulLinks: CacheEntry[] = []
   let failCount = 0
   const failReasons: Record<string, string[]> = {}
   if (waitLinkFiles.length) {
@@ -110,6 +115,13 @@ async function hlink(options: IOptions) {
             pathObj.originalDest
           )
           successCount += 1
+          successfulLinks.push({
+            source: pathObj.sourcePath,
+            target: path.join(
+              pathObj.destDir,
+              path.basename(pathObj.sourcePath)
+            ),
+          })
         } catch (e) {
           failCount += 1
           const error = e as HLinkError
@@ -141,7 +153,7 @@ async function hlink(options: IOptions) {
   time.end()
   // 只有openCache才进行存储
   if (openCache) {
-    saveCache(waitLinkFiles.map((a) => a.sourcePath))
+    await saveCache(successfulLinks)
   }
   return {
     waitLinkFiles,

@@ -29,8 +29,13 @@ router.get('/', async (ctx) => {
  * @description 创建任务
  */
 router.post('/', koaBody(), async (ctx) => {
-  task.add(ctx.request.body)
+  await task.add(ctx.request.body)
   ctx.body = true
+})
+
+/** 预览尚未保存的任务规则，不执行硬链。 */
+router.post('/preview', koaBody(), async (ctx) => {
+  ctx.body = await task.preview(ctx.request.body as TTask)
 })
 
 /**
