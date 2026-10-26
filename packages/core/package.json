@@ -15,7 +15,7 @@
   "types": "./lib/index.d.ts",
   "type": "module",
   "engines": {
-    "node": "^14.13.1 || >=16.0.0"
+    "node": "^24.22.1"
   },
   "publishConfig": {
     "access": "public"

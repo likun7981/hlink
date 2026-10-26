@@ -14,7 +14,7 @@
   },
   "type": "module",
   "engines": {
-    "node": "^14.13.1 || >=16.0.0"
+    "node": "^24.22.1"
   },
   "publishConfig": {
     "access": "public"
@@ -36,8 +36,8 @@
     "fun"
   ],
   "dependencies": {
-    "@hlink/app": "v2.x",
-    "@hlink/core": "v2.x",
+    "@hlink/app": "workspace:^",
+    "@hlink/core": "workspace:^",
     "@types/update-notifier": "^5.1.0",
     "chalk": "^5",
     "execa": "^6.1.0",
