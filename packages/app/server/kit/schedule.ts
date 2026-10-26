@@ -3,23 +3,28 @@ import schedule from 'node-schedule'
 import { ToadScheduler, SimpleIntervalJob, Task } from 'toad-scheduler'
 import { TSchedule } from '../../types/shim'
 import TaskSDK from './TaskSDK.js'
+import taskRunner from './taskRunner.js'
 
 const schedules: Partial<Record<string, (() => void) | null>> = {}
-function createSchedule(options: TSchedule, runTask: () => void) {
+function createSchedule(
+  options: TSchedule,
+  runTask: () => void | Promise<void>
+) {
   cancelSchedule(options.name)
+  const run = taskRunner(options.name, runTask)
   let cancel: (() => boolean) | undefined
   log.success(
     `计划任务${options.name}已开启：${options.scheduleType} | ${options.scheduleValue}`
   )
   if (options.scheduleType === 'cron') {
     const cronJob = schedule.scheduleJob(options.scheduleValue, function () {
-      runTask()
+      void run()
     })
     cancel = () => cronJob.cancel()
   } else if (options.scheduleType === 'loop') {
     const scheduler = new ToadScheduler()
-    const task = new Task(options.name, async () => {
-      runTask()
+    const task = new Task(options.name, () => {
+      void run()
     })
     const job = new SimpleIntervalJob(
       { seconds: Number(options.scheduleValue), runImmediately: true },

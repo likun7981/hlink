@@ -1,4 +1,5 @@
 import { execa } from 'execa'
+import fs from 'fs-extra'
 import { findParent } from '../utils/index.js'
 
 async function deleteEmptyDir(dir: string | string[]) {
@@ -17,7 +18,9 @@ async function deleteEmptyDir(dir: string | string[]) {
     try {
       result = (await execa('find', [dir, '-type', 'd', '-empty'])).stdout
       if (result) {
-        await execa('rmdir', result.split('\n').filter(Boolean))
+        for (const emptyDir of result.split('\n').filter(Boolean)) {
+          await fs.rmdir(emptyDir)
+        }
       }
       executeAgain = preResult !== result && !!result
       preResult = result

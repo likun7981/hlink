@@ -1,5 +1,4 @@
 import adaptChalk, { ChalkInstance, Chalk } from 'chalk'
-import { execa } from 'execa'
 import fs from 'fs-extra'
 import path from 'path'
 import dateformat from 'dateformat'
@@ -207,7 +206,11 @@ export function createTimeLog() {
 }
 
 export async function rmFiles(files: string[]) {
-  return execa('rm', ['-r', ...makeOnly(files)])
+  // Avoid passing the entire file list through exec's ARG_MAX limit.
+  // Delete sequentially to bound filesystem load and stop on the first error.
+  for (const file of makeOnly(files)) {
+    await fs.rm(file, { recursive: true })
+  }
 }
 
 /**
